@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-20T09:50:00Z",
+  "title": "Design System: The Mather",
+  "extensions": {
+    "colorMeta": {
+      "observatory-black": {
+        "role": "neutral",
+        "displayName": "Observatory Black",
+        "canonical": "oklch(0.07 0.022 264)",
+        "tonalRamp": [
+          "oklch(0.05 0.015 264)",
+          "oklch(0.08 0.020 264)",
+          "oklch(0.11 0.025 264)",
+          "oklch(0.16 0.028 264)",
+          "oklch(0.25 0.030 264)",
+          "oklch(0.40 0.025 264)",
+          "oklch(0.60 0.018 264)",
+          "oklch(0.88 0.010 264)"
+        ]
+      },
+      "instrument-bay": {
+        "role": "neutral",
+        "displayName": "Instrument Bay",
+        "canonical": "oklch(0.10 0.030 264)",
+        "tonalRamp": [
+          "oklch(0.07 0.022 264)",
+          "oklch(0.10 0.030 264)",
+          "oklch(0.13 0.030 264)",
+          "oklch(0.18 0.028 264)",
+          "oklch(0.28 0.025 264)",
+          "oklch(0.42 0.022 264)",
+          "oklch(0.62 0.015 264)",
+          "oklch(0.88 0.010 264)"
+        ]
+      },
+      "command-violet": {
+        "role": "primary",
+        "displayName": "Command Violet",
+        "canonical": "oklch(0.58 0.26 272)",
+        "tonalRamp": [
+          "oklch(0.15 0.26 272)",
+          "oklch(0.24 0.26 272)",
+          "oklch(0.33 0.26 272)",
+          "oklch(0.42 0.26 272)",
+          "oklch(0.52 0.26 272)",
+          "oklch(0.62 0.26 272)",
+          "oklch(0.72 0.22 272)",
+          "oklch(0.85 0.14 272)"
+        ]
+      },
+      "readout-cyan": {
+        "role": "secondary",
+        "displayName": "Readout Cyan",
+        "canonical": "oklch(0.82 0.14 200)",
+        "tonalRamp": [
+          "oklch(0.18 0.14 200)",
+          "oklch(0.28 0.14 200)",
+          "oklch(0.38 0.14 200)",
+          "oklch(0.48 0.14 200)",
+          "oklch(0.58 0.14 200)",
+          "oklch(0.68 0.14 200)",
+          "oklch(0.78 0.14 200)",
+          "oklch(0.90 0.10 200)"
+        ]
+      },
+      "alert-rose": {
+        "role": "tertiary",
+        "displayName": "Alert Rose",
+        "canonical": "oklch(0.67 0.22 350)",
+        "tonalRamp": [
+          "oklch(0.18 0.22 350)",
+          "oklch(0.27 0.22 350)",
+          "oklch(0.36 0.22 350)",
+          "oklch(0.45 0.22 350)",
+          "oklch(0.55 0.22 350)",
+          "oklch(0.65 0.22 350)",
+          "oklch(0.74 0.18 350)",
+          "oklch(0.88 0.10 350)"
+        ]
+      },
+      "panel-white": {
+        "role": "neutral",
+        "displayName": "Panel White",
+        "canonical": "oklch(0.93 0.025 272)",
+        "tonalRamp": [
+          "oklch(0.20 0.025 272)",
+          "oklch(0.35 0.025 272)",
+          "oklch(0.50 0.025 272)",
+          "oklch(0.62 0.025 272)",
+          "oklch(0.72 0.022 272)",
+          "oklch(0.82 0.018 272)",
+          "oklch(0.90 0.015 272)",
+          "oklch(0.97 0.010 272)"
+        ]
+      },
+      "dawn-paper": {
+        "role": "neutral",
+        "displayName": "Dawn Paper",
+        "canonical": "oklch(0.97 0.015 275)",
+        "tonalRamp": [
+          "oklch(0.20 0.015 275)",
+          "oklch(0.36 0.015 275)",
+          "oklch(0.50 0.015 275)",
+          "oklch(0.64 0.015 275)",
+          "oklch(0.74 0.015 275)",
+          "oklch(0.84 0.015 275)",
+          "oklch(0.92 0.015 275)",
+          "oklch(0.98 0.010 275)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero company name only. One instance per page. Tight tracking at large size creates structural mass."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section h2 headings. The primary hierarchy signal below Display. One per section."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Service names, card titles, sub-section labels. Semibold distinguishes from body without full Headline weight."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All descriptive copy. Max 65–75ch line length. 1.7 line-height for readability in dark contexts."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Metadata register only: section indexes, stat captions, dates, form section headers. Prohibited on buttons, body, and headings."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-violet",
+        "value": "0 0 24px oklch(0.58 0.26 272 / 30%)",
+        "purpose": "Interactive hover/focus state on primary buttons and high-emphasis surfaces. Appears only on interaction, never at rest."
+      },
+      {
+        "name": "ambient-cyan",
+        "value": "0 0 16px oklch(0.82 0.14 200 / 25%)",
+        "purpose": "Secondary interactive elements, data display highlights on hover."
+      },
+      {
+        "name": "none",
+        "value": "none",
+        "purpose": "Default state for all surfaces. Elevation is communicated by tonal step, not shadow."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default easing for all transitions. Expo out — fast start, long deceleration. No bounce, no elastic."
+      },
+      {
+        "name": "ease-in",
+        "value": "cubic-bezier(0.7, 0, 0.84, 0)",
+        "purpose": "Exit animations only. Elements leaving the viewport."
+      },
+      {
+        "name": "dur-fast",
+        "value": "150ms",
+        "purpose": "Micro-interactions: button color change, chip selection, focus ring."
+      },
+      {
+        "name": "dur-base",
+        "value": "250ms",
+        "purpose": "Standard state transitions: hover glow, nav drawer, card hover."
+      },
+      {
+        "name": "dur-slow",
+        "value": "400ms",
+        "purpose": "Scroll-reveal entrances: translateY(10px) → 0, opacity 0 → 1."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary action. Command Violet fill, sharp corners. Ambient glow on hover.",
+      "html": "<button class=\"ds-btn-primary\">Get Started</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: oklch(0.58 0.26 272); color: oklch(0.93 0.025 272); font-family: 'Geist Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; padding: 8px 16px; border-radius: 4px; border: none; cursor: pointer; transition: background 250ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-primary:hover { background: oklch(0.65 0.24 272); box-shadow: 0 0 20px oklch(0.58 0.26 272 / 35%); } .ds-btn-primary:focus-visible { outline: 2px solid oklch(0.58 0.26 272); outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary path. Transparent at rest, subtle tint on hover. Never a colored border.",
+      "html": "<button class=\"ds-btn-ghost\">Learn More</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: transparent; color: oklch(0.93 0.025 272); font-family: 'Geist Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; padding: 8px 16px; border-radius: 4px; border: none; cursor: pointer; transition: background 150ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-ghost:hover { background: oklch(1 0 0 / 6%); } .ds-btn-ghost:focus-visible { outline: 2px solid oklch(0.58 0.26 272); outline-offset: 2px; }"
+    },
+    {
+      "name": "Interest Chip (Unchecked)",
+      "kind": "chip",
+      "refersTo": "chip-unchecked",
+      "description": "Contact form pre-categorization. Muted at rest, converts to violet on check via has-[:checked].",
+      "html": "<label class=\"ds-chip\"><input type=\"checkbox\" /><span>AI Technology</span></label>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 8px; background: oklch(0.13 0.030 264); color: oklch(0.55 0.055 258); font-family: 'Geist Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.75rem; font-weight: 400; padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: background 150ms cubic-bezier(0.16, 1, 0.3, 1), color 150ms; user-select: none; } .ds-chip input[type='checkbox'] { position: absolute; opacity: 0; width: 0; height: 0; } .ds-chip:has(input:checked) { background: oklch(0.58 0.26 272); color: oklch(0.93 0.025 272); } .ds-chip:hover { background: oklch(0.18 0.030 264); } .ds-chip:has(input:checked):hover { background: oklch(0.65 0.24 272); }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-default",
+      "description": "Translucent dark fill at rest, violet ring on focus. No visible border at rest.",
+      "html": "<div class=\"ds-input-wrap\"><label class=\"ds-input-label\">Your Name</label><input class=\"ds-input\" type=\"text\" placeholder=\"Enter your name\" autocomplete=\"name\" /></div>",
+      "css": ".ds-input-wrap { display: flex; flex-direction: column; gap: 6px; } .ds-input-label { font-family: ui-monospace, 'Cascadia Code', monospace; font-size: 0.75rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.55 0.055 258); } .ds-input { background: oklch(1 0 0 / 12%); color: oklch(0.93 0.025 272); font-family: 'Geist Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; padding: 12px 16px; border-radius: 4px; border: 1px solid transparent; outline: none; width: 100%; transition: border-color 150ms, outline 150ms; } .ds-input::placeholder { color: oklch(0.55 0.055 258); } .ds-input:focus-visible { outline: 2px solid oklch(0.58 0.26 272); outline-offset: 2px; border-color: transparent; }"
+    },
+    {
+      "name": "Service Row",
+      "kind": "custom",
+      "description": "The system's signature list pattern. Row with border-b, index + name left, arrow right. Hover reveals surface tint and advances the arrow.",
+      "html": "<div class=\"ds-service-row\"><div class=\"ds-service-left\"><span class=\"ds-service-index\">/ 01</span><span class=\"ds-service-name\">AI Technology</span></div><span class=\"ds-service-arrow\">→</span></div>",
+      "css": ".ds-service-row { display: flex; align-items: center; justify-content: space-between; padding: 24px 0; border-bottom: 1px solid oklch(1 0 0 / 8%); cursor: pointer; transition: background 250ms cubic-bezier(0.16, 1, 0.3, 1); border-radius: 4px; padding-inline: 12px; margin-inline: -12px; } .ds-service-row:hover { background: oklch(0.10 0.030 264 / 50%); } .ds-service-left { display: flex; align-items: center; gap: 24px; } .ds-service-index { font-family: ui-monospace, 'Cascadia Code', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.55 0.055 258); } .ds-service-name { font-family: 'Geist Variable', ui-sans-serif, system-ui, sans-serif; font-size: 1.125rem; font-weight: 600; color: oklch(0.93 0.025 272); } .ds-service-arrow { color: oklch(0.55 0.055 258); opacity: 0.4; transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms; } .ds-service-row:hover .ds-service-arrow { opacity: 1; transform: translateX(4px); }"
+    },
+    {
+      "name": "Section Label",
+      "kind": "custom",
+      "description": "Metadata overline above section headings. Mono, uppercase, widest tracking. Use sparingly.",
+      "html": "<div class=\"ds-section-label\">Our Services</div>",
+      "css": ".ds-section-label { font-family: ui-monospace, 'Cascadia Code', monospace; font-size: 0.75rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.58 0.26 272); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "description": "Instrument Bay background, Grid Line border, 4px radius. Ambient violet glow on hover if interactive.",
+      "html": "<div class=\"ds-card\"><p class=\"ds-card-title\">Data Research</p><p class=\"ds-card-body\">Study and analyze target behaviors through structured data collection across digital platforms.</p></div>",
+      "css": ".ds-card { background: oklch(0.10 0.030 264); border: 1px solid oklch(1 0 0 / 8%); border-radius: 4px; padding: 24px; transition: box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-card:hover { box-shadow: 0 0 24px oklch(0.58 0.26 272 / 20%); } .ds-card-title { font-family: 'Geist Variable', ui-sans-serif, system-ui, sans-serif; font-size: 1.125rem; font-weight: 600; color: oklch(0.93 0.025 272); margin: 0 0 12px; } .ds-card-body { font-family: 'Geist Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; line-height: 1.7; color: oklch(0.55 0.055 258); margin: 0; }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "description": "Fixed header navigation. Mono uppercase label, violet on active/hover. No underline.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link\" href=\"#services\">Services</a><a class=\"ds-nav-link ds-nav-link--active\" href=\"#contact\">Contact</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 32px; } .ds-nav-link { font-family: ui-monospace, 'Cascadia Code', monospace; font-size: 0.75rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.55 0.055 258); text-decoration: none; transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-nav-link:hover, .ds-nav-link--active { color: oklch(0.58 0.26 272); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Instrument Panel",
+    "overview": "The Mather's visual system is built like a precision instrument display: every element deliberate, every color a readout, nothing decorative. The deep observatory-black background is not aesthetic darkness for its own sake — it is the canvas that makes signals legible. Violet and cyan are frequencies, not brand swatches. The system's sophistication is legible in its restraint.\n\nThe three named presets — Cosmos (deep indigo-black), Dawn (light lavender), and Void (near-pure black with boosted frequencies) — are exposure modes: different ambient conditions for reading the same information. Cosmos is the default readout. Dawn is the sunlit briefing. Void is the high-contrast emergency view.\n\nThis system explicitly rejects: the Web3/crypto neon-on-black aesthetic; generic SaaS cream (off-white + purple gradient + floating feature cards); and corporate enterprise cliché (navy + gold, stock-photo handshakes, PowerPoint-flavored section templates).",
+    "keyCharacteristics": [
+      "OKLCH color throughout; perceptually uniform across all three presets",
+      "Flat surfaces differentiated by tonal step, not shadow",
+      "Sharp corners (4px radius default) — no rounded softness",
+      "Single variable-weight typeface (Geist) across all roles; hierarchy through scale and weight only",
+      "Monospace reserve: font-mono is a label register, not personality",
+      "Motion is deliberate: scroll-reveal entrances, hover state responses; no ambient animation except the hero background"
+    ],
+    "rules": [
+      {
+        "name": "The Frequency Rule",
+        "body": "Violet is authority. Cyan is data. Rose is action. Never use all three at full saturation in the same viewport section.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tinted-Neutral Rule",
+        "body": "Every background and surface token carries a violet hue tint (chroma 0.010–0.030). #000000 and #ffffff are forbidden.",
+        "section": "colors"
+      },
+      {
+        "name": "The Scarcity Rule",
+        "body": "Alert Rose appears on fewer than 5% of any screen. Its rarity is its power.",
+        "section": "colors"
+      },
+      {
+        "name": "The Single-Family Rule",
+        "body": "Geist Variable is the only typeface. No display serif, no editorial italic, no secondary sans.",
+        "section": "typography"
+      },
+      {
+        "name": "The Label Reserve Rule",
+        "body": "font-mono tracking-widest uppercase is a metadata register, not a style. Prohibited on buttons, body copy, and section titles.",
+        "section": "typography"
+      },
+      {
+        "name": "The Scale Commitment Rule",
+        "body": "The ratio between adjacent type steps must be ≥1.25. Flat scales read as uncommitted.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Every surface is flat at rest. No box-shadow on cards, containers, or nav.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Glow-Is-Earned Rule",
+        "body": "Ambient glow appears only in response to user interaction (hover, focus). A glowing card at rest is a broken implementation.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use OKLCH throughout — it is the canonical color format. Never introduce hex values that aren't approximations of an existing OKLCH token.",
+      "Do differentiate surfaces by lightness step only: --background (L=0.07) → --card (L=0.10) → --surface. No shadow at rest.",
+      "Do apply ambient violet glow (0 0 24px oklch(0.58 0.26 272 / 30%)) on interactive elements at hover/focus only.",
+      "Do use the service row pattern (bordered row, no card, hover tint + arrow) for all list-based content.",
+      "Do use the interest chip pattern (has-[:checked] CSS, no JavaScript) for intent-categorization interactions.",
+      "Do cap body text at 65–75ch max-width.",
+      "Do keep font-mono tracking-widest uppercase reserved for section indexes, stat captions, dates, and form labels — never buttons, never body copy.",
+      "Do introduce asymmetric layout composition for new sections. The single centered stack is a known weakness.",
+      "Do cite the three design principles before any new section: Show method, Earned complexity, Enterprise trust."
+    ],
+    "donts": [
+      "Don't use background-clip: text with a gradient fill on any copy. The --grad token must not be applied to text.",
+      "Don't apply border-left or border-right greater than 1px as a colored accent stripe on any card or list item.",
+      "Don't use glassmorphism decoratively. Nav blur is the one allowed instance.",
+      "Don't introduce a second typeface. Geist Variable is the only family.",
+      "Don't render fabricated client logos or names.",
+      "Don't use the identical section header template (overline + h2 + muted paragraph) more than three times without compositional variation.",
+      "Don't design a new section as a centered vertical stack if it can be anything else.",
+      "Don't let Web3/crypto aesthetic enter: no aggressive neon, no grid textures, no token-price energy.",
+      "Don't use generic SaaS landing-page structure: no floating feature cards, no metric strips with fabricated logos.",
+      "Don't place corporate enterprise clichés: no stock handshake photography, no navy + gold palette intrusions.",
+      "Don't repeat the mono label register more than 6 times per page."
+    ]
+  }
+}
