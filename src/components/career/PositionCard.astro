@@ -34,16 +34,16 @@ function formatDate(iso: string) {
   style={`transition-delay: ${index * 60}ms`}
 >
   <div class="flex flex-col gap-2">
-    <div class="flex flex-wrap items-center gap-3">
+    <div class="flex flex-wrap items-center gap-2.5">
       <span class="font-mono text-xs tracking-widest uppercase text-[var(--primary)]">
         {department}
       </span>
-      <span class="font-mono text-xs text-[var(--muted-foreground)]">·</span>
-      <span class="font-mono text-xs tracking-wide text-[var(--muted-foreground)]">
+      <span class="text-xs text-[var(--muted-foreground)] select-none">·</span>
+      <span class="text-xs text-[var(--muted-foreground)]">
         {type}
       </span>
-      <span class="font-mono text-xs text-[var(--muted-foreground)]">·</span>
-      <span class="font-mono text-xs tracking-wide text-[var(--muted-foreground)]">
+      <span class="text-xs text-[var(--muted-foreground)] select-none">·</span>
+      <span class="text-xs text-[var(--muted-foreground)]">
         {location}
       </span>
     </div>
@@ -64,16 +64,16 @@ function formatDate(iso: string) {
 
   <div class="flex flex-col items-start sm:items-end gap-2 shrink-0">
     {salary && (
-      <span class="font-mono text-xs tracking-wide text-[var(--foreground)]">
+      <span class="text-xs text-[var(--foreground)]">
         {salary}
       </span>
     )}
     <span class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">
-      Posted {formatDate(postedDate)}
+      {formatDate(postedDate)}
     </span>
     <span
       class="
-        font-mono text-xs tracking-widest uppercase
+        text-sm font-medium
         text-[var(--muted-foreground)]
         group-hover:text-[var(--primary)]
         transition-colors duration-150

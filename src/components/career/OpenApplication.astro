@@ -28,8 +28,14 @@ const { email } = Astro.props;
           <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">To</p>
           <a
             href={`mailto:${email}?subject=Open Application`}
-            class="font-mono text-sm text-[var(--primary)] hover:underline"
+            class="
+              inline-flex items-center gap-3
+              font-mono text-sm text-[var(--primary)]
+              hover:text-[var(--foreground)]
+              transition-colors duration-150
+            "
           >
+            <span class="text-[var(--primary)] w-4 text-center" aria-hidden="true">@</span>
             {email}
           </a>
         </div>
