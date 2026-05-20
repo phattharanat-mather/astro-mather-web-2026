@@ -144,7 +144,7 @@
   }
 
   .prose-content :where(p, li) {
-    color: var(--muted-foreground);
+    color: var(--foreground);
   }
 
   .prose-content :where(a) {
