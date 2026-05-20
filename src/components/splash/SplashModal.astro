@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import SplashModal3DCard from './SplashModal3DCard.tsx';
+import { X } from 'lucide-react';
 
 const entries = await getCollection('splashModals');
 const entry = entries
@@ -29,6 +30,9 @@ if (entry.data.variant) {
 } else {
   layout = 'image-top';
 }
+
+const ariaLabelledBy = hasText && layout !== 'image-only' ? 'splash-title' : undefined;
+const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announcement');
 ---
 
 {entry.data.card3d && img ? (
@@ -47,11 +51,16 @@ if (entry.data.variant) {
 ) : (
 <div
   id="splash-modal-backdrop"
-  class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-[oklch(0.07_0.022_264/80%)] backdrop-blur-sm p-4"
 >
   <div
     id="splash-modal"
-    class={`relative w-full ${sizeClass} rounded-2xl shadow-2xl overflow-hidden border border-white/10 bg-[var(--color-surface,#0d0f1c)]`}
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby={ariaLabelledBy}
+    aria-label={ariaModalLabel}
+    tabindex="-1"
+    class={`relative w-full ${sizeClass} rounded overflow-hidden border border-white/[8%] bg-[oklch(0.10_0.030_264)] outline-none`}
   >
 
     {/* ── Image only ── */}
@@ -65,11 +74,11 @@ if (entry.data.variant) {
           class="w-full h-auto block"
         />
         <div class="flex justify-end gap-3 px-6 py-4">
-          <button id="splash-hide-today" class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10">
-            Hide for today
+          <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
+            Not today
           </button>
-          <button id="splash-close" class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90">
-            Close
+          <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
+            <X size={14} />
           </button>
         </div>
       </>
@@ -87,7 +96,7 @@ if (entry.data.variant) {
         />
         <div class="p-8">
           {entry.data.title && (
-            <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
+            <h2 id="splash-title" class="mb-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)]">
               {entry.data.title}
             </h2>
           )}
@@ -95,11 +104,11 @@ if (entry.data.variant) {
             <Content />
           </div>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <button id="splash-hide-today" class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10">
-              Hide for today
+            <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
+              Not today
             </button>
-            <button id="splash-close" class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90">
-              Close
+            <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
+              <X size={14} />
             </button>
           </div>
         </div>
@@ -118,7 +127,7 @@ if (entry.data.variant) {
         />
         <div class="flex flex-col p-8">
           {entry.data.title && (
-            <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
+            <h2 id="splash-title" class="mb-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)]">
               {entry.data.title}
             </h2>
           )}
@@ -126,11 +135,11 @@ if (entry.data.variant) {
             <Content />
           </div>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <button id="splash-hide-today" class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10">
-              Hide for today
+            <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
+              Not today
             </button>
-            <button id="splash-close" class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90">
-              Close
+            <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
+              <X size={14} />
             </button>
           </div>
         </div>
@@ -141,7 +150,7 @@ if (entry.data.variant) {
     {layout === 'text-only' && (
       <div class="p-8">
         {entry.data.title && (
-          <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
+          <h2 id="splash-title" class="mb-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)]">
             {entry.data.title}
           </h2>
         )}
@@ -149,11 +158,11 @@ if (entry.data.variant) {
           <Content />
         </div>
         <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-          <button id="splash-hide-today" class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10">
-            Hide for today
+          <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
+            Not today
           </button>
-          <button id="splash-close" class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90">
-            Close
+          <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
+            <X size={14} />
           </button>
         </div>
       </div>
@@ -167,6 +176,7 @@ if (entry.data.variant) {
   if (!isCard3d) {
     (function () {
       var backdrop = document.getElementById('splash-modal-backdrop');
+      var modal = document.getElementById('splash-modal');
 
       var stored = localStorage.getItem(storageKey);
       if (stored && Date.now() > parseInt(stored, 10)) {
@@ -178,13 +188,43 @@ if (entry.data.variant) {
         return;
       }
 
+      var prevFocus = document.activeElement;
+
+      var closeBtn = document.getElementById('splash-close');
+      var hideTodayBtn = document.getElementById('splash-hide-today');
+
+      // Focus the container so screen readers announce the dialog
+      // without triggering a visible highlight on any button
+      modal.focus();
+
+      // Focus trap: cycle Tab between the two buttons
+      modal.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        if (e.shiftKey) {
+          if (document.activeElement === hideTodayBtn) {
+            closeBtn.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === closeBtn) {
+            hideTodayBtn.focus();
+            e.preventDefault();
+          }
+        }
+      });
+
       function close() {
         backdrop.remove();
+        if (prevFocus && prevFocus.focus) prevFocus.focus();
       }
 
-      document.getElementById('splash-close').addEventListener('click', close);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') close();
+      });
 
-      document.getElementById('splash-hide-today').addEventListener('click', function () {
+      closeBtn.addEventListener('click', close);
+
+      hideTodayBtn.addEventListener('click', function () {
         var midnight = new Date();
         midnight.setHours(23, 59, 59, 999);
         localStorage.setItem(storageKey, midnight.getTime().toString());
