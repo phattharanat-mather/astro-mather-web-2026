@@ -15,7 +15,7 @@ const services = defineCollection({
   }),
 });
 
-const blog = defineCollection({
+const blogs = defineCollection({
   loader: glob({ pattern: '**/index.mdx', base: './src/content/blogs' }),
   schema: z.object({
     title: z.string(),
@@ -26,4 +26,4 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { site, services, blog };
+export const collections = { site, services, blogs };

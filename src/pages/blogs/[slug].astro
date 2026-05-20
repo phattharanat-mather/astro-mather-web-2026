@@ -6,7 +6,7 @@ import ContactFooter from '@/components/home/ContactFooter.astro';
 import { siteConfig } from '@/data/site';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection('blogs');
   return posts.map((post) => ({
     params: { slug: post.id.replace(/\/index$/, '') },
     props: { post },

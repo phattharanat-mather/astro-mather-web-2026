@@ -10,7 +10,7 @@ const [navEntry, footerEntry] = await Promise.all([
   getEntry('site', 'footer'),
 ]);
 
-const blogCollection = await getCollection('blog');
+const blogCollection = await getCollection('blogs');
 const articles = blogCollection
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .map((e) => ({
