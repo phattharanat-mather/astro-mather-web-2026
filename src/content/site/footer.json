@@ -1,0 +1,24 @@
+{
+  "tagline": "Your right person is waiting to join you...",
+  "cta": "Don't hesitate.",
+  "company": "The Mather",
+  "contact": {
+    "email": "info@themather.asia",
+    "phone": "+02 937 0555",
+    "address": "555 Rasa Tower Phahonyothin Rd, Chatuchak, Bangkok 10900"
+  },
+  "contactForm": {
+    "heading": "I'm interested in...",
+    "interests": [
+      "AI Technology",
+      "Data Research",
+      "Web Service",
+      "Mobile Application",
+      "Data Migration",
+      "Data Driven",
+      "Data Analysis"
+    ],
+    "fields": ["name", "email", "message"],
+    "submitLabel": "Send message"
+  }
+}

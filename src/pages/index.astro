@@ -1,4 +1,6 @@
 ---
+import { getCollection, getEntry } from 'astro:content';
+
 import Layout from '@/layouts/Layout.astro';
 import Nav from '@/components/Nav.astro';
 import Hero from '@/components/sections/Hero.astro';
@@ -11,26 +13,65 @@ import FounderQuote from '@/components/sections/FounderQuote.astro';
 import Blog from '@/components/sections/Blog.astro';
 import ContactFooter from '@/components/sections/ContactFooter.astro';
 
-import homeData from '@/content/home.json';
 import { siteConfig } from '@/data/site';
+
+/* ── Singleton sections ─────────────────────────────── */
+const [navEntry, heroEntry, ourServicesEntry, platformEntry, valuePropsEntry,
+       clientsEntry, teamEntry, founderQuoteEntry, blogMetaEntry, footerEntry] =
+  await Promise.all([
+    getEntry('site', 'nav'),
+    getEntry('site', 'hero'),
+    getEntry('site', 'our-services'),
+    getEntry('site', 'platform'),
+    getEntry('site', 'value-props'),
+    getEntry('site', 'clients'),
+    getEntry('site', 'team'),
+    getEntry('site', 'founder-quote'),
+    getEntry('site', 'blog'),
+    getEntry('site', 'footer'),
+  ]);
+
+/* ── Services collection ────────────────────────────── */
+const servicesCollection = await getCollection('services');
+const ourServices = {
+  ...ourServicesEntry.data,
+  items: servicesCollection
+    .sort((a, b) => a.data.index.localeCompare(b.data.index))
+    .map((e) => e.data),
+};
+
+/* ── Blog collection ────────────────────────────────── */
+const blogCollection = await getCollection('blog');
+const blog = {
+  ...blogMetaEntry.data,
+  articles: blogCollection
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+    .slice(0, 4)
+    .map((e) => ({
+      title: e.data.title,
+      date: e.data.date.toISOString().split('T')[0],
+      href: `/blog/${e.id}`,
+      excerpt: e.data.excerpt,
+    })),
+};
 ---
 
 <Layout
   title={`${siteConfig.name} — ${siteConfig.tagline}`}
   description={siteConfig.description}
 >
-  <Nav data={homeData.nav} />
+  <Nav data={navEntry.data} />
 
   <main>
-    <Hero data={homeData.hero} />
-    <OurServices data={homeData.ourServices} />
-    <PlatformSolutions data={homeData.platformSolutions} client:visible />
-    <ValueProps data={homeData.valueProps} />
-    <Clients data={homeData.clients} />
-    <Team data={homeData.team} />
-    <FounderQuote data={homeData.founderQuote} />
-    <Blog data={homeData.blog} />
+    <Hero data={heroEntry.data} />
+    <OurServices data={ourServices} />
+    <PlatformSolutions data={platformEntry.data} client:visible />
+    <ValueProps data={valuePropsEntry.data} />
+    <Clients data={clientsEntry.data} />
+    <Team data={teamEntry.data} />
+    <FounderQuote data={founderQuoteEntry.data} />
+    <Blog data={blog} />
   </main>
 
-  <ContactFooter data={homeData.footer} />
+  <ContactFooter data={footerEntry.data} />
 </Layout>
