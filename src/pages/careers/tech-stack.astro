@@ -1,0 +1,116 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Nav from '@/components/Nav.astro';
+import ContactFooter from '@/components/home/ContactFooter.astro';
+import { siteConfig, nav, footer } from '@/data/site';
+
+const stack = [
+  {
+    category: 'Frontend',
+    items: [
+      { name: 'Next.js', note: 'Primary React framework' },
+      { name: 'React', note: 'Component layer for interactive UI' },
+      { name: 'Tailwind CSS', note: 'Utility-first styling' },
+      { name: 'shadcn/ui', note: 'Headless component primitives' },
+      { name: 'Node / Bun / npm', note: 'Runtime and package management' },
+    ],
+  },
+  {
+    category: 'Backend',
+    items: [
+      { name: 'Python', note: 'Primary language for services and data work' },
+      { name: 'uv', note: 'Fast Python package manager' },
+      { name: 'Django / Django REST', note: 'Full-featured web and API framework' },
+      { name: 'FastAPI', note: 'High-performance async API layer' },
+      { name: 'PostgreSQL', note: 'Relational store for structured data' },
+    ],
+  },
+  {
+    category: 'AI & Data',
+    items: [
+      { name: 'Claude Code / GitHub Copilot', note: 'AI coding assistants' },
+      { name: 'pandas / NumPy', note: 'Data wrangling and analysis' },
+      { name: 'Apache Airflow', note: 'Workflow orchestration and scheduling' },
+      { name: 'RabbitMQ', note: 'Message broker for async pipelines' },
+    ],
+  },
+  {
+    category: 'Infrastructure / DevOps',
+    items: [
+      { name: 'AWS', note: 'Primary cloud — EC2, S3, RDS, Lambda' },
+      { name: 'DigitalOcean', note: 'VPS and managed databases' },
+      { name: 'Docker', note: 'Container runtime for all services' },
+      { name: 'GitHub Actions', note: 'CI/CD pipelines' },
+      { name: 'Justfile', note: 'Task runner for project commands' },
+    ],
+  },
+];
+---
+
+<Layout
+  title={`Tech Stack — ${siteConfig.name}`}
+  description="The tools and technologies The Mather uses to build AI, data, and web systems."
+>
+  <Nav data={nav} />
+
+  <main class="pt-14">
+    <!-- Page header -->
+    <div class="border-b border-[var(--line)] py-20">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8" data-reveal>
+        <p class="font-mono text-xs tracking-widest uppercase text-[var(--primary)] mb-4">
+          Work With Us
+        </p>
+        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight" style="color: var(--ink);">
+          Tech Stack
+        </h1>
+        <p class="mt-4 text-[var(--foreground)] leading-relaxed max-w-xl font-medium">
+          The tools we use in production — no fluff, no experiments for their own sake.
+        </p>
+        <p class="mt-3 text-[var(--muted-foreground)] leading-relaxed max-w-xl">
+          We pick boring, proven technology where possible and reach for newer tools only when
+          there is a clear advantage. If you join us, you will work across this stack from day one.
+        </p>
+        <div class="mt-8">
+          <a
+            href="/careers"
+            class="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-150"
+          >
+            <span>&#8592;</span> Open Positions
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stack sections -->
+    <section class="py-24">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          {stack.map((section) => (
+            <div data-reveal class="flex flex-col gap-4">
+              <!-- Category label -->
+              <p class="font-mono text-xs tracking-widest uppercase text-[var(--primary)]">
+                {section.category}
+              </p>
+
+              <!-- Items -->
+              <div class="grid grid-cols-2 border border-[var(--line)]">
+                {section.items.map((item, j) => (
+                  <div class={`flex flex-col gap-1 px-6 py-4 border-b border-[var(--line)] ${j % 2 === 0 ? 'border-r' : ''}`}>
+                    <span class="font-semibold text-sm" style="color: var(--ink);">
+                      {item.name}
+                    </span>
+                    <span class="font-mono text-xs text-[var(--muted-foreground)]">
+                      {item.note}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <ContactFooter data={footer} />
+</Layout>

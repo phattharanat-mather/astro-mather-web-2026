@@ -95,7 +95,10 @@ export const footer = {
     },
     {
       heading: "Work With Us",
-      links: [{ label: "Careers", href: "/careers" }],
+      links: [
+        { label: "Careers", href: "/careers" },
+        { label: "Tech Stack", href: "/careers/tech-stack" },
+      ],
     },
   ],
 };
