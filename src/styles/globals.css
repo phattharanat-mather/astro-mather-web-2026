@@ -129,6 +129,38 @@
   }
 }
 
+/* ─── Shared prose content style ─────────────────────────────────────────── */
+@layer components {
+  .prose-content {
+    @apply prose prose-neutral dark:prose-invert prose-headings:tracking-tight;
+
+    --tw-prose-headings: var(--ink);
+    --tw-prose-bold: var(--ink);
+    --tw-prose-links: var(--primary);
+    --tw-prose-hr: var(--line);
+    --tw-prose-code: var(--primary);
+    --tw-prose-bullets: var(--primary);
+    --tw-prose-counters: var(--primary);
+  }
+
+  .prose-content :where(p, li) {
+    color: var(--muted-foreground);
+  }
+
+  .prose-content :where(a) {
+    text-decoration: none;
+  }
+
+  .prose-content :where(a):hover {
+    text-decoration: underline;
+  }
+
+  .prose-content :where(code)::before,
+  .prose-content :where(code)::after {
+    content: none;
+  }
+}
+
 /* ─── Hero entrance choreography ──────────────────────────────────────────── */
 @keyframes instrument-power-on {
   from {
