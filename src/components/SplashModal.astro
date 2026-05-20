@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import SplashModal3DCard from './SplashModal3DCard.tsx';
 
 const entries = await getCollection('splashModals');
 const entry = entries
@@ -10,55 +11,156 @@ if (!entry) return;
 
 const { Content } = await render(entry);
 const storageKey = `splash-hidden-${entry.id}`;
+
+const sizeClass = entry.data.size === 'large' ? 'max-w-2xl' : 'max-w-lg';
+
+const img = entry.data.image;
+const isVertical = img && img.height > img.width;
+const hasText = !!entry.data.title;
+const imageOnly = img && !hasText;
 ---
 
+{entry.data.card3d && img ? (
+  <SplashModal3DCard
+    client:load
+    imageSrc={img.src}
+    imageWidth={img.width}
+    imageHeight={img.height}
+    title={entry.data.title}
+    storageKey={storageKey}
+    sizeClass={sizeClass}
+  />
+) : (
 <div
   id="splash-modal-backdrop"
-  class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
 >
   <div
     id="splash-modal"
-    class="relative mx-4 max-w-lg w-full rounded-2xl border border-white/10 bg-[var(--color-surface,#0d0f1c)] p-8 shadow-2xl"
+    class={`relative w-full ${sizeClass} rounded-2xl shadow-2xl overflow-hidden border border-white/10 bg-[var(--color-surface,#0d0f1c)]`}
   >
-    {entry.data.image && (
-      <img
-        src={entry.data.image}
-        alt=""
-        class="mb-6 w-full rounded-xl object-cover max-h-48"
-      />
+
+    {/* ── Image-only: full image, buttons below ── */}
+    {imageOnly && (
+      <>
+        <img
+          src={img.src}
+          alt=""
+          width={img.width}
+          height={img.height}
+          class="w-full h-auto block"
+        />
+        <div class="flex justify-end gap-3 px-6 py-4">
+          <button id="splash-hide-today" class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10">
+            Hide for today
+          </button>
+          <button id="splash-close" class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90">
+            Close
+          </button>
+        </div>
+      </>
     )}
 
-    <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
-      {entry.data.title}
-    </h2>
+    {/* ── Vertical image + text: side-by-side ── */}
+    {!imageOnly && img && isVertical && (
+      <div class="flex flex-row">
+        <img
+          src={img.src}
+          alt=""
+          width={img.width}
+          height={img.height}
+          class="w-2/5 shrink-0 object-cover self-stretch"
+        />
+        <div class="flex flex-col p-8">
+          {entry.data.title && (
+            <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
+              {entry.data.title}
+            </h2>
+          )}
+          <div class="prose prose-invert prose-sm max-w-none text-white/70 grow">
+            <Content />
+          </div>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+            <button id="splash-hide-today" class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10">
+              Hide for today
+            </button>
+            <button id="splash-close" class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
 
-    <div class="prose prose-invert prose-sm max-w-none text-white/70">
-      <Content />
-    </div>
+    {/* ── Horizontal image + text: stacked ── */}
+    {!imageOnly && img && !isVertical && (
+      <>
+        <img
+          src={img.src}
+          alt=""
+          width={img.width}
+          height={img.height}
+          class="w-full h-auto block"
+        />
+        <div class="p-8">
+          {entry.data.title && (
+            <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
+              {entry.data.title}
+            </h2>
+          )}
+          <div class="prose prose-invert prose-sm max-w-none text-white/70">
+            <Content />
+          </div>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+            <button id="splash-hide-today" class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10">
+              Hide for today
+            </button>
+            <button id="splash-close" class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90">
+              Close
+            </button>
+          </div>
+        </div>
+      </>
+    )}
 
-    <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-      <button
-        id="splash-hide-today"
-        class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10"
-      >
-        Hide for today
-      </button>
-      <button
-        id="splash-close"
-        class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90"
-      >
-        Close
-      </button>
-    </div>
+    {/* ── Text only (no image) ── */}
+    {!img && (
+      <div class="p-8">
+        {entry.data.title && (
+          <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
+            {entry.data.title}
+          </h2>
+        )}
+        <div class="prose prose-invert prose-sm max-w-none text-white/70">
+          <Content />
+        </div>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+          <button id="splash-hide-today" class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10">
+            Hide for today
+          </button>
+          <button id="splash-close" class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90">
+            Close
+          </button>
+        </div>
+      </div>
+    )}
+
   </div>
 </div>
+)}
 
+{!entry.data.card3d && (
 <script define:vars={{ storageKey }}>
   (function () {
     var backdrop = document.getElementById('splash-modal-backdrop');
 
-    var hidden = localStorage.getItem(storageKey);
-    if (hidden) {
+    // Expire stale "hide for today" entries
+    var stored = localStorage.getItem(storageKey);
+    if (stored && Date.now() > parseInt(stored, 10)) {
+      localStorage.removeItem(storageKey);
+    }
+
+    if (localStorage.getItem(storageKey)) {
       backdrop.remove();
       return;
     }
@@ -79,11 +181,6 @@ const storageKey = `splash-hidden-${entry.id}`;
     backdrop.addEventListener('click', function (e) {
       if (e.target === backdrop) close();
     });
-
-    // Expire stale "hide for today" entries
-    var stored = localStorage.getItem(storageKey);
-    if (stored && Date.now() > parseInt(stored, 10)) {
-      localStorage.removeItem(storageKey);
-    }
   })();
 </script>
+)}

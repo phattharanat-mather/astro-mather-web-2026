@@ -1,12 +1,18 @@
-import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 export const splashModals = defineCollection({
-  loader: glob({ pattern: '**/index.mdx', base: './src/content/splash-modals' }),
-  schema: z.object({
-    title: z.string(),
-    active: z.boolean(),
-    order: z.number().optional(),
-    image: z.string().optional(), // path relative to public/, e.g. "/Matterhorn.jpg"
+  loader: glob({
+    pattern: "**/index.mdx",
+    base: "./src/content/splash-modals",
   }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string().optional(),
+      active: z.boolean(),
+      order: z.number().optional(),
+      image: image().optional(), // co-located image, e.g. "./Matterhorn.jpg"
+      size: z.enum(["small", "large"]).optional(), // small=max-w-lg, large=max-w-2xl
+      card3d: z.boolean().optional(),
+    }),
 });
