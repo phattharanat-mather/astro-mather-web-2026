@@ -38,6 +38,21 @@ Components land in `src/components/ui/`. Import them in `.astro` files using the
 
 Pages compose layouts and components. Astro components use the frontmatter fence (`---`) for server-side logic; React components (shadcn) need a `client:*` directive to hydrate in the browser.
 
+## Troubleshooting display and animation issues
+
+When the user reports that animations, visual effects, or interactive behavior don't work as expected, the cause is often Astro's default static rendering — React components render to HTML on the server and ship no JS unless a `client:*` directive is present.
+
+Reference: https://docs.astro.build/en/reference/directives-reference/#client-directives
+
+| Directive             | When JS loads                   | Use for                                                             |
+| --------------------- | ------------------------------- | ------------------------------------------------------------------- |
+| `client:load`         | Immediately on page load        | Above-the-fold interactive components                               |
+| `client:idle`         | When browser is idle            | Non-critical UI                                                     |
+| `client:visible`      | When component enters viewport  | Below-the-fold animations/effects                                   |
+| `client:only="react"` | Immediately, skips SSR entirely | Components that break during SSR (e.g. use `window`, WebGL, canvas) |
+
+If an animation or effect works in isolation but breaks on the site, first check whether the component has the right `client:*` directive. `client:only` is the escape hatch for anything that relies on browser APIs unavailable during SSR.
+
 ## Content collections
 
 Each Astro content collection is defined in its own file under `src/content-definition/<entity>.ts` and re-exported from `src/content.config.ts`.
