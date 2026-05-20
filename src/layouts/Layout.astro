@@ -17,7 +17,7 @@ const {
 const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
 ---
 
-<html lang="en" data-color-preset="cosmos">
+<html lang="en" data-color-preset="void">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -59,8 +59,8 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
     <!-- Runs synchronously before first paint — prevents theme flash -->
     <script is:inline>
       (function () {
-        var preset = localStorage.getItem('color-preset') || 'cosmos';
-        var darkPresets = ['cosmos', 'void'];
+        var preset = localStorage.getItem('color-preset') || 'void';
+        var darkPresets = ['cosmos', 'void', 'blackhole', 'pulsar', 'nebula'];
         document.documentElement.dataset.colorPreset = preset;
         if (darkPresets.indexOf(preset) !== -1) {
           document.documentElement.classList.add('dark');

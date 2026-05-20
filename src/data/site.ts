@@ -31,7 +31,7 @@ export const siteConfig = {
     { name: "pulsar", label: "Pulsar", mode: "dark" },
     { name: "nebula", label: "Nebula", mode: "dark" },
   ] as const,
-  defaultPreset: "cosmos" as const,
+  defaultPreset: "void" as const,
   greyscaleFilter: {
     enable: false,
     value: 0.6, // 0.0 = full colour → 1.0 = full grey; recommended 0.5–0.6

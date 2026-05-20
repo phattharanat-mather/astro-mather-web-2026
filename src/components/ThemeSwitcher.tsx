@@ -137,14 +137,14 @@ function PresetOption({
 }
 
 export function ThemeSwitcher() {
-  const [preset, setPreset] = useState<Preset>('cosmos');
+  const [preset, setPreset] = useState<Preset>('void');
   const [open, setOpen]     = useState(false);
   const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
-    const saved = (localStorage.getItem('color-preset') as Preset) || 'cosmos';
+    const saved = (localStorage.getItem('color-preset') as Preset) || 'void';
     setPreset(saved);
   }, []);
 
@@ -182,8 +182,8 @@ export function ThemeSwitcher() {
   if (!mounted) {
     return (
       <span style={{ ...triggerStyle, cursor: 'default' }}>
-        <SwatchDots colors={SWATCHES.cosmos} />
-        <span>Cosmos</span>
+        <SwatchDots colors={SWATCHES.void} />
+        <span>Void</span>
         <ChevronDown size={11} />
       </span>
     );
