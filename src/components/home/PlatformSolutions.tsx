@@ -8,7 +8,7 @@ interface Props {
 export function PlatformSolutions({ data }: Props) {
   const [activeKey, setActiveKey] = useState(data.tabs[0]?.key ?? '');
 
-  const filtered = data.projects.filter((p) => p.category === activeKey);
+  const filtered = data.projects.filter((p) => p.categories.includes(activeKey));
 
   return (
     <section id="platform" className="py-24 border-b border-[var(--line)]">
@@ -59,24 +59,21 @@ export function PlatformSolutions({ data }: Props) {
         {filtered.length > 0 ? (
           <div key={activeKey} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-fade-up">
             {filtered.map((project, i) => (
-              <a
+              <div
                 key={i}
-                href={project.href ?? '#'}
                 className="
                   block p-6 rounded-sm
                   border border-[var(--line)]
                   bg-[var(--card)]
-                  hover:border-[var(--primary)]
-                  transition-colors duration-150
                 "
               >
                 <p className="font-semibold text-sm mb-1" style={{ color: 'var(--ink)' }}>
                   {project.title}
                 </p>
                 <p className="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
-                  {project.category}
+                  {project.categories.join(', ')}
                 </p>
-              </a>
+              </div>
             ))}
           </div>
         ) : (

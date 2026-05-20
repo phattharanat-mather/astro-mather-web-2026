@@ -39,9 +39,8 @@ export interface PlatformTab {
 
 export interface Project {
   title: string;
-  category: string;
+  categories: string[];
   image?: string;
-  href?: string;
 }
 
 export interface PlatformSolutionsData {
@@ -49,6 +48,11 @@ export interface PlatformSolutionsData {
   intro: string;
   tabs: PlatformTab[];
   projects: Project[];
+}
+
+export interface PlatformData {
+  heading: string;
+  intro: string;
 }
 
 export interface ValuePropItem {

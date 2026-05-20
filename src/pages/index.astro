@@ -19,6 +19,7 @@ import {
   platform, valueProps, clients, team,
   founderQuote, blog as blogMeta,
 } from '@/data/home';
+import { projectCategories } from '@/data/project-categories';
 
 /* ── Services collection ────────────────────────────── */
 const servicesCollection = await getCollection('services');
@@ -31,6 +32,18 @@ const ourServices = {
 
 /* ── Founder quotes collection ──────────────────────── */
 const founderQuotesCollection = await getCollection('founderQuotes');
+
+/* ── Projects collection ────────────────────────────── */
+const projectsCollection = await getCollection('projects');
+const platformData = {
+  ...platform,
+  tabs: projectCategories,
+  projects: projectsCollection.map((e) => ({
+    title: e.data.title,
+    categories: e.data.categories,
+    image: e.data.image,
+  })),
+};
 
 /* ── Blog collection ────────────────────────────────── */
 const blogCollection = await getCollection('blogs');
@@ -57,7 +70,7 @@ const blog = {
   <main>
     <Hero data={hero} />
     <OurServices data={ourServices} />
-    <PlatformSolutions data={platform} client:visible />
+    <PlatformSolutions data={platformData} client:visible />
     <ValueProps data={valueProps} />
     <Clients data={clients} />
     <Team data={team} />
