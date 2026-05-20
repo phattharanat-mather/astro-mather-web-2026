@@ -1,0 +1,118 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import Nav from '@/components/Nav.astro';
+import ContactFooter from '@/components/sections/ContactFooter.astro';
+import { siteConfig } from '@/data/site';
+
+const [navEntry, footerEntry] = await Promise.all([
+  getEntry('site', 'nav'),
+  getEntry('site', 'footer'),
+]);
+
+const blogCollection = await getCollection('blog');
+const articles = blogCollection
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .map((e) => ({
+    slug: e.id,
+    title: e.data.title,
+    date: e.data.date.toISOString().split('T')[0],
+    excerpt: e.data.excerpt,
+    author: e.data.author,
+  }));
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+---
+
+<Layout
+  title={`Blog — ${siteConfig.name}`}
+  description="Insights, trends, and updates straight from our team."
+>
+  <Nav data={navEntry.data} />
+
+  <main class="pt-14">
+    <!-- Page header -->
+    <div class="border-b border-[var(--line)] bg-[var(--surface)] py-20">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8" data-reveal>
+        <p class="font-mono text-xs tracking-widest uppercase text-[var(--primary)] mb-4">
+          Our Blog
+        </p>
+        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight" style="color: var(--ink);">
+          Latest Articles
+        </h1>
+        <p class="mt-4 text-[var(--muted-foreground)] leading-relaxed max-w-xl">
+          Insights, trends, and updates straight from our team.
+        </p>
+      </div>
+    </div>
+
+    <!-- Article grid -->
+    <section class="py-24 bg-[var(--background)]">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-px border border-[var(--line)]">
+          {articles.map((article, i) => (
+            <a
+              href={`/blogs/${article.slug}`}
+              class="
+                group block p-8 bg-[var(--background)]
+                hover:bg-[var(--card)]
+                transition-colors duration-150
+              "
+              data-reveal
+              style={`transition-delay: ${i * 60}ms`}
+            >
+              <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-4">
+                {formatDate(article.date)}
+                {article.author && (
+                  <span class="ml-3 opacity-60">— {article.author}</span>
+                )}
+              </p>
+              <h2
+                class="
+                  text-base font-semibold leading-snug mb-4
+                  group-hover:text-[var(--primary)]
+                  transition-colors duration-150
+                "
+                style="color: var(--ink);"
+              >
+                {article.title}
+              </h2>
+              {article.excerpt && (
+                <p class="text-sm text-[var(--muted-foreground)] leading-relaxed mb-4 line-clamp-2">
+                  {article.excerpt}
+                </p>
+              )}
+              <span
+                class="
+                  font-mono text-xs tracking-widest uppercase
+                  text-[var(--muted-foreground)]
+                  group-hover:text-[var(--primary)]
+                  transition-colors duration-150
+                  inline-flex items-center gap-1
+                "
+              >
+                Read more
+                <span
+                  aria-hidden="true"
+                  class="
+                    inline-block translate-x-0
+                    group-hover:translate-x-1
+                    transition-transform duration-150
+                  "
+                >→</span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <ContactFooter data={footerEntry.data} />
+</Layout>

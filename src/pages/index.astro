@@ -50,7 +50,7 @@ const blog = {
     .map((e) => ({
       title: e.data.title,
       date: e.data.date.toISOString().split('T')[0],
-      href: `/blog/${e.id}`,
+      href: `/blogs/${e.id}`,
       excerpt: e.data.excerpt,
     })),
 };
