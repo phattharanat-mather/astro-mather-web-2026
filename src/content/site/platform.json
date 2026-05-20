@@ -2,23 +2,23 @@
   "heading": "Platform Solutions",
   "intro": "Solutions we've built across industries, tailored to each client's needs.",
   "tabs": [
-    { "label": "Web Application",       "key": "web" },
-    { "label": "Mobile Application",    "key": "mobile" },
-    { "label": "Strategy & Data-Driven","key": "strategy" },
-    { "label": "AI",                    "key": "ai" }
+    { "label": "Web Application", "key": "web" },
+    { "label": "Mobile Application", "key": "mobile" },
+    { "label": "Strategy & Data-Driven", "key": "strategy" },
+    { "label": "AI", "key": "ai" }
   ],
   "projects": [
-    { "title": "TalentMatch Portal",        "category": "web",      "href": "#" },
-    { "title": "Rasa Retail Hub",           "category": "web",      "href": "#" },
-    { "title": "FinView Analytics",         "category": "web",      "href": "#" },
-    { "title": "ShiftTrack",               "category": "mobile",   "href": "#" },
-    { "title": "DataPulse Mobile",          "category": "mobile",   "href": "#" },
-    { "title": "CareConnect",              "category": "mobile",   "href": "#" },
-    { "title": "Market Compass",           "category": "strategy", "href": "#" },
-    { "title": "Revenue Intelligence",     "category": "strategy", "href": "#" },
-    { "title": "Consumer Insight Engine",  "category": "strategy", "href": "#" },
-    { "title": "ResumeAI",                 "category": "ai",       "href": "#" },
-    { "title": "ChatAssist",               "category": "ai",       "href": "#" },
-    { "title": "Predictive Staffing",      "category": "ai",       "href": "#" }
+    { "title": "TalentMatch Portal", "category": "web", "href": "#" },
+    { "title": "Rasa Retail Hub", "category": "web", "href": "#" },
+    { "title": "FinView Analytics", "category": "web", "href": "#" },
+    { "title": "ShiftTrack", "category": "mobile", "href": "#" },
+    { "title": "DataPulse Mobile", "category": "mobile", "href": "#" },
+    { "title": "CareConnect", "category": "mobile", "href": "#" },
+    { "title": "Market Compass", "category": "strategy", "href": "#" },
+    { "title": "Revenue Intelligence", "category": "strategy", "href": "#" },
+    { "title": "Consumer Insight Engine", "category": "strategy", "href": "#" },
+    { "title": "ResumeAI", "category": "ai", "href": "#" },
+    { "title": "ChatAssist", "category": "ai", "href": "#" },
+    { "title": "Predictive Staffing", "category": "ai", "href": "#" }
   ]
 }
