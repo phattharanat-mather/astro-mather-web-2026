@@ -8,7 +8,7 @@ Astro landing page for a tech company website. Stack: Astro 6, Tailwind CSS, sha
 
 ## Commands
 
-Use `bun` as the package manager — not npm or npx.
+Use `bun` as the package manager (preferred). `npm` and `npx` are acceptable alternatives.
 
 ```bash
 bun install          # install dependencies
