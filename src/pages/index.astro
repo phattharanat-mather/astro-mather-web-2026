@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 import Layout from '@/layouts/Layout.astro';
 import Nav from '@/components/Nav.astro';
@@ -13,28 +13,17 @@ import FounderQuote from '@/components/home/FounderQuote.astro';
 import Blog from '@/components/home/Blog.astro';
 import ContactFooter from '@/components/home/ContactFooter.astro';
 
-import { siteConfig } from '@/data/site';
-
-/* ── Singleton sections ─────────────────────────────── */
-const [navEntry, heroEntry, ourServicesEntry, platformEntry, valuePropsEntry,
-       clientsEntry, teamEntry, founderQuoteEntry, blogMetaEntry, footerEntry] =
-  await Promise.all([
-    getEntry('site', 'nav'),
-    getEntry('site', 'hero'),
-    getEntry('site', 'our-services'),
-    getEntry('site', 'platform'),
-    getEntry('site', 'value-props'),
-    getEntry('site', 'clients'),
-    getEntry('site', 'team'),
-    getEntry('site', 'founder-quote'),
-    getEntry('site', 'blog'),
-    getEntry('site', 'footer'),
-  ]);
+import {
+  siteConfig,
+  nav, hero, ourServices as ourServicesMeta,
+  platform, valueProps, clients, team,
+  founderQuote, blog as blogMeta, footer,
+} from '@/data/site';
 
 /* ── Services collection ────────────────────────────── */
 const servicesCollection = await getCollection('services');
 const ourServices = {
-  ...ourServicesEntry.data,
+  ...ourServicesMeta,
   items: servicesCollection
     .sort((a, b) => a.data.index.localeCompare(b.data.index))
     .map((e) => ({ ...e.data, body: e.body })),
@@ -46,7 +35,7 @@ const founderQuotesCollection = await getCollection('founderQuotes');
 /* ── Blog collection ────────────────────────────────── */
 const blogCollection = await getCollection('blogs');
 const blog = {
-  ...blogMetaEntry.data,
+  ...blogMeta,
   articles: blogCollection
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
     .slice(0, 4)
@@ -63,18 +52,18 @@ const blog = {
   title={`${siteConfig.name} — ${siteConfig.tagline}`}
   description={siteConfig.description}
 >
-  <Nav data={navEntry.data} />
+  <Nav data={nav} />
 
   <main>
-    <Hero data={heroEntry.data} />
+    <Hero data={hero} />
     <OurServices data={ourServices} />
-    <PlatformSolutions data={platformEntry.data} client:visible />
-    <ValueProps data={valuePropsEntry.data} />
-    <Clients data={clientsEntry.data} />
-    <Team data={teamEntry.data} />
-    <FounderQuote data={founderQuoteEntry.data} quotes={founderQuotesCollection} />
+    <PlatformSolutions data={platform} client:visible />
+    <ValueProps data={valueProps} />
+    <Clients data={clients} />
+    <Team data={team} />
+    <FounderQuote data={founderQuote} quotes={founderQuotesCollection} />
     <Blog data={blog} />
   </main>
 
-  <ContactFooter data={footerEntry.data} />
+  <ContactFooter data={footer} />
 </Layout>

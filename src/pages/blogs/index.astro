@@ -1,14 +1,9 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Nav from '@/components/Nav.astro';
 import ContactFooter from '@/components/home/ContactFooter.astro';
-import { siteConfig } from '@/data/site';
-
-const [navEntry, footerEntry] = await Promise.all([
-  getEntry('site', 'nav'),
-  getEntry('site', 'footer'),
-]);
+import { siteConfig, nav, footer } from '@/data/site';
 
 const blogCollection = await getCollection('blogs');
 const articles = blogCollection
@@ -34,7 +29,7 @@ function formatDate(iso: string) {
   title={`Blog — ${siteConfig.name}`}
   description="Insights, trends, and updates straight from our team."
 >
-  <Nav data={navEntry.data} />
+  <Nav data={nav} />
 
   <main class="pt-14">
     <!-- Page header -->
@@ -114,5 +109,5 @@ function formatDate(iso: string) {
     </section>
   </main>
 
-  <ContactFooter data={footerEntry.data} />
+  <ContactFooter data={footer} />
 </Layout>
