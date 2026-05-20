@@ -1,0 +1,189 @@
+{
+  "nav": {
+    "logo": {
+      "light": "/LogoLight.png",
+      "dark": "/LogoDark.png"
+    },
+    "links": [
+      { "label": "Home", "href": "/#welcome" },
+      { "label": "Service", "href": "/#service" },
+      { "label": "Portfolio", "href": "/#platform" },
+      { "label": "Team", "href": "/#team" },
+      { "label": "Founder's quote", "href": "/#testimonials" },
+      { "label": "Blog", "href": "/#blog" },
+      { "label": "Contact Us", "href": "#contact" }
+    ]
+  },
+
+  "hero": {
+    "methodologyTags": [
+      "METHODOLOGY",
+      "MATHEMATICS",
+      "MACHINE LEARNING",
+      "MATCHING"
+    ],
+    "headline": "WELCOME TO THE MATHER",
+    "subheadline": "Data is the book. AI be the learner. We are the helper.",
+    "cta": {
+      "label": "Our Services",
+      "href": "/#service"
+    }
+  },
+
+  "ourServices": {
+    "heading": "Our Services",
+    "intro": "We keep on diversifying and expanding ourselves into full system integration service.",
+    "items": [
+      {
+        "index": "01",
+        "title": "AI Technology",
+        "description": "Developing Artificial Intelligence (AI) technologies to avoid unconscious human error in complex issues decision making. This service included 3 domains which are signal, image and NLP. We also provide AI design and develop services to support customers in collecting and analyzing data effectively."
+      },
+      {
+        "index": "02",
+        "title": "Data Research",
+        "description": "Study and research desired target by survey and collecting data both on-site and online (Digital Platform). Then, analyze data in quantitative and qualitative terms in order to observe target's behavior, interest, etc. in order to lead effective strategy plans."
+      },
+      {
+        "index": "03",
+        "title": "Web Service Mobile Application",
+        "description": "Provide entirely design and develop web application services to serve the best experiences to users while representing the company's identity."
+      },
+      {
+        "index": "04",
+        "title": "Data Migration",
+        "description": "Data migration in business involves transferring data between systems to ensure continuity and efficiency, often driven by system upgrades or integrations. In development, it focuses on the technical process of extracting, transforming, and loading (ETL) data to align with new system requirements or structures."
+      },
+      {
+        "index": "05",
+        "title": "Data Driven",
+        "description": "Study and research desired target by survey and collecting data both on-site and online (Digital Platform). Then, analyze data in quantitative and qualitative terms in order to observe target's behavior, interest, etc. in order to lead effective strategy plans."
+      },
+      {
+        "index": "06",
+        "title": "Data Analysis",
+        "description": "Execute In-depth data science analysis, as well as creating reports by Data Visualization. In order to generate new strategic planning with Data Driven in the future."
+      }
+    ]
+  },
+
+  "platformSolutions": {
+    "heading": "Platform Solutions",
+    "intro": "Highlight the platforms we develop for our diverse business clients.",
+    "tabs": [
+      { "label": "Web Application", "key": "web" },
+      { "label": "Mobile Application", "key": "mobile" },
+      { "label": "Strategy & Data-Driven", "key": "strategy" },
+      { "label": "AI", "key": "ai" }
+    ],
+    "projects": []
+  },
+
+  "valueProps": {
+    "heading": "We Help Grow Your Business",
+    "intro": "How we help your business through innovative solutions",
+    "items": [
+      {
+        "title": "Effective Budget Control",
+        "description": "Reduce your dispensable cost on each time recruiting management."
+      },
+      {
+        "title": "Impressive Workflow",
+        "description": "Decrease your excessive recruiting activity on each round and well-managed manpower."
+      },
+      {
+        "title": "Accuracy Without Bias",
+        "description": "Ensure fair and unbiased recruiting management."
+      }
+    ]
+  },
+
+  "clients": {
+    "heading": "Our clients Customers",
+    "intro": "We have had the opportunity to take care of",
+    "items": []
+  },
+
+  "team": {
+    "heading": "Team Members",
+    "intro": "Our team is divided into 5 sections to meet all needs and work efficiently.",
+    "departments": [
+      "Business Development",
+      "Data and AI Engineer",
+      "Designer",
+      "Software Development",
+      "Client Service"
+    ],
+    "members": []
+  },
+
+  "founderQuote": {
+    "heading": "Founder's quote",
+    "tagline": "SIMPLE, GOOD VALUE, PROFESSIONAL WITH EXPERIENCE AND EXPERTISE.",
+    "body": "we offer value services at an affordable price and are ready to make everything easy for you.",
+    "cta": {
+      "label": "Download Credential",
+      "href": "/file/THEMATHER_2024.pdf"
+    },
+    "quotes": [
+      {
+        "name": "Somprasonk.G",
+        "role": "Founder/MD",
+        "quote": "Nowadays, the world is changing faster. more variety more complicated Which makes it difficult to make decisions in the traditional way. Artificial intelligence and data science are essential to make every decision more efficient. This will help your business to be accurate with rapidly changing consumer behavior as well."
+      }
+    ]
+  },
+
+  "blog": {
+    "heading": "Latest Articles from Our Team",
+    "intro": "Stay informed with knowledge, trends, and our latest news.",
+    "viewAllHref": "/blogs",
+    "articles": [
+      {
+        "title": "The Mather Forms Strategic Business Partnership with South Korea's Leading EdTech and AI Company, Ubion",
+        "date": "2025-06-13",
+        "href": "/blog/blog"
+      },
+      {
+        "title": "Empowering Thailand's Workforce through Strategic AI Transformation",
+        "date": "2024-12-20",
+        "href": "/blog/blog-3"
+      },
+      {
+        "title": "Top 5 AI Tools Businesses Should Know in 2025",
+        "date": "2025-05-29",
+        "href": "/blog/blog-1"
+      },
+      {
+        "title": "Why Data Governance Is Critical to AI Success",
+        "date": "2025-05-14",
+        "href": "/blog/blog-2"
+      }
+    ]
+  },
+
+  "footer": {
+    "tagline": "Your right person is waiting to join you...",
+    "cta": "Don't hesitate.",
+    "company": "The Mather",
+    "contact": {
+      "email": "info@themather.asia",
+      "phone": "+02 937 0555",
+      "address": "555 Rasa Tower Phahonyothin Rd, Chatuchak, Bangkok 10900"
+    },
+    "contactForm": {
+      "heading": "I'm interested in...",
+      "interests": [
+        "AI Technology",
+        "Data Research",
+        "Web Service",
+        "Mobile Application",
+        "Data Migration",
+        "Data Driven",
+        "Data Analysis"
+      ],
+      "fields": ["name", "email", "message"],
+      "submitLabel": "Send message"
+    }
+  }
+}
