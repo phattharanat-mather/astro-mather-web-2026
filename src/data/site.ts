@@ -4,6 +4,23 @@ export const siteConfig = {
   description:
     "Full system integration service — AI, Data Research, Web & Mobile, Data Migration, Data Driven, Data Analysis.",
   url: "https://www.themather.asia",
+  seo: {
+    keywords: [
+      "AI technology",
+      "data research",
+      "web service",
+      "mobile application",
+      "data migration",
+      "data driven",
+      "data analysis",
+      "system integration",
+      "Bangkok tech company",
+      "Thailand AI",
+    ],
+    ogImage: "/og-image.png",
+    twitterHandle: "@themather",
+    locale: "en_US",
+  },
   colorPresets: [
     { name: "cosmos", label: "Cosmos", mode: "dark" },
     { name: "dawn", label: "Dawn", mode: "light" },

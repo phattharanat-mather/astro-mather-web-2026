@@ -1,5 +1,6 @@
 ---
 import '../styles/globals.css';
+import { SEO } from 'astro-seo';
 import { siteConfig } from '../data/site';
 
 interface Props {
@@ -11,6 +12,8 @@ const {
   title = siteConfig.name,
   description = siteConfig.description,
 } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
 ---
 
 <html lang="en" data-color-preset="cosmos">
@@ -20,9 +23,37 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
     <meta name="theme-color" content="#05070f" />
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonicalUrl}
+      openGraph={{
+        basic: {
+          title,
+          type: "website",
+          image: siteConfig.url + siteConfig.seo.ogImage,
+          url: canonicalUrl,
+        },
+        optional: {
+          description,
+          locale: siteConfig.seo.locale,
+          siteName: siteConfig.name,
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        site: siteConfig.seo.twitterHandle,
+        title,
+        description,
+        image: siteConfig.url + siteConfig.seo.ogImage,
+      }}
+      extend={{
+        meta: [
+          { name: "keywords", content: siteConfig.seo.keywords.join(", ") },
+        ],
+      }}
+    />
 
     <!-- Runs synchronously before first paint — prevents theme flash -->
     <script is:inline>
