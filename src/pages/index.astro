@@ -37,7 +37,7 @@ const ourServices = {
   ...ourServicesEntry.data,
   items: servicesCollection
     .sort((a, b) => a.data.index.localeCompare(b.data.index))
-    .map((e) => e.data),
+    .map((e) => ({ ...e.data, body: e.body })),
 };
 
 /* ── Founder quotes collection ──────────────────────── */

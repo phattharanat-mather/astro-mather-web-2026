@@ -18,7 +18,7 @@ export interface HeroData {
 export interface ServiceItem {
   index: string;
   title: string;
-  description: string;
+  body: string;
 }
 
 export interface OurServicesData {
