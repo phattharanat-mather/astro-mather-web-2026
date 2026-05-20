@@ -1,0 +1,32 @@
+/* Preset: blackhole · paper: near-void black · accent: accretion-disk orange + jet blue · dark mode */
+
+[data-color-preset="blackhole"] {
+  --background:          oklch(0.04 0.008 295);
+  --foreground:          oklch(0.92 0.012 300);
+  --card:                oklch(0.07 0.012 295);
+  --card-foreground:     oklch(0.92 0.012 300);
+  --popover:             oklch(0.07 0.012 295);
+  --popover-foreground:  oklch(0.92 0.012 300);
+  --primary:             oklch(0.68 0.22 52);
+  --primary-foreground:  oklch(0.04 0.008 295);
+  --secondary:           oklch(0.58 0.26 18);
+  --secondary-foreground:oklch(0.04 0.008 295);
+  --muted:               oklch(0.09 0.015 295);
+  --muted-foreground:    oklch(0.50 0.040 300);
+  --accent:              oklch(0.62 0.24 245);
+  --accent-foreground:   oklch(0.04 0.008 295);
+  --destructive:         oklch(0.60 0.26 18);
+  --border:              oklch(1 0 0 / 6%);
+  --input:               oklch(1 0 0 / 10%);
+  --ring:                oklch(0.68 0.22 52);
+  --radius:              0.25rem;
+
+  /* Extended brand tokens */
+  --surface:             oklch(0.07 0.012 295);
+  --headline1:           oklch(0.72 0.22 52);
+  --headline2:           oklch(0.66 0.22 245);
+  --ink:                 oklch(0.92 0.012 300);
+  --line:                oklch(1 0 0 / 6%);
+  --line-strong:         oklch(1 0 0 / 14%);
+  --grad:                linear-gradient(135deg, oklch(0.68 0.22 52), oklch(0.58 0.26 18));
+}

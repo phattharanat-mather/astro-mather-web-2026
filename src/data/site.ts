@@ -25,6 +25,11 @@ export const siteConfig = {
     { name: "cosmos", label: "Cosmos", mode: "dark" },
     { name: "dawn", label: "Dawn", mode: "light" },
     { name: "void", label: "Void", mode: "dark" },
+    { name: "sun", label: "Sun", mode: "light" },
+    { name: "moon", label: "Moon", mode: "light" },
+    { name: "blackhole", label: "Blackhole", mode: "dark" },
+    { name: "pulsar", label: "Pulsar", mode: "dark" },
+    { name: "nebula", label: "Nebula", mode: "dark" },
   ] as const,
   defaultPreset: "cosmos" as const,
   greyscaleFilter: {
@@ -90,9 +95,7 @@ export const footer = {
     },
     {
       heading: "Work With Us",
-      links: [
-        { label: "Careers", href: "/careers" },
-      ],
+      links: [{ label: "Careers", href: "/careers" }],
     },
   ],
 };

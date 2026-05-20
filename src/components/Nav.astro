@@ -154,24 +154,19 @@ const { data } = Astro.props;
       });
     });
 
-    /* Logo swap based on active preset */
+    /* Logo swap: show light logo on light-mode presets, dark logo on dark-mode presets */
     function syncLogo() {
-      var preset = document.documentElement.dataset.colorPreset || 'cosmos';
+      var isDark = document.documentElement.classList.contains('dark');
       var dark = document.querySelector('[data-logo="dark"]');
       var light = document.querySelector('[data-logo="light"]');
       if (!dark || !light) return;
-      if (preset === 'dawn') {
-        dark.style.display = 'none';
-        light.style.display = 'block';
-      } else {
-        dark.style.display = 'block';
-        light.style.display = 'none';
-      }
+      dark.style.display  = isDark ? 'block' : 'none';
+      light.style.display = isDark ? 'none'  : 'block';
     }
 
     syncLogo();
 
     var observer = new MutationObserver(syncLogo);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-preset'] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-color-preset'] });
   })();
 </script>

@@ -1,0 +1,32 @@
+/* Preset: moon · paper: pale silver-white · near-monochrome cool grey · light mode */
+
+[data-color-preset="moon"] {
+  --background:          oklch(0.97 0.004 242);
+  --foreground:          oklch(0.14 0.006 242);
+  --card:                oklch(1 0 0 / 80%);
+  --card-foreground:     oklch(0.14 0.006 242);
+  --popover:             oklch(0.99 0.003 242);
+  --popover-foreground:  oklch(0.14 0.006 242);
+  --primary:             oklch(0.40 0.010 242);
+  --primary-foreground:  oklch(0.97 0.004 242);
+  --secondary:           oklch(0.55 0.008 242);
+  --secondary-foreground:oklch(0.97 0.004 242);
+  --muted:               oklch(0.92 0.004 242);
+  --muted-foreground:    oklch(0.50 0.006 242);
+  --accent:              oklch(0.48 0.040 270);
+  --accent-foreground:   oklch(0.97 0.004 242);
+  --destructive:         oklch(0.55 0.22 27);
+  --border:              oklch(0.40 0.010 242 / 14%);
+  --input:               oklch(0.40 0.010 242 / 14%);
+  --ring:                oklch(0.40 0.010 242);
+  --radius:              0.25rem;
+
+  /* Extended brand tokens */
+  --surface:             oklch(1 0 0);
+  --headline1:           oklch(0.35 0.010 242);
+  --headline2:           oklch(0.52 0.008 242);
+  --ink:                 oklch(0.14 0.006 242);
+  --line:                oklch(0 0 0 / 7%);
+  --line-strong:         oklch(0 0 0 / 15%);
+  --grad:                linear-gradient(135deg, oklch(0.40 0.010 242), oklch(0.48 0.040 270));
+}
