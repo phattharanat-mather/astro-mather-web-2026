@@ -6,8 +6,8 @@ export const siteConfig = {
   url: "https://www.themather.asia",
   colorPresets: [
     { name: "cosmos", label: "Cosmos", mode: "dark" },
-    { name: "dawn",   label: "Dawn",   mode: "light" },
-    { name: "void",   label: "Void",   mode: "dark" },
+    { name: "dawn", label: "Dawn", mode: "light" },
+    { name: "void", label: "Void", mode: "dark" },
   ] as const,
   defaultPreset: "cosmos" as const,
 } as const;
@@ -16,7 +16,7 @@ export type ColorPreset = (typeof siteConfig.colorPresets)[number]["name"];
 
 export const nav = {
   logos: [
-    { path: "/LogoDark.png",  mode: "dark" },
+    { path: "/LogoDark.png", mode: "dark" },
     { path: "/LogoLight.png", mode: "light" },
   ] as const,
   links: [

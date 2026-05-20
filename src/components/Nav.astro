@@ -157,8 +157,8 @@ const { data } = Astro.props;
     /* Logo swap based on active preset */
     function syncLogo() {
       var preset = document.documentElement.dataset.colorPreset || 'cosmos';
-      var dark = document.querySelector('[data-logo-dark]');
-      var light = document.querySelector('[data-logo-light]');
+      var dark = document.querySelector('[data-logo="dark"]');
+      var light = document.querySelector('[data-logo="light"]');
       if (!dark || !light) return;
       if (preset === 'dawn') {
         dark.style.display = 'none';

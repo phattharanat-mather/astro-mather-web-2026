@@ -25,13 +25,12 @@ const { data } = Astro.props;
     </div>
 
     <!-- Service list -->
-    <ul class="list-none m-0 p-0">
+    <ul class="list-none m-0 p-0 grid sm:grid-cols-2 gap-x-12">
       {data.items.map((item, i) => (
         <li
           class="
             group
             border-t border-[var(--line)]
-            last:border-b
           "
           data-reveal
           style={`transition-delay: ${i * 60}ms`}
@@ -39,25 +38,11 @@ const { data } = Astro.props;
           <div
             class="
               py-8
-              grid grid-cols-[4rem_1fr] lg:grid-cols-[6rem_1fr_auto] gap-x-6 gap-y-2
-              items-start
               hover:bg-[var(--surface)]
               transition-colors duration-150
               px-4 -mx-4 rounded-sm
             "
           >
-            <!-- Index -->
-            <p
-              class="
-                font-mono text-xs tracking-widest pt-1
-                text-[var(--muted-foreground)]
-                group-hover:text-[var(--primary)]
-                transition-colors duration-150
-              "
-            >
-              / {item.index}
-            </p>
-
             <!-- Title + description -->
             <div>
               <h3
@@ -66,26 +51,10 @@ const { data } = Astro.props;
               >
                 {item.title}
               </h3>
-              <p class="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-2xl">
+              <p class="text-sm text-[var(--muted-foreground)] leading-relaxed">
                 {item.body}
               </p>
             </div>
-
-            <!-- Arrow (desktop) -->
-            <span
-              aria-hidden="true"
-              class="
-                hidden lg:block
-                font-mono text-sm
-                text-[var(--line-strong)]
-                group-hover:text-[var(--primary)]
-                group-hover:translate-x-1
-                transition-all duration-150
-                self-center
-              "
-            >
-              →
-            </span>
           </div>
         </li>
       ))}
