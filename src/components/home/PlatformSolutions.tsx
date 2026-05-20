@@ -57,22 +57,32 @@ export function PlatformSolutions({ data }: Props) {
 
         {/* Projects grid or placeholder */}
         {filtered.length > 0 ? (
-          <div key={activeKey} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-fade-up">
+          <div key={activeKey} className="columns-1 sm:columns-2 lg:columns-3 gap-4 animate-fade-up">
             {filtered.map((project, i) => (
               <div
                 key={i}
                 className="
-                  block p-6 rounded-sm
+                  break-inside-avoid mb-4
+                  rounded-sm overflow-hidden
                   border border-[var(--line)]
                   bg-[var(--card)]
                 "
               >
-                <p className="font-semibold text-sm mb-1" style={{ color: 'var(--ink)' }}>
-                  {project.title}
-                </p>
-                <p className="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
-                  {project.categories.join(', ')}
-                </p>
+                {project.image && (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full object-cover"
+                  />
+                )}
+                <div className="p-6">
+                  <p className="font-semibold text-sm mb-1" style={{ color: 'var(--ink)' }}>
+                    {project.title}
+                  </p>
+                  <p className="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
+                    {project.categories.join(', ')}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
