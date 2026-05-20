@@ -41,6 +41,8 @@ export interface Project {
   title: string;
   categories: string[];
   image?: string;
+  featured?: boolean;
+  id: string;
 }
 
 export interface PlatformSolutionsData {

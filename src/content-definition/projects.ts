@@ -7,5 +7,6 @@ export const projects = defineCollection({
     title: z.string(),
     categories: z.array(z.string()),
     image: z.string().optional(),
+    featured: z.boolean().optional(),
   }),
 });

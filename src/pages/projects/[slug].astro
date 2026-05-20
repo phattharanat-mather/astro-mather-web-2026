@@ -1,0 +1,80 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import Nav from '@/components/Nav.astro';
+import ContactFooter from '@/components/home/ContactFooter.astro';
+import { siteConfig, nav, footer } from '@/data/site';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects
+    .filter((p) => p.data.featured)
+    .map((p) => ({
+      params: { slug: p.id },
+      props: { project: p },
+    }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Layout
+  title={`${project.data.title} — ${siteConfig.name}`}
+  description={`Project: ${project.data.title}`}
+>
+  <Nav data={nav} />
+
+  <main class="pt-14">
+    <!-- Header -->
+    <div class="border-b border-[var(--line)] py-20">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8" data-reveal>
+        <a
+          href="/#platform"
+          class="
+            inline-flex items-center gap-2 mb-10
+            font-mono text-xs tracking-widest uppercase
+            text-[var(--muted-foreground)] hover:text-[var(--primary)]
+            transition-colors duration-150
+          "
+        >
+          <span aria-hidden="true">←</span>
+          All projects
+        </a>
+
+        <div class="flex flex-wrap gap-2 mb-4">
+          {project.data.categories.map((cat) => (
+            <span class="font-mono text-xs tracking-widest uppercase text-[var(--primary)]">
+              {cat}
+            </span>
+          ))}
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight leading-tight" style="color: var(--ink);">
+          {project.data.title}
+        </h1>
+      </div>
+    </div>
+
+    {project.data.image && (
+      <div class="border-b border-[var(--line)]">
+        <div class="max-w-3xl mx-auto px-6 lg:px-8 py-10" data-reveal>
+          <img
+            src={project.data.image}
+            alt={project.data.title}
+            class="w-full rounded-sm object-cover max-h-96"
+          />
+        </div>
+      </div>
+    )}
+
+    <!-- Body -->
+    <article class="py-20">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8 prose-content" data-reveal>
+        <Content />
+      </div>
+    </article>
+  </main>
+
+  <ContactFooter data={footer} />
+</Layout>

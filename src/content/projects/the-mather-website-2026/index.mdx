@@ -1,0 +1,42 @@
+---
+title: "The Mather Website 2026"
+categories: ["web"]
+image: "/matterhorn.jpg"
+featured: true
+---
+
+## Overview
+
+The Mather's company website — built to be fast, maintainable, and on-brand. This is the site you are reading right now.
+
+## What we built
+
+A fully static marketing site with dynamic content collections, dark/light theming, and a custom color preset system. Every section — services, portfolio, blog, careers — is driven by structured content that any team member can update without touching code.
+
+## Stack
+
+- **Astro 6** — static-first framework with islands architecture; pages ship zero JavaScript by default
+- **React** — interactive components (theme switcher, platform filter, contact form) hydrate on demand via `client:*` directives
+- **Tailwind CSS + shadcn/ui** — utility-first styling with accessible, headless component primitives
+- **TypeScript (strict)** — end-to-end type safety across pages, components, and content schemas
+- **Bun** — fast package manager and dev server
+
+## Content architecture
+
+All site content lives in Astro content collections with Zod-validated schemas:
+
+| Collection | What it holds |
+| --- | --- |
+| `services` | Service offering cards |
+| `projects` | Portfolio entries (this page) |
+| `blogs` | Team articles |
+| `openPositions` | Job listings |
+| `founderQuotes` | Rotating founder quotes |
+
+## Design system
+
+Eight color presets (Void, Cosmos, Dawn, Sun, Moon, Blackhole, Pulsar, Nebula) built on CSS custom properties. The active preset is persisted to `localStorage` and applied before first paint to avoid flash.
+
+## Outcome
+
+Replaces a heavier, harder-to-maintain predecessor. Lighthouse scores above 95 across performance, accessibility, and SEO. Content updates require no developer involvement.

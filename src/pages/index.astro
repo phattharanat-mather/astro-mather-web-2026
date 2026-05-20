@@ -39,9 +39,11 @@ const platformData = {
   ...platform,
   tabs: projectCategories,
   projects: projectsCollection.map((e) => ({
+    id: e.id,
     title: e.data.title,
     categories: e.data.categories,
     image: e.data.image,
+    featured: e.data.featured,
   })),
 };
 

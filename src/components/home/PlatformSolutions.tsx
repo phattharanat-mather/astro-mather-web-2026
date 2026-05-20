@@ -58,33 +58,39 @@ export function PlatformSolutions({ data }: Props) {
         {/* Projects grid or placeholder */}
         {filtered.length > 0 ? (
           <div key={activeKey} className="columns-1 sm:columns-2 lg:columns-3 gap-4 animate-fade-up">
-            {filtered.map((project, i) => (
-              <div
-                key={i}
-                className="
-                  break-inside-avoid mb-4
-                  rounded-sm overflow-hidden
-                  border border-[var(--line)]
-                  bg-[var(--card)]
-                "
-              >
-                {project.image && (
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full object-cover"
-                  />
-                )}
-                <div className="p-6">
-                  <p className="font-semibold text-sm mb-1" style={{ color: 'var(--ink)' }}>
-                    {project.title}
-                  </p>
-                  <p className="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
-                    {project.categories.join(', ')}
-                  </p>
-                </div>
-              </div>
-            ))}
+            {filtered.map((project, i) => {
+              const Tag = project.featured ? 'a' : 'div';
+              const linkProps = project.featured ? { href: `/projects/${project.id}` } : {};
+              return (
+                <Tag
+                  key={i}
+                  {...linkProps}
+                  className={`
+                    break-inside-avoid mb-4 block
+                    rounded-sm overflow-hidden
+                    border border-[var(--line)]
+                    bg-[var(--card)]
+                    ${project.featured ? 'hover:border-[var(--primary)] transition-colors duration-150' : ''}
+                  `}
+                >
+                  {project.image && (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full object-cover"
+                    />
+                  )}
+                  <div className="p-6">
+                    <p className="font-semibold text-sm mb-1" style={{ color: 'var(--ink)' }}>
+                      {project.title}
+                    </p>
+                    <p className="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
+                      {project.categories.join(', ')}
+                    </p>
+                  </div>
+                </Tag>
+              );
+            })}
           </div>
         ) : (
           <div

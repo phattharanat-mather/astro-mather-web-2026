@@ -17,6 +17,7 @@ Each project lives in its own directory. The directory name becomes the entry's 
 | `title`      | `string`   | yes      | Project name shown on the card                   |
 | `categories` | `string[]` | yes      | One or more tab keys (e.g. `["web", "ai"]`)      |
 | `image`      | `string`   | no       | Path to a co-located image asset                 |
+| `featured`   | `boolean`  | no       | If `true`, the card links to `/projects/<slug>`  |
 
 ## Valid category keys
 
@@ -43,6 +44,20 @@ title: "My Project"
 categories: ["web", "ai"]
 ---
 ```
+
+## Linking to a project detail page
+
+Set `featured: true` to make the card link to `/projects/<slug>`. The slug is the directory name.
+
+```mdx
+---
+title: "My Project"
+categories: ["web", "ai"]
+featured: true
+---
+```
+
+The detail page must exist at `src/pages/projects/<slug>.astro` (or as a dynamic route).
 
 ## Adding a new tab
 
