@@ -1,5 +1,6 @@
 ---
 import type { HeroData } from '@/content-definition/home';
+import { HeroHeadline } from '@/components/HeroHeadline';
 
 interface Props {
   data: HeroData;
@@ -48,23 +49,13 @@ const tagsJson = JSON.stringify(data.methodologyTags);
       </span>
     </p>
 
-    <!-- Headline -->
-    <h1
-      class="
-        font-bold tracking-tight leading-none
-        text-5xl sm:text-6xl lg:text-7xl xl:text-8xl
-        max-w-4xl
-      "
-      style="color: var(--ink);"
-      data-reveal
-    >
-      {data.headline}
-    </h1>
+    <!-- Headline with hover effect -->
+    <HeroHeadline headline={data.headline} client:load />
 
     <!-- Gradient accent line -->
     <div
       aria-hidden="true"
-      class="mt-6 mb-8 h-px w-24"
+      class="mt-2 mb-8 h-px w-24"
       style="background: var(--grad);"
     ></div>
 

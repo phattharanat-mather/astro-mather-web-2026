@@ -1,13 +1,13 @@
 {
-  "heading": "Founder's quote",
-  "tagline": "SIMPLE, GOOD VALUE, PROFESSIONAL WITH EXPERIENCE AND EXPERTISE.",
-  "body": "we offer value services at an affordable price and are ready to make everything easy for you.",
+  "heading": "From the Founder",
+  "tagline": "SIMPLE. VALUABLE. EXPERT.",
+  "body": "Quality work at a fair price — we handle the complexity so you don't have to.",
   "cta": { "label": "Download Credential", "href": "/file/THEMATHER_2024.pdf" },
   "quotes": [
     {
       "name": "Somprasonk.G",
-      "role": "Founder/MD",
-      "quote": "Nowadays, the world is changing faster. more variety more complicated Which makes it difficult to make decisions in the traditional way. Artificial intelligence and data science are essential to make every decision more efficient. This will help your business to be accurate with rapidly changing consumer behavior as well."
+      "role": "Founder / MD",
+      "quote": "The world moves faster than ever — more complex, more unpredictable. AI and data science aren't just tools; they're how modern businesses make confident decisions and stay ahead of rapidly shifting consumer behavior."
     }
   ]
 }

@@ -1,73 +1,37 @@
 ---
 import type { ClientsData } from '@/content-definition/home';
+import { ClientsMarquee } from '@/components/ClientsMarquee';
 
 interface Props {
   data: ClientsData;
 }
 
 const { data } = Astro.props;
-const hasClients = data.items.length > 0;
 ---
 
-<section class="py-24 border-b border-[var(--line)]">
+<section class="py-24 border-b border-[var(--line)] overflow-hidden">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
-
-    <div class="mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4" data-reveal>
-      <div>
-        <h2
-          class="text-3xl sm:text-4xl font-bold tracking-tight"
-          style="color: var(--ink);"
-        >
-          {data.heading}
-        </h2>
-        <p class="mt-2 text-[var(--muted-foreground)]">{data.intro}</p>
-      </div>
+    <div class="mb-12" data-reveal>
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight" style="color: var(--ink);">
+        {data.heading}
+      </h2>
+      <p class="mt-2 text-[var(--muted-foreground)]">{data.intro}</p>
     </div>
-
-    {hasClients ? (
-      <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-px border border-[var(--line)]">
-        {data.items.map((client) => (
-          <div class="p-6 flex items-center justify-center bg-[var(--background)] hover:bg-[var(--surface)] transition-colors duration-150">
-            {client.logo ? (
-              <img
-                src={client.logo.dark}
-                alt={client.name}
-                class="max-h-8 w-auto opacity-60 hover:opacity-100 transition-opacity"
-              />
-            ) : (
-              <span class="font-mono text-xs text-[var(--muted-foreground)] tracking-widest text-center">
-                {client.name}
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-    ) : (
-      <div
-        class="
-          py-16 border border-dashed border-[var(--line-strong)]
-          rounded-sm flex flex-col items-center justify-center gap-3
-        "
-        data-reveal
-      >
-        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">
-          Client logos
-        </p>
-        <div class="flex flex-wrap justify-center gap-3">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <div
-              class="
-                h-8 rounded-sm bg-[var(--surface)]
-                border border-[var(--line)]
-              "
-              style={`width: ${60 + (i % 3) * 20}px`}
-            />
-          ))}
-        </div>
-        <p class="font-mono text-xs text-[var(--muted-foreground)] opacity-50 mt-2">
-          Logos coming soon
-        </p>
-      </div>
-    )}
   </div>
+
+  <ClientsMarquee client:load />
 </section>
+
+<style is:global>
+  @keyframes marquee-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes marquee-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  .marquee-left  { animation: marquee-left  28s linear infinite; }
+  .marquee-right { animation: marquee-right 32s linear infinite; }
+</style>
