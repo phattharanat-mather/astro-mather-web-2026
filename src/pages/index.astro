@@ -38,13 +38,15 @@ const projectsCollection = await getCollection('projects');
 const platformData = {
   ...platform,
   tabs: projectCategories,
-  projects: projectsCollection.map((e) => ({
-    id: e.id,
-    title: e.data.title,
-    categories: e.data.categories,
-    image: e.data.image,
-    featured: e.data.featured,
-  })),
+  projects: projectsCollection
+    .filter((e) => !e.data.archived)
+    .map((e) => ({
+      id: e.id.replace(/\/index$/, ''),
+      title: e.data.title,
+      categories: e.data.categories,
+      image: e.data.image,
+      featured: e.data.featured,
+    })),
 };
 
 /* ── Blog collection ────────────────────────────────── */

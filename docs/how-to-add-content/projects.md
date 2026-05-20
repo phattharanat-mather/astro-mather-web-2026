@@ -5,19 +5,21 @@ Projects appear in the **Platform Solutions** section on the home page, filterab
 ## File location
 
 ```
-src/content/projects/<slug>/index.mdx
+src/content/projects/<yyyy>/<slug>/index.mdx
 ```
 
-Each project lives in its own directory. The directory name becomes the entry's ID.
+Projects are grouped by year. The full path `yyyy/slug` becomes the entry's ID and the detail page URL (`/projects/yyyy/slug`).
 
 ## Frontmatter fields
 
-| Field        | Type       | Required | Description                                      |
-| ------------ | ---------- | -------- | ------------------------------------------------ |
-| `title`      | `string`   | yes      | Project name shown on the card                   |
-| `categories` | `string[]` | yes      | One or more tab keys (e.g. `["web", "ai"]`)      |
-| `image`      | `string`   | no       | Path to a co-located image asset                 |
-| `featured`   | `boolean`  | no       | If `true`, the card links to `/projects/<slug>`  |
+| Field        | Type       | Required | Description                                             |
+| ------------ | ---------- | -------- | ------------------------------------------------------- |
+| `title`      | `string`   | yes      | Project name shown on the card                          |
+| `year`       | `number`   | yes      | Project year (e.g. `2026`)                              |
+| `categories` | `string[]` | yes      | One or more tab keys (e.g. `["web", "ai"]`)             |
+| `image`      | `string`   | no       | Path to an image asset (e.g. `/images/my-project.jpg`)  |
+| `featured`   | `boolean`  | no       | If `true`, card links to `/projects/<yyyy>/<slug>`      |
+| `archived`   | `boolean`  | no       | If `true`, project is hidden from the portfolio grid    |
 
 ## Valid category keys
 
@@ -35,33 +37,37 @@ A project with multiple categories appears in each matching tab.
 ## Example
 
 ```
-src/content/projects/my-project/index.mdx
+src/content/projects/2026/my-project/index.mdx
 ```
 
 ```mdx
 ---
 title: "My Project"
+year: 2026
 categories: ["web", "ai"]
 ---
 ```
 
 ## Linking to a project detail page
 
-Set `featured: true` to make the card link to `/projects/<slug>`. The slug is the directory name.
+Set `featured: true` to make the card link to `/projects/yyyy/slug` and show a "Read more →" hint. The detail page is generated automatically by `src/pages/projects/[...slug].astro`.
 
 ```mdx
 ---
 title: "My Project"
+year: 2026
 categories: ["web", "ai"]
 featured: true
 ---
 ```
 
-The detail page must exist at `src/pages/projects/<slug>.astro` (or as a dynamic route).
+## Hiding a project
+
+Set `archived: true` to remove a project from the portfolio grid without deleting the file.
 
 ## Adding a new tab
 
-To add a new category tab, append an entry to `src/data/project-categories.ts`:
+Append an entry to `src/data/project-categories.ts`:
 
 ```ts
 { label: "New Category", key: "new-key" }

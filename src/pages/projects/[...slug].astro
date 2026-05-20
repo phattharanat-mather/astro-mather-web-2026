@@ -10,7 +10,7 @@ export async function getStaticPaths() {
   return projects
     .filter((p) => p.data.featured)
     .map((p) => ({
-      params: { slug: p.id },
+      params: { slug: p.id.replace(/\/index$/, '') },
       props: { project: p },
     }));
 }

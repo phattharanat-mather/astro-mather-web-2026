@@ -59,20 +59,14 @@ export function PlatformSolutions({ data }: Props) {
         {filtered.length > 0 ? (
           <div key={activeKey} className="columns-1 sm:columns-2 lg:columns-3 gap-4 animate-fade-up">
             {filtered.map((project, i) => {
-              const Tag = project.featured ? 'a' : 'div';
-              const linkProps = project.featured ? { href: `/projects/${project.id}` } : {};
-              return (
-                <Tag
-                  key={i}
-                  {...linkProps}
-                  className={`
-                    break-inside-avoid mb-4 block
-                    rounded-sm overflow-hidden
-                    border border-[var(--line)]
-                    bg-[var(--card)]
-                    ${project.featured ? 'hover:border-[var(--primary)] transition-colors duration-150' : ''}
-                  `}
-                >
+              const cardClass = `
+                break-inside-avoid mb-4 block
+                rounded-sm overflow-hidden
+                border border-[var(--line)]
+                bg-[var(--card)]
+              `;
+              const inner = (
+                <>
                   {project.image && (
                     <img
                       src={project.image}
@@ -87,8 +81,26 @@ export function PlatformSolutions({ data }: Props) {
                     <p className="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
                       {project.categories.join(', ')}
                     </p>
+                    {project.featured && (
+                      <p className="mt-3 font-mono text-xs text-[var(--primary)] flex items-center gap-1">
+                        Read more <span aria-hidden="true">→</span>
+                      </p>
+                    )}
                   </div>
-                </Tag>
+                </>
+              );
+              return project.featured ? (
+                <a
+                  key={i}
+                  href={`/projects/${project.id}`}
+                  className={`${cardClass} hover:border-[var(--primary)] transition-colors duration-150`}
+                >
+                  {inner}
+                </a>
+              ) : (
+                <div key={i} className={cardClass}>
+                  {inner}
+                </div>
               );
             })}
           </div>

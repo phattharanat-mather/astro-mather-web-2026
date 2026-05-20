@@ -38,11 +38,11 @@ export interface PlatformTab {
 }
 
 export interface Project {
+  id: string;
   title: string;
   categories: string[];
   image?: string;
   featured?: boolean;
-  id: string;
 }
 
 export interface PlatformSolutionsData {
