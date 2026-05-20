@@ -40,6 +40,9 @@ const ourServices = {
     .map((e) => e.data),
 };
 
+/* ── Founder quotes collection ──────────────────────── */
+const founderQuotesCollection = await getCollection('founderQuotes');
+
 /* ── Blog collection ────────────────────────────────── */
 const blogCollection = await getCollection('blogs');
 const blog = {
@@ -69,7 +72,7 @@ const blog = {
     <ValueProps data={valuePropsEntry.data} />
     <Clients data={clientsEntry.data} />
     <Team data={teamEntry.data} />
-    <FounderQuote data={founderQuoteEntry.data} />
+    <FounderQuote data={founderQuoteEntry.data} quotes={founderQuotesCollection} />
     <Blog data={blog} />
   </main>
 

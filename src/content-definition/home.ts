@@ -82,19 +82,11 @@ export interface TeamData {
   members: TeamMember[];
 }
 
-export interface FounderQuoteItem {
-  name: string;
-  role: string;
-  quote: string;
-  avatar?: string;
-}
-
 export interface FounderQuoteData {
   heading: string;
   tagline: string;
   body: string;
   cta: { label: string; href: string };
-  quotes: FounderQuoteItem[];
 }
 
 export interface Article {

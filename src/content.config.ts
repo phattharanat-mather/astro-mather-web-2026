@@ -26,4 +26,15 @@ const blogs = defineCollection({
   }),
 });
 
-export const collections = { site, services, blogs };
+const founderQuotes = defineCollection({
+  loader: glob({ pattern: '**/index.mdx', base: './src/content/founder-quotes' }),
+  schema: ({ image }) => z.object({
+    name: z.string(),
+    role: z.string(),
+    order: z.number(),
+    image: image().optional(),
+    featured: z.boolean().optional(),
+  }),
+});
+
+export const collections = { site, services, blogs, founderQuotes };
