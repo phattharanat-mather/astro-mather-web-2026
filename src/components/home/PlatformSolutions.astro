@@ -1,0 +1,147 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { PlatformSolutionsData } from '@/content-definition/home';
+
+interface Props {
+  data: PlatformSolutionsData;
+}
+
+const { data } = Astro.props;
+
+const grouped = Object.fromEntries(
+  data.tabs.map((tab) => [
+    tab.key,
+    data.projects.filter((p) => p.categories.includes(tab.key)),
+  ])
+);
+
+const isImageMetadata = (img: unknown): img is ImageMetadata =>
+  typeof img === 'object' && img !== null && 'src' in img;
+---
+
+<section id="platform" class="py-24 border-b border-[var(--line)]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+    <div class="mb-12">
+      <h2
+        class="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
+        style="color: var(--ink)"
+      >
+        {data.heading}
+      </h2>
+      <p class="text-[var(--muted-foreground)] leading-relaxed max-w-2xl">
+        {data.intro}
+      </p>
+    </div>
+
+    <div
+      id="platform-tabs"
+      class="flex flex-wrap gap-2 mb-10 border-b border-[var(--line)] pb-0"
+      role="tablist"
+      aria-label="Platform categories"
+    >
+      {data.tabs.map((tab, i) => (
+        <button
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          data-tab={tab.key}
+          class={`px-4 py-2.5 -mb-px font-mono text-xs tracking-widest uppercase border-b-2 transition-colors duration-150 ${
+            i === 0
+              ? 'border-[var(--primary)] text-[var(--primary)]'
+              : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+          }`}
+        >
+          {tab.label}
+        </button>
+      ))}
+    </div>
+
+    {data.tabs.map((tab, i) => {
+      const projects = grouped[tab.key] ?? [];
+      return (
+        <div data-panel={tab.key} class={i !== 0 ? 'hidden animate-fade-up' : 'animate-fade-up'}>
+          {projects.length > 0 ? (
+            <div class="columns-1 sm:columns-2 lg:columns-3 gap-4">
+              {projects.map((project) => (
+                project.featured ? (
+                  <a
+                    href={`/projects/${project.id}`}
+                    class="break-inside-avoid mb-4 block rounded-sm overflow-hidden border border-[var(--line)] bg-[var(--card)] hover:border-[var(--primary)] transition-colors duration-150"
+                  >
+                    {project.image && (
+                      isImageMetadata(project.image)
+                        ? <Image src={project.image} alt={project.title} class="w-full object-cover" />
+                        : <img src={project.image as string} alt={project.title} class="w-full object-cover" />
+                    )}
+                    <div class="p-6">
+                      <p class="font-semibold text-sm mb-1" style="color: var(--ink)">{project.title}</p>
+                      <p class="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
+                        {project.categories.join(', ')}
+                      </p>
+                      <p class="mt-3 font-mono text-xs text-[var(--primary)] flex items-center gap-1">
+                        Read more <span aria-hidden="true">→</span>
+                      </p>
+                    </div>
+                  </a>
+                ) : (
+                  <div class="break-inside-avoid mb-4 block rounded-sm overflow-hidden border border-[var(--line)] bg-[var(--card)]">
+                    {project.image && (
+                      isImageMetadata(project.image)
+                        ? <Image src={project.image} alt={project.title} class="w-full object-cover" />
+                        : <img src={project.image as string} alt={project.title} class="w-full object-cover" />
+                    )}
+                    <div class="p-6">
+                      <p class="font-semibold text-sm mb-1" style="color: var(--ink)">{project.title}</p>
+                      <p class="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
+                        {project.categories.join(', ')}
+                      </p>
+                    </div>
+                  </div>
+                )
+              ))}
+            </div>
+          ) : (
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" aria-label="Project placeholders">
+              {Array.from({ length: 8 }).map((_, j) => (
+                <div class="aspect-video rounded-sm border border-dashed border-[var(--line-strong)] bg-[var(--surface)] flex items-center justify-center">
+                  <span class="font-mono text-xs text-[var(--muted-foreground)] opacity-40 tracking-widest uppercase">
+                    Project
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    })}
+
+  </div>
+</section>
+
+<script>
+  const tabsEl = document.getElementById('platform-tabs');
+  if (tabsEl) {
+    tabsEl.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-tab]');
+      if (!btn) return;
+      const key = btn.dataset.tab!;
+
+      tabsEl.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((b) => {
+        const active = b.dataset.tab === key;
+        b.setAttribute('aria-selected', String(active));
+        if (active) {
+          b.classList.remove('border-transparent', 'text-[var(--muted-foreground)]');
+          b.classList.add('border-[var(--primary)]', 'text-[var(--primary)]');
+        } else {
+          b.classList.remove('border-[var(--primary)]', 'text-[var(--primary)]');
+          b.classList.add('border-transparent', 'text-[var(--muted-foreground)]');
+        }
+      });
+
+      document.querySelectorAll<HTMLElement>('[data-panel]').forEach((panel) => {
+        panel.classList.toggle('hidden', panel.dataset.panel !== key);
+      });
+    });
+  }
+</script>

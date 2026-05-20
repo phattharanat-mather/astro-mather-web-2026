@@ -1,3 +1,5 @@
+import type { ImageMetadata } from 'astro';
+
 export interface NavLink {
   label: string;
   href: string;
@@ -41,7 +43,7 @@ export interface Project {
   id: string;
   title: string;
   categories: string[];
-  image?: string;
+  image?: ImageMetadata | string;
   featured?: boolean;
 }
 
