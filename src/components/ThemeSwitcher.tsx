@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, Sun, Moon } from 'lucide-react';
+import { siteConfig } from '@/data/site';
+import type { ColorPreset } from '@/data/site';
 
-const PRESETS = ['cosmos', 'dawn', 'void'] as const;
-const DARK_PRESETS: string[] = ['cosmos', 'void'];
+const PRESETS = siteConfig.colorPresets;
 
-type Preset = (typeof PRESETS)[number];
-
-const LABELS: Record<Preset, string> = {
-  cosmos: 'Cosmos',
-  dawn: 'Dawn',
-  void: 'Void',
-};
+type Preset = ColorPreset;
 
 const ICONS: Record<Preset, React.ReactNode> = {
   cosmos: <Sparkles size={14} />,
@@ -19,8 +14,9 @@ const ICONS: Record<Preset, React.ReactNode> = {
 };
 
 function applyPreset(preset: Preset) {
+  const meta = PRESETS.find((p) => p.name === preset)!;
   document.documentElement.dataset.colorPreset = preset;
-  if (DARK_PRESETS.includes(preset)) {
+  if (meta.mode === 'dark') {
     document.documentElement.classList.add('dark');
   } else {
     document.documentElement.classList.remove('dark');
@@ -39,8 +35,8 @@ export function ThemeSwitcher() {
   }, []);
 
   function cycle() {
-    const idx = PRESETS.indexOf(preset);
-    const next = PRESETS[(idx + 1) % PRESETS.length];
+    const idx = PRESETS.findIndex((p) => p.name === preset);
+    const next = PRESETS[(idx + 1) % PRESETS.length].name;
     setPreset(next);
     applyPreset(next);
   }
@@ -68,8 +64,8 @@ export function ThemeSwitcher() {
   return (
     <button
       onClick={cycle}
-      title={`Theme: ${LABELS[preset]} — click to cycle`}
-      aria-label={`Current theme: ${LABELS[preset]}. Click to switch theme.`}
+      title={`Theme: ${PRESETS.find((p) => p.name === preset)!.label} — click to cycle`}
+      aria-label={`Current theme: ${PRESETS.find((p) => p.name === preset)!.label}. Click to switch theme.`}
       style={{
         display: 'inline-flex',
         alignItems: 'center',

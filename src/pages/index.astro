@@ -13,12 +13,12 @@ import FounderQuote from '@/components/home/FounderQuote.astro';
 import Blog from '@/components/home/Blog.astro';
 import ContactFooter from '@/components/home/ContactFooter.astro';
 
+import { siteConfig, nav, footer } from '@/data/site';
 import {
-  siteConfig,
-  nav, hero, ourServices as ourServicesMeta,
+  hero, ourServices as ourServicesMeta,
   platform, valueProps, clients, team,
-  founderQuote, blog as blogMeta, footer,
-} from '@/data/site';
+  founderQuote, blog as blogMeta,
+} from '@/data/home';
 
 /* ── Services collection ────────────────────────────── */
 const servicesCollection = await getCollection('services');

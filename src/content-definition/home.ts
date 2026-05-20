@@ -3,8 +3,13 @@ export interface NavLink {
   href: string;
 }
 
+export interface NavLogo {
+  path: string;
+  mode: "dark" | "light";
+}
+
 export interface NavData {
-  logo: { light: string; dark: string };
+  logos: NavLogo[];
   links: NavLink[];
 }
 

@@ -28,18 +28,16 @@ const { data } = Astro.props;
   >
     <!-- Logo -->
     <a href="/" class="shrink-0 flex items-center" aria-label="The Mather home">
-      <img
-        src={data.logo.dark}
-        alt="The Mather"
-        class="h-7 w-auto [data-color-preset='dawn']_&:hidden"
-        data-logo-dark
-      />
-      <img
-        src={data.logo.light}
-        alt="The Mather"
-        class="h-7 w-auto hidden [data-color-preset='dawn']_&:block"
-        data-logo-light
-      />
+      {data.logos.map((logo) => (
+        <img
+          src={logo.path}
+          alt="The Mather"
+          class={logo.mode === 'dark'
+            ? "h-7 w-auto [data-color-preset='dawn']_&:hidden"
+            : "h-7 w-auto hidden [data-color-preset='dawn']_&:block"}
+          data-logo={logo.mode}
+        />
+      ))}
     </a>
 
     <!-- Desktop links -->
