@@ -1,0 +1,164 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import Nav from '@/components/Nav.astro';
+import ContactFooter from '@/components/home/ContactFooter.astro';
+import { siteConfig, nav, footer } from '@/data/site';
+
+export async function getStaticPaths() {
+  const positions = await getCollection('openPositions');
+  return positions.map((position) => ({
+    params: { slug: position.id.replace(/\/index$/, '') },
+    props: { position },
+  }));
+}
+
+const { position } = Astro.props;
+const { Content } = await render(position);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+---
+
+<Layout
+  title={`${position.data.title} — Careers — ${siteConfig.name}`}
+  description={position.data.summary}
+>
+  <Nav data={nav} />
+
+  <main class="pt-14">
+    <!-- Role header -->
+    <div class="border-b border-[var(--line)] bg-[var(--surface)] py-20">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8" data-reveal>
+        <a
+          href="/careers"
+          class="
+            inline-flex items-center gap-2 mb-10
+            font-mono text-xs tracking-widest uppercase
+            text-[var(--muted-foreground)] hover:text-[var(--primary)]
+            transition-colors duration-150
+          "
+        >
+          <span aria-hidden="true">←</span>
+          All positions
+        </a>
+
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <span class="font-mono text-xs tracking-widest uppercase text-[var(--primary)]">
+            {position.data.department}
+          </span>
+          <span class="font-mono text-xs text-[var(--muted-foreground)]">·</span>
+          <span class="font-mono text-xs tracking-wide text-[var(--muted-foreground)]">
+            {position.data.type}
+          </span>
+          <span class="font-mono text-xs text-[var(--muted-foreground)]">·</span>
+          <span class="font-mono text-xs tracking-wide text-[var(--muted-foreground)]">
+            {position.data.location}
+          </span>
+          {position.data.salary && (
+            <>
+              <span class="font-mono text-xs text-[var(--muted-foreground)]">·</span>
+              <span class="font-mono text-xs tracking-wide text-[var(--foreground)]">
+                {position.data.salary}
+              </span>
+            </>
+          )}
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight leading-tight" style="color: var(--ink);">
+          {position.data.title}
+        </h1>
+        <p class="mt-4 text-lg text-[var(--muted-foreground)] leading-relaxed">
+          {position.data.summary}
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3">
+          <a
+            href={`mailto:${footer.contact.email}?subject=Application: ${position.data.title}`}
+            class="
+              inline-flex items-center gap-2
+              px-6 py-3 rounded-sm
+              font-mono text-sm tracking-widest uppercase
+              bg-[var(--primary)] text-[var(--primary-foreground)]
+              btn-glow self-start
+            "
+          >
+            Apply now
+            <span aria-hidden="true">→</span>
+          </a>
+          <p class="font-mono text-xs text-[var(--muted-foreground)]">
+            Posted {formatDate(position.data.postedDate)}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Role body -->
+    <article class="py-20 bg-[var(--background)]">
+      <div
+        class="
+          max-w-3xl mx-auto px-6 lg:px-8
+          prose prose-neutral dark:prose-invert
+          prose-headings:tracking-tight
+          prose-a:text-[var(--primary)] prose-a:no-underline hover:prose-a:underline
+          prose-hr:border-[var(--line)]
+          prose-code:text-[var(--primary)] prose-code:before:content-none prose-code:after:content-none
+          prose-ul:text-[var(--muted-foreground)] prose-li:marker:text-[var(--primary)]
+          [--tw-prose-body:var(--muted-foreground)]
+          [--tw-prose-headings:var(--ink)]
+          [--tw-prose-bold:var(--ink)]
+        "
+        data-reveal
+      >
+        <Content />
+      </div>
+    </article>
+
+    <!-- How to apply -->
+    <div class="border-t border-[var(--line)] py-16 bg-[var(--surface)]">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8" data-reveal>
+        <p class="font-mono text-xs tracking-widest uppercase text-[var(--primary)] mb-4">
+          How to apply
+        </p>
+        <h2 class="text-2xl font-bold tracking-tight mb-4" style="color: var(--ink);">
+          Send us an email
+        </h2>
+        <p class="text-[var(--muted-foreground)] leading-relaxed mb-8 max-w-prose">
+          Send your CV and a short note about why you are interested in this role to the address below.
+          Use <span class="font-mono text-[var(--foreground)]">Application: {position.data.title}</span> as
+          the subject line so we can route it to the right person.
+        </p>
+        <div class="space-y-4">
+          <div class="flex flex-col gap-1.5">
+            <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">To</p>
+            <a
+              href={`mailto:${footer.contact.email}?subject=Application: ${position.data.title}`}
+              class="font-mono text-sm text-[var(--primary)] hover:underline"
+            >
+              {footer.contact.email}
+            </a>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">Subject</p>
+            <p class="font-mono text-sm text-[var(--foreground)]">Application: {position.data.title}</p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">Include</p>
+            <ul class="font-mono text-sm text-[var(--muted-foreground)] space-y-1 list-none p-0 m-0">
+              <li>— Your CV or LinkedIn profile</li>
+              <li>— A brief intro (2–3 sentences) on why this role interests you</li>
+              <li>— Any relevant work samples or portfolio links</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <ContactFooter data={footer} />
+</Layout>

@@ -9,7 +9,7 @@ export interface NavLogo {
 }
 
 export interface NavData {
-  logos: NavLogo[];
+  logos: readonly NavLogo[];
   links: NavLink[];
 }
 

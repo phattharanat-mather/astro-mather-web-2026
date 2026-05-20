@@ -1,0 +1,143 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import Nav from '@/components/Nav.astro';
+import ContactFooter from '@/components/home/ContactFooter.astro';
+import { siteConfig, nav, footer } from '@/data/site';
+
+const positionsCollection = await getCollection('openPositions');
+const positions = positionsCollection
+  .filter((p) => p.data.open)
+  .sort((a, b) => b.data.postedDate.getTime() - a.data.postedDate.getTime())
+  .map((p) => ({
+    slug: p.id.replace(/\/index$/, ''),
+    title: p.data.title,
+    department: p.data.department,
+    location: p.data.location,
+    type: p.data.type,
+    salary: p.data.salary,
+    summary: p.data.summary,
+    postedDate: p.data.postedDate.toISOString().split('T')[0],
+  }));
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+---
+
+<Layout
+  title={`Careers — ${siteConfig.name}`}
+  description="Join The Mather. Explore open positions across engineering, data, and AI."
+>
+  <Nav data={nav} />
+
+  <main class="pt-14">
+    <!-- Page header -->
+    <div class="border-b border-[var(--line)] bg-[var(--surface)] py-20">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8" data-reveal>
+        <p class="font-mono text-xs tracking-widest uppercase text-[var(--primary)] mb-4">
+          Work With Us
+        </p>
+        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight" style="color: var(--ink);">
+          Open Positions
+        </h1>
+        <p class="mt-4 text-[var(--muted-foreground)] leading-relaxed max-w-xl">
+          We are a small, senior team building AI and data systems for real businesses.
+          If you want ownership and variety, we would love to hear from you.
+        </p>
+      </div>
+    </div>
+
+    <!-- Positions list -->
+    <section class="py-24 bg-[var(--background)]">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        {positions.length === 0 ? (
+          <p class="font-mono text-sm text-[var(--muted-foreground)]">
+            No open positions right now — check back soon.
+          </p>
+        ) : (
+          <div class="flex flex-col divide-y divide-[var(--line)] border border-[var(--line)]">
+            {positions.map((position, i) => (
+              <a
+                href={`/careers/${position.slug}`}
+                class="
+                  group flex flex-col sm:flex-row sm:items-center justify-between
+                  gap-4 p-8 bg-[var(--background)]
+                  hover:bg-[var(--card)]
+                  transition-colors duration-150
+                "
+                data-reveal
+                style={`transition-delay: ${i * 60}ms`}
+              >
+                <div class="flex flex-col gap-2">
+                  <div class="flex flex-wrap items-center gap-3">
+                    <span class="font-mono text-xs tracking-widest uppercase text-[var(--primary)]">
+                      {position.department}
+                    </span>
+                    <span class="font-mono text-xs text-[var(--muted-foreground)]">·</span>
+                    <span class="font-mono text-xs tracking-wide text-[var(--muted-foreground)]">
+                      {position.type}
+                    </span>
+                    <span class="font-mono text-xs text-[var(--muted-foreground)]">·</span>
+                    <span class="font-mono text-xs tracking-wide text-[var(--muted-foreground)]">
+                      {position.location}
+                    </span>
+                  </div>
+                  <h2
+                    class="
+                      text-lg font-semibold leading-snug
+                      group-hover:text-[var(--primary)]
+                      transition-colors duration-150
+                    "
+                    style="color: var(--ink);"
+                  >
+                    {position.title}
+                  </h2>
+                  <p class="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-prose line-clamp-2">
+                    {position.summary}
+                  </p>
+                </div>
+
+                <div class="flex flex-col items-start sm:items-end gap-2 shrink-0">
+                  {position.salary && (
+                    <span class="font-mono text-xs tracking-wide text-[var(--foreground)]">
+                      {position.salary}
+                    </span>
+                  )}
+                  <span class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">
+                    Posted {formatDate(position.postedDate)}
+                  </span>
+                  <span
+                    class="
+                      font-mono text-xs tracking-widest uppercase
+                      text-[var(--muted-foreground)]
+                      group-hover:text-[var(--primary)]
+                      transition-colors duration-150
+                      inline-flex items-center gap-1
+                    "
+                  >
+                    View role
+                    <span
+                      aria-hidden="true"
+                      class="
+                        inline-block translate-x-0
+                        group-hover:translate-x-1
+                        transition-transform duration-150
+                      "
+                    >→</span>
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  </main>
+
+  <ContactFooter data={footer} />
+</Layout>
