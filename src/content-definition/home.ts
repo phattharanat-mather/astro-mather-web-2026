@@ -116,12 +116,18 @@ export interface ContactFormData {
   submitLabel: string;
 }
 
+export interface FooterLinkGroup {
+  heading: string;
+  links: NavLink[];
+}
+
 export interface FooterData {
   tagline: string;
   cta: string;
   company: string;
   contact: { email: string; phone: string; address: string };
   contactForm: ContactFormData;
+  links?: FooterLinkGroup[];
 }
 
 export interface HomeContent {

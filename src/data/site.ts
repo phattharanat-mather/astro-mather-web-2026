@@ -44,9 +44,7 @@ export const nav = {
     { label: "Home", href: "/#welcome" },
     { label: "Service", href: "/#service" },
     { label: "Portfolio", href: "/#platform" },
-    { label: "Team", href: "/#team" },
-    { label: "Founder's quote", href: "/#testimonials" },
-    { label: "Blog", href: "/#blog" },
+    { label: "Blog", href: "/blogs" },
     { label: "Contact Us", href: "#contact" },
   ],
 };
@@ -74,4 +72,23 @@ export const footer = {
     fields: ["name", "email", "message"],
     submitLabel: "Send message",
   },
+  links: [
+    {
+      heading: "The Mather",
+      links: [
+        { label: "Home", href: "/#welcome" },
+        { label: "Services", href: "/#service" },
+        { label: "Portfolio", href: "/#platform" },
+        { label: "Team", href: "/#team" },
+        { label: "Blog", href: "/blogs" },
+        { label: "Contact", href: "#contact" },
+      ],
+    },
+    {
+      heading: "Work With Us",
+      links: [
+        { label: "Careers", href: "/careers" },
+      ],
+    },
+  ],
 };

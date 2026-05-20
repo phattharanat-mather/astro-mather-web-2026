@@ -222,18 +222,46 @@ const { contact, contactForm } = data;
 
   <!-- Bottom bar -->
   <div class="py-6">
-    <div
-      class="
-        max-w-7xl mx-auto px-6 lg:px-8
-        flex flex-col sm:flex-row items-center justify-between gap-3
-      "
-    >
-      <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">
-        © {new Date().getFullYear()} {data.company}. All rights reserved.
-      </p>
-      <p class="font-mono text-xs text-[var(--muted-foreground)] opacity-50">
-        Data · AI · Web
-      </p>
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col gap-3">
+
+      <!-- Link groups: one row per group -->
+      {data.links && data.links.length > 0 && data.links.map((group) => (
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span class="font-mono text-xs tracking-widest uppercase text-[var(--foreground)] shrink-0">
+            {group.heading}
+          </span>
+          <span class="text-[var(--line-strong)]" aria-hidden="true">·</span>
+          {group.links.map((link, i) => (
+            <>
+              <a
+                href={link.href}
+                class="
+                  font-mono text-xs tracking-wide
+                  text-[var(--muted-foreground)]
+                  hover:text-[var(--foreground)]
+                  transition-colors duration-150
+                "
+              >
+                {link.label}
+              </a>
+              {i < group.links.length - 1 && (
+                <span class="text-[var(--line-strong)]" aria-hidden="true">/</span>
+              )}
+            </>
+          ))}
+        </div>
+      ))}
+
+      <!-- Copyright -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-2 border-t border-[var(--line)]">
+        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">
+          © {new Date().getFullYear()} {data.company}. All rights reserved.
+        </p>
+        <p class="font-mono text-xs text-[var(--muted-foreground)] opacity-50">
+          Data · AI · Web
+        </p>
+      </div>
+
     </div>
   </div>
 </footer>
