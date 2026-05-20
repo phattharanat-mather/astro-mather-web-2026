@@ -1,0 +1,102 @@
+---
+import type { BlogData } from '@/content-definition/home';
+
+interface Props {
+  data: BlogData;
+}
+
+const { data } = Astro.props;
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+---
+
+<section id="blog" class="py-24 border-b border-[var(--line)] bg-[var(--surface)]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+    <div
+      class="mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+      data-reveal
+    >
+      <div>
+        <h2
+          class="text-3xl sm:text-4xl font-bold tracking-tight"
+          style="color: var(--ink);"
+        >
+          {data.heading}
+        </h2>
+        <p class="mt-2 text-[var(--muted-foreground)] leading-relaxed max-w-lg">
+          {data.intro}
+        </p>
+      </div>
+
+      <a
+        href={data.viewAllHref}
+        class="
+          shrink-0 inline-flex items-center gap-2
+          font-mono text-xs tracking-widest uppercase
+          text-[var(--primary)]
+          hover:opacity-70
+          transition-opacity duration-150
+        "
+      >
+        View all
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- Article grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-px border border-[var(--line)]">
+      {data.articles.map((article, i) => (
+        <a
+          href={article.href}
+          class="
+            group block p-8 bg-[var(--background)]
+            hover:bg-[var(--card)]
+            transition-colors duration-150
+          "
+          data-reveal
+          style={`transition-delay: ${i * 60}ms`}
+        >
+          <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-4">
+            {formatDate(article.date)}
+          </p>
+          <h3
+            class="
+              text-base font-semibold leading-snug mb-4
+              group-hover:text-[var(--primary)]
+              transition-colors duration-150
+            "
+            style="color: var(--ink);"
+          >
+            {article.title}
+          </h3>
+          <span
+            class="
+              font-mono text-xs tracking-widest uppercase
+              text-[var(--muted-foreground)]
+              group-hover:text-[var(--primary)]
+              transition-colors duration-150
+              inline-flex items-center gap-1
+            "
+          >
+            Read more
+            <span
+              aria-hidden="true"
+              class="
+                inline-block translate-x-0
+                group-hover:translate-x-1
+                transition-transform duration-150
+              "
+            >→</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

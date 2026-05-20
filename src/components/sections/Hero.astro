@@ -1,0 +1,169 @@
+---
+import type { HeroData } from '@/content-definition/home';
+
+interface Props {
+  data: HeroData;
+}
+
+const { data } = Astro.props;
+const tagsJson = JSON.stringify(data.methodologyTags);
+---
+
+<section
+  id="welcome"
+  class="
+    relative min-h-svh flex flex-col justify-center
+    pt-14 pb-24 px-6
+    border-b border-[var(--line)]
+    overflow-hidden
+  "
+>
+  <!-- Subtle grid background -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0"
+    style="
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+    "
+  ></div>
+
+  <div class="relative max-w-7xl mx-auto w-full lg:px-8">
+
+    <!-- Methodology tag -->
+    <p class="mb-8 flex items-center gap-3" aria-live="polite">
+      <span class="inline-block w-4 h-px bg-[var(--primary)]"></span>
+      <span
+        id="method-tag"
+        class="
+          font-mono text-xs tracking-[0.2em] uppercase
+          text-[var(--primary)]
+          transition-opacity duration-300
+        "
+      >
+        {data.methodologyTags[0]}
+      </span>
+    </p>
+
+    <!-- Headline -->
+    <h1
+      class="
+        font-bold tracking-tight leading-none
+        text-5xl sm:text-6xl lg:text-7xl xl:text-8xl
+        max-w-4xl
+      "
+      style="color: var(--ink);"
+      data-reveal
+    >
+      {data.headline}
+    </h1>
+
+    <!-- Gradient accent line -->
+    <div
+      aria-hidden="true"
+      class="mt-6 mb-8 h-px w-24"
+      style="background: var(--grad);"
+    ></div>
+
+    <!-- Subheadline -->
+    <p
+      class="
+        text-lg sm:text-xl max-w-xl leading-relaxed
+        text-[var(--muted-foreground)]
+      "
+      data-reveal
+    >
+      {data.subheadline}
+    </p>
+
+    <!-- CTA -->
+    <div class="mt-10 flex flex-wrap items-center gap-4" data-reveal>
+      <a
+        href={data.cta.href}
+        class="
+          inline-flex items-center gap-2
+          px-5 py-2.5 rounded-sm
+          text-sm font-mono tracking-widest uppercase
+          bg-[var(--primary)] text-[var(--primary-foreground)]
+          hover:opacity-90
+          transition-opacity duration-150
+          focus-visible:outline-2 focus-visible:outline-offset-2
+        "
+      >
+        {data.cta.label}
+        <span aria-hidden="true">→</span>
+      </a>
+
+      <a
+        href="#contact"
+        class="
+          inline-flex items-center gap-2
+          text-sm font-mono tracking-widest uppercase
+          text-[var(--muted-foreground)]
+          hover:text-[var(--foreground)]
+          transition-colors duration-150
+          border-b border-[var(--line)]
+          pb-0.5
+        "
+      >
+        Contact Us
+      </a>
+    </div>
+
+    <!-- Stats strip -->
+    <div
+      class="
+        mt-20 pt-8
+        border-t border-[var(--line)]
+        grid grid-cols-2 sm:grid-cols-3 gap-8
+        max-w-lg
+      "
+      data-reveal
+    >
+      <div>
+        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-1">Services</p>
+        <p class="text-2xl font-bold" style="color: var(--headline1);">06</p>
+      </div>
+      <div>
+        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-1">Methodology</p>
+        <p class="text-2xl font-bold" style="color: var(--headline2);">4M</p>
+      </div>
+      <div>
+        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-1">Domains</p>
+        <p class="text-2xl font-bold text-[var(--accent)]">AI · Data · Web</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ tagsJson }}>
+  (function () {
+    var tags = JSON.parse(tagsJson);
+    var el = document.getElementById('method-tag');
+    if (!el || tags.length < 2) return;
+    var index = 0;
+
+    function cycle() {
+      el.style.opacity = '0';
+      setTimeout(function () {
+        index = (index + 1) % tags.length;
+        el.textContent = tags[index];
+        el.style.opacity = '1';
+      }, 300);
+    }
+
+    var interval = setInterval(cycle, 2500);
+
+    /* Pause when tab is hidden */
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        clearInterval(interval);
+      } else {
+        interval = setInterval(cycle, 2500);
+      }
+    });
+  })();
+</script>

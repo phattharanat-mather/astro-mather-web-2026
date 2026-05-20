@@ -1,0 +1,91 @@
+---
+import type { TeamData } from '@/content-definition/home';
+
+interface Props {
+  data: TeamData;
+}
+
+const { data } = Astro.props;
+---
+
+<section id="team" class="py-24 border-b border-[var(--line)] bg-[var(--surface)]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+    <div class="mb-12" data-reveal>
+      <h2
+        class="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
+        style="color: var(--ink);"
+      >
+        {data.heading}
+      </h2>
+      <p class="text-[var(--muted-foreground)] leading-relaxed max-w-xl">
+        {data.intro}
+      </p>
+    </div>
+
+    <!-- Department chips -->
+    <div class="flex flex-wrap gap-2 mb-14" data-reveal>
+      {data.departments.map((dept, i) => (
+        <span
+          class="
+            inline-flex items-center gap-2
+            px-3 py-1.5 rounded-sm
+            border border-[var(--line-strong)]
+            font-mono text-xs tracking-widest uppercase
+            text-[var(--muted-foreground)]
+          "
+        >
+          <span
+            class="inline-block w-1.5 h-1.5 rounded-full"
+            style={`background: ${
+              i === 0 ? 'var(--primary)' :
+              i === 1 ? 'var(--secondary)' :
+              i === 2 ? 'var(--accent)' :
+              i === 3 ? 'var(--headline2)' :
+              'var(--muted-foreground)'
+            }`}
+          />
+          {dept}
+        </span>
+      ))}
+    </div>
+
+    <!-- Member placeholder -->
+    {data.members.length === 0 ? (
+      <div
+        class="
+          py-16 border border-dashed border-[var(--line-strong)]
+          rounded-sm flex flex-col items-center gap-4
+        "
+        data-reveal
+      >
+        <div class="grid grid-cols-3 sm:grid-cols-5 gap-4">
+          {Array.from({ length: 10 }).map(() => (
+            <div class="flex flex-col items-center gap-2">
+              <div class="w-12 h-12 rounded-full bg-[var(--background)] border border-[var(--line)]" />
+              <div class="h-2 w-16 rounded-full bg-[var(--background)] border border-[var(--line)]" />
+              <div class="h-1.5 w-12 rounded-full bg-[var(--line)]" />
+            </div>
+          ))}
+        </div>
+        <p class="font-mono text-xs text-[var(--muted-foreground)] opacity-50 mt-2 tracking-widest uppercase">
+          Team profiles coming soon
+        </p>
+      </div>
+    ) : (
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+        {data.members.map((member) => (
+          <div class="flex flex-col items-center text-center gap-3" data-reveal>
+            <div class="w-16 h-16 rounded-full border border-[var(--line)] overflow-hidden bg-[var(--background)]">
+              {member.image && <img src={member.image} alt={member.name} class="w-full h-full object-cover" />}
+            </div>
+            <div>
+              <p class="text-sm font-semibold" style="color: var(--ink);">{member.name}</p>
+              <p class="font-mono text-xs text-[var(--muted-foreground)] tracking-widest uppercase mt-0.5">{member.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

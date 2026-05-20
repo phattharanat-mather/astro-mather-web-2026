@@ -1,0 +1,56 @@
+---
+import type { ValuePropsData } from '@/content-definition/home';
+
+interface Props {
+  data: ValuePropsData;
+}
+
+const { data } = Astro.props;
+---
+
+<section class="py-24 border-b border-[var(--line)] bg-[var(--surface)]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+    <div class="mb-16" data-reveal>
+      <h2
+        class="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
+        style="color: var(--ink);"
+      >
+        {data.heading}
+      </h2>
+      <p class="text-[var(--muted-foreground)] leading-relaxed max-w-xl">
+        {data.intro}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px border border-[var(--line)]">
+      {data.items.map((item, i) => (
+        <div
+          class="
+            p-8 bg-[var(--background)]
+            hover:bg-[var(--surface)]
+            transition-colors duration-200
+          "
+          data-reveal
+          style={`transition-delay: ${i * 80}ms`}
+        >
+          <p
+            class="font-mono text-xs tracking-widest uppercase mb-6"
+            style="color: var(--headline2);"
+          >
+            / {String(i + 1).padStart(2, '0')}
+          </p>
+          <h3
+            class="text-lg font-semibold tracking-tight mb-3"
+            style="color: var(--ink);"
+          >
+            {item.title}
+          </h3>
+          <p class="text-sm text-[var(--muted-foreground)] leading-relaxed">
+            {item.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

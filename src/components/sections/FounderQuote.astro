@@ -1,0 +1,99 @@
+---
+import type { FounderQuoteData } from '@/content-definition/home';
+
+interface Props {
+  data: FounderQuoteData;
+}
+
+const { data } = Astro.props;
+---
+
+<section id="testimonials" class="py-24 border-b border-[var(--line)]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+    <!-- Tagline block -->
+    <div
+      class="
+        mb-16 pb-16 border-b border-[var(--line)]
+        grid lg:grid-cols-2 gap-12 items-center
+      "
+      data-reveal
+    >
+      <div>
+        <h2
+          class="text-2xl sm:text-3xl font-bold tracking-tight leading-snug"
+          style="background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
+        >
+          {data.tagline}
+        </h2>
+        <p class="mt-4 text-[var(--muted-foreground)] leading-relaxed">
+          {data.body}
+        </p>
+      </div>
+
+      <div class="flex lg:justify-end">
+        <a
+          href={data.cta.href}
+          download
+          class="
+            inline-flex items-center gap-3
+            px-5 py-3 rounded-sm
+            border border-[var(--primary)]
+            font-mono text-xs tracking-widest uppercase
+            text-[var(--primary)]
+            hover:bg-[var(--primary)] hover:text-[var(--primary-foreground)]
+            transition-colors duration-150
+          "
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {data.cta.label}
+        </a>
+      </div>
+    </div>
+
+    <!-- Quote(s) -->
+    <div class="max-w-3xl" data-reveal>
+      <p
+        class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-8"
+      >
+        {data.heading}
+      </p>
+
+      {data.quotes.map((q) => (
+        <figure class="mb-12 last:mb-0">
+          <blockquote class="relative">
+            <span
+              aria-hidden="true"
+              class="
+                absolute -top-4 -left-2
+                font-mono text-6xl leading-none select-none
+                opacity-20
+              "
+              style="color: var(--primary);"
+            >"</span>
+            <p
+              class="
+                relative text-xl sm:text-2xl font-medium leading-relaxed tracking-tight
+                pl-6
+              "
+              style="color: var(--ink);"
+            >
+              {q.quote}
+            </p>
+          </blockquote>
+          <figcaption class="mt-8 pl-6 flex items-center gap-4">
+            <div class="h-px flex-1 max-w-[2rem] bg-[var(--primary)]" aria-hidden="true" />
+            <div>
+              <p class="font-semibold text-sm" style="color: var(--ink);">{q.name}</p>
+              <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mt-0.5">
+                {q.role}
+              </p>
+            </div>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

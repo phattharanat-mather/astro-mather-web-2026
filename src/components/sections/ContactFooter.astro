@@ -1,0 +1,264 @@
+---
+import type { FooterData } from '@/content-definition/home';
+
+interface Props {
+  data: FooterData;
+}
+
+const { data } = Astro.props;
+const { contact, contactForm } = data;
+---
+
+<footer id="contact" class="border-t border-[var(--line)]">
+
+  <!-- Contact section -->
+  <div class="py-24 border-b border-[var(--line)]">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+        <!-- Left: Company + tagline -->
+        <div data-reveal>
+          <p
+            class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-6"
+          >
+            Get in touch
+          </p>
+          <p
+            class="text-2xl sm:text-3xl font-bold tracking-tight leading-snug mb-3"
+            style="color: var(--ink);"
+          >
+            {data.tagline}
+          </p>
+          <p class="text-xl text-[var(--primary)] font-medium mb-10">
+            {data.cta}
+          </p>
+
+          <div class="space-y-3">
+            <a
+              href={`mailto:${contact.email}`}
+              class="
+                flex items-center gap-3
+                font-mono text-sm text-[var(--muted-foreground)]
+                hover:text-[var(--foreground)]
+                transition-colors duration-150
+              "
+            >
+              <span class="text-[var(--primary)] w-4 text-center" aria-hidden="true">@</span>
+              {contact.email}
+            </a>
+            <a
+              href={`tel:${contact.phone}`}
+              class="
+                flex items-center gap-3
+                font-mono text-sm text-[var(--muted-foreground)]
+                hover:text-[var(--foreground)]
+                transition-colors duration-150
+              "
+            >
+              <span class="text-[var(--secondary)] w-4 text-center" aria-hidden="true">#</span>
+              {contact.phone}
+            </a>
+            <p class="flex items-start gap-3 font-mono text-sm text-[var(--muted-foreground)]">
+              <span class="text-[var(--accent)] w-4 text-center shrink-0 mt-0.5" aria-hidden="true">⌖</span>
+              {contact.address}
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Contact form -->
+        <div data-reveal>
+          <form
+            action="#"
+            method="post"
+            novalidate
+            class="space-y-6"
+            id="contact-form"
+          >
+            <!-- Interests -->
+            <fieldset>
+              <legend
+                class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-3"
+              >
+                {contactForm.heading}
+              </legend>
+              <div class="flex flex-wrap gap-2">
+                {contactForm.interests.map((interest) => (
+                  <label
+                    class="
+                      flex items-center gap-2 cursor-pointer
+                      px-3 py-1.5 rounded-sm
+                      border border-[var(--line-strong)]
+                      font-mono text-xs tracking-wider uppercase
+                      text-[var(--muted-foreground)]
+                      has-[:checked]:border-[var(--primary)]
+                      has-[:checked]:text-[var(--primary)]
+                      hover:border-[var(--foreground)]
+                      transition-colors duration-150
+                      select-none
+                    "
+                  >
+                    <input
+                      type="checkbox"
+                      name="interest"
+                      value={interest}
+                      class="sr-only"
+                    />
+                    {interest}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <!-- Name + Email -->
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="flex flex-col gap-1.5">
+                <label
+                  for="contact-name"
+                  class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]"
+                >
+                  Your name
+                </label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  name="name"
+                  required
+                  autocomplete="name"
+                  class="
+                    w-full px-3 py-2.5 rounded-sm
+                    bg-[var(--surface)] border border-[var(--line-strong)]
+                    text-sm text-[var(--foreground)]
+                    placeholder:text-[var(--muted-foreground)]
+                    focus:outline-none focus:border-[var(--primary)]
+                    transition-colors duration-150
+                  "
+                  placeholder="Name"
+                />
+              </div>
+              <div class="flex flex-col gap-1.5">
+                <label
+                  for="contact-email"
+                  class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]"
+                >
+                  Your email
+                </label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  name="email"
+                  required
+                  autocomplete="email"
+                  class="
+                    w-full px-3 py-2.5 rounded-sm
+                    bg-[var(--surface)] border border-[var(--line-strong)]
+                    text-sm text-[var(--foreground)]
+                    placeholder:text-[var(--muted-foreground)]
+                    focus:outline-none focus:border-[var(--primary)]
+                    transition-colors duration-150
+                  "
+                  placeholder="email@company.com"
+                />
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="flex flex-col gap-1.5">
+              <label
+                for="contact-message"
+                class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]"
+              >
+                Your message
+              </label>
+              <textarea
+                id="contact-message"
+                name="message"
+                rows="4"
+                class="
+                  w-full px-3 py-2.5 rounded-sm
+                  bg-[var(--surface)] border border-[var(--line-strong)]
+                  text-sm text-[var(--foreground)]
+                  placeholder:text-[var(--muted-foreground)]
+                  focus:outline-none focus:border-[var(--primary)]
+                  transition-colors duration-150
+                  resize-none
+                "
+                placeholder="Tell us about your project..."
+              ></textarea>
+            </div>
+
+            <!-- Submit -->
+            <button
+              type="submit"
+              class="
+                inline-flex items-center gap-2
+                px-6 py-3 rounded-sm
+                font-mono text-sm tracking-widest uppercase
+                bg-[var(--primary)] text-[var(--primary-foreground)]
+                hover:opacity-90
+                active:opacity-80
+                disabled:opacity-40 disabled:cursor-not-allowed
+                transition-opacity duration-150
+                focus-visible:outline-2 focus-visible:outline-offset-2
+              "
+              id="contact-submit"
+            >
+              {contactForm.submitLabel}
+              <span aria-hidden="true">→</span>
+            </button>
+
+            <!-- Status message -->
+            <p
+              id="form-status"
+              role="status"
+              aria-live="polite"
+              class="hidden font-mono text-xs tracking-widest text-[var(--secondary)]"
+            >
+              Message sent — we'll be in touch soon.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="py-6">
+    <div
+      class="
+        max-w-7xl mx-auto px-6 lg:px-8
+        flex flex-col sm:flex-row items-center justify-between gap-3
+      "
+    >
+      <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">
+        © {new Date().getFullYear()} {data.company}. All rights reserved.
+      </p>
+      <p class="font-mono text-xs text-[var(--muted-foreground)] opacity-50">
+        Data · AI · Web
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById('contact-form');
+    var status = document.getElementById('form-status');
+    var submit = document.getElementById('contact-submit');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!submit || !status) return;
+      submit.setAttribute('disabled', '');
+      submit.textContent = 'Sending…';
+      /* Wire to your actual endpoint here */
+      setTimeout(function () {
+        status.classList.remove('hidden');
+        submit.removeAttribute('disabled');
+        submit.textContent = 'Send message →';
+        form.reset();
+      }, 1000);
+    });
+  })();
+</script>

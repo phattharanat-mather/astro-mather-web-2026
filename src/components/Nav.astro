@@ -1,0 +1,179 @@
+---
+import { ThemeSwitcher } from './ThemeSwitcher';
+import type { NavData } from '@/content-definition/home';
+
+interface Props {
+  data: NavData;
+}
+
+const { data } = Astro.props;
+---
+
+<header
+  id="site-nav"
+  class="
+    fixed top-0 inset-x-0 z-50
+    border-b border-[var(--line)]
+    bg-[var(--background)]/80 backdrop-blur-md
+    transition-colors duration-150
+  "
+>
+  <nav
+    class="
+      max-w-7xl mx-auto px-6 lg:px-8
+      h-14 flex items-center justify-between gap-8
+    "
+    aria-label="Main navigation"
+  >
+    <!-- Logo -->
+    <a href="/" class="shrink-0 flex items-center" aria-label="The Mather home">
+      <img
+        src={data.logo.dark}
+        alt="The Mather"
+        class="h-7 w-auto [data-color-preset='dawn']_&:hidden"
+        data-logo-dark
+      />
+      <img
+        src={data.logo.light}
+        alt="The Mather"
+        class="h-7 w-auto hidden [data-color-preset='dawn']_&:block"
+        data-logo-light
+      />
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden lg:flex items-center gap-6 list-none m-0 p-0">
+      {data.links.filter(l => l.label !== 'Contact Us').map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="
+              text-xs font-mono tracking-widest uppercase
+              text-[var(--muted-foreground)]
+              hover:text-[var(--foreground)]
+              transition-colors duration-150
+            "
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Right controls -->
+    <div class="flex items-center gap-3 shrink-0">
+      <ThemeSwitcher client:load />
+
+      <a
+        href="#contact"
+        class="
+          hidden lg:inline-flex items-center
+          px-3 py-1.5 rounded-sm
+          text-xs font-mono tracking-widest uppercase
+          bg-[var(--primary)] text-[var(--primary-foreground)]
+          hover:opacity-90
+          transition-opacity duration-150
+        "
+      >
+        Contact
+      </a>
+
+      <!-- Mobile hamburger -->
+      <button
+        id="nav-toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="nav-drawer"
+        class="lg:hidden flex flex-col justify-center gap-1.5 w-8 h-8 text-[var(--foreground)]"
+      >
+        <span class="block h-px w-6 bg-current transition-transform duration-200" data-bar="1"></span>
+        <span class="block h-px w-6 bg-current transition-opacity duration-200" data-bar="2"></span>
+        <span class="block h-px w-6 bg-current transition-transform duration-200" data-bar="3"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div
+    id="nav-drawer"
+    class="
+      lg:hidden hidden
+      border-t border-[var(--line)]
+      bg-[var(--background)]
+      px-6 py-6
+    "
+  >
+    <ul class="flex flex-col gap-4 list-none m-0 p-0">
+      {data.links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="
+              block text-sm font-mono tracking-widest uppercase
+              text-[var(--muted-foreground)]
+              hover:text-[var(--foreground)]
+              transition-colors duration-150
+            "
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('nav-toggle');
+    var drawer = document.getElementById('nav-drawer');
+    if (!btn || !drawer) return;
+
+    btn.addEventListener('click', function () {
+      var open = drawer.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', String(!open));
+      var bars = btn.querySelectorAll('[data-bar]');
+      if (!open) {
+        bars[0].style.transform = 'translateY(6px) rotate(45deg)';
+        bars[1].style.opacity = '0';
+        bars[2].style.transform = 'translateY(-6px) rotate(-45deg)';
+      } else {
+        bars[0].style.transform = '';
+        bars[1].style.opacity = '';
+        bars[2].style.transform = '';
+      }
+    });
+
+    /* Close drawer when a link is clicked */
+    drawer.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        drawer.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+        var bars = btn.querySelectorAll('[data-bar]');
+        bars[0].style.transform = '';
+        bars[1].style.opacity = '';
+        bars[2].style.transform = '';
+      });
+    });
+
+    /* Logo swap based on active preset */
+    function syncLogo() {
+      var preset = document.documentElement.dataset.colorPreset || 'cosmos';
+      var dark = document.querySelector('[data-logo-dark]');
+      var light = document.querySelector('[data-logo-light]');
+      if (!dark || !light) return;
+      if (preset === 'dawn') {
+        dark.style.display = 'none';
+        light.style.display = 'block';
+      } else {
+        dark.style.display = 'block';
+        light.style.display = 'none';
+      }
+    }
+
+    syncLogo();
+
+    var observer = new MutationObserver(syncLogo);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-preset'] });
+  })();
+</script>

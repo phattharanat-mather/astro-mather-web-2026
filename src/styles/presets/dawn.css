@@ -1,0 +1,32 @@
+/* Hallmark preset: dawn · paper: light lavender · accent: violet + cyan · light mode */
+
+[data-color-preset="dawn"] {
+  --background:          oklch(0.97 0.015 275);
+  --foreground:          oklch(0.14 0.040 265);
+  --card:                oklch(1 0 0 / 85%);
+  --card-foreground:     oklch(0.14 0.040 265);
+  --popover:             oklch(1 0 0);
+  --popover-foreground:  oklch(0.14 0.040 265);
+  --primary:             oklch(0.52 0.26 272);
+  --primary-foreground:  oklch(1 0 0);
+  --secondary:           oklch(0.48 0.14 200);
+  --secondary-foreground:oklch(1 0 0);
+  --muted:               oklch(0.93 0.015 275);
+  --muted-foreground:    oklch(0.50 0.020 260);
+  --accent:              oklch(0.60 0.22 350);
+  --accent-foreground:   oklch(1 0 0);
+  --destructive:         oklch(0.58 0.24 27);
+  --border:              oklch(0.52 0.26 272 / 12%);
+  --input:               oklch(0.52 0.26 272 / 12%);
+  --ring:                oklch(0.52 0.26 272);
+  --radius:              0.25rem;
+
+  /* Extended brand tokens */
+  --surface:             oklch(1 0 0);
+  --headline1:           oklch(0.52 0.26 272);
+  --headline2:           oklch(0.40 0.14 200);
+  --ink:                 oklch(0.14 0.040 265);
+  --line:                oklch(0 0 0 / 7%);
+  --line-strong:         oklch(0 0 0 / 15%);
+  --grad:                linear-gradient(135deg, oklch(0.52 0.26 272), oklch(0.48 0.14 200));
+}
