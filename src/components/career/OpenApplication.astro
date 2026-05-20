@@ -1,0 +1,51 @@
+---
+interface Props {
+  email: string;
+}
+
+const { email } = Astro.props;
+---
+
+<section class="border-t border-[var(--line)] py-20 bg-[var(--surface)]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 items-start" data-reveal>
+      <div>
+        <p class="font-mono text-xs tracking-widest uppercase text-[var(--primary)] mb-4">
+          Don't see your role?
+        </p>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mb-4" style="color: var(--ink);">
+          Apply anyway
+        </h2>
+        <p class="text-[var(--muted-foreground)] leading-relaxed max-w-prose">
+          Our listed positions are only a snapshot. If you think you have something to contribute —
+          whether in engineering, data, design, or anything else — we are always happy to hear from you.
+          Send us a note and we will get back to you when there is a fit.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex flex-col gap-1.5">
+          <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">To</p>
+          <a
+            href={`mailto:${email}?subject=Open Application`}
+            class="font-mono text-sm text-[var(--primary)] hover:underline"
+          >
+            {email}
+          </a>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">Subject</p>
+          <p class="font-mono text-sm text-[var(--foreground)]">Open Application — [Your Name / Area]</p>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">Include</p>
+          <ul class="font-mono text-sm text-[var(--muted-foreground)] space-y-1 list-none p-0 m-0">
+            <li>— What you do and what you are looking for</li>
+            <li>— Your CV or LinkedIn profile</li>
+            <li>— Any relevant work samples or portfolio links</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

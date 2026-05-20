@@ -1,0 +1,94 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  summary: string;
+  postedDate: string;
+  salary?: string;
+  index?: number;
+}
+
+const { slug, title, department, location, type, summary, postedDate, salary, index = 0 } = Astro.props;
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+---
+
+<a
+  href={`/careers/${slug}`}
+  class="
+    group flex flex-col sm:flex-row sm:items-center justify-between
+    gap-4 p-8 bg-[var(--background)]
+    hover:bg-[var(--card)]
+    transition-colors duration-150
+  "
+  data-reveal
+  style={`transition-delay: ${index * 60}ms`}
+>
+  <div class="flex flex-col gap-2">
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="font-mono text-xs tracking-widest uppercase text-[var(--primary)]">
+        {department}
+      </span>
+      <span class="font-mono text-xs text-[var(--muted-foreground)]">·</span>
+      <span class="font-mono text-xs tracking-wide text-[var(--muted-foreground)]">
+        {type}
+      </span>
+      <span class="font-mono text-xs text-[var(--muted-foreground)]">·</span>
+      <span class="font-mono text-xs tracking-wide text-[var(--muted-foreground)]">
+        {location}
+      </span>
+    </div>
+    <h2
+      class="
+        text-lg font-semibold leading-snug
+        group-hover:text-[var(--primary)]
+        transition-colors duration-150
+      "
+      style="color: var(--ink);"
+    >
+      {title}
+    </h2>
+    <p class="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-prose line-clamp-2">
+      {summary}
+    </p>
+  </div>
+
+  <div class="flex flex-col items-start sm:items-end gap-2 shrink-0">
+    {salary && (
+      <span class="font-mono text-xs tracking-wide text-[var(--foreground)]">
+        {salary}
+      </span>
+    )}
+    <span class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">
+      Posted {formatDate(postedDate)}
+    </span>
+    <span
+      class="
+        font-mono text-xs tracking-widest uppercase
+        text-[var(--muted-foreground)]
+        group-hover:text-[var(--primary)]
+        transition-colors duration-150
+        inline-flex items-center gap-1
+      "
+    >
+      View role
+      <span
+        aria-hidden="true"
+        class="
+          inline-block translate-x-0
+          group-hover:translate-x-1
+          transition-transform duration-150
+        "
+      >→</span>
+    </span>
+  </div>
+</a>

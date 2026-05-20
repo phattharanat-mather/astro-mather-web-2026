@@ -49,6 +49,10 @@ export const nav = {
   ],
 };
 
+export const careers = {
+  email: "careers@themather.asia",
+};
+
 export const footer = {
   tagline: "The right partner is closer than you think.",
   cta: "Let's talk.",

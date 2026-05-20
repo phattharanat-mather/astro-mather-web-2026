@@ -3,7 +3,8 @@ import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Nav from '@/components/Nav.astro';
 import ContactFooter from '@/components/home/ContactFooter.astro';
-import { siteConfig, nav, footer } from '@/data/site';
+import HowToApply from '@/components/career/HowToApply.astro';
+import { siteConfig, nav, footer, careers } from '@/data/site';
 
 export async function getStaticPaths() {
   const positions = await getCollection('openPositions');
@@ -77,24 +78,9 @@ function formatDate(date: Date) {
           {position.data.summary}
         </p>
 
-        <div class="mt-8 flex flex-col gap-3">
-          <a
-            href={`mailto:${footer.contact.email}?subject=Application: ${position.data.title}`}
-            class="
-              inline-flex items-center gap-2
-              px-6 py-3 rounded-sm
-              font-mono text-sm tracking-widest uppercase
-              bg-[var(--primary)] text-[var(--primary-foreground)]
-              btn-glow self-start
-            "
-          >
-            Apply now
-            <span aria-hidden="true">→</span>
-          </a>
-          <p class="font-mono text-xs text-[var(--muted-foreground)]">
-            Posted {formatDate(position.data.postedDate)}
-          </p>
-        </div>
+        <p class="mt-6 font-mono text-xs text-[var(--muted-foreground)]">
+          Posted {formatDate(position.data.postedDate)}
+        </p>
       </div>
     </div>
 
@@ -119,45 +105,7 @@ function formatDate(date: Date) {
       </div>
     </article>
 
-    <!-- How to apply -->
-    <div class="border-t border-[var(--line)] py-16 bg-[var(--surface)]">
-      <div class="max-w-3xl mx-auto px-6 lg:px-8" data-reveal>
-        <p class="font-mono text-xs tracking-widest uppercase text-[var(--primary)] mb-4">
-          How to apply
-        </p>
-        <h2 class="text-2xl font-bold tracking-tight mb-4" style="color: var(--ink);">
-          Send us an email
-        </h2>
-        <p class="text-[var(--muted-foreground)] leading-relaxed mb-8 max-w-prose">
-          Send your CV and a short note about why you are interested in this role to the address below.
-          Use <span class="font-mono text-[var(--foreground)]">Application: {position.data.title}</span> as
-          the subject line so we can route it to the right person.
-        </p>
-        <div class="space-y-4">
-          <div class="flex flex-col gap-1.5">
-            <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">To</p>
-            <a
-              href={`mailto:${footer.contact.email}?subject=Application: ${position.data.title}`}
-              class="font-mono text-sm text-[var(--primary)] hover:underline"
-            >
-              {footer.contact.email}
-            </a>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">Subject</p>
-            <p class="font-mono text-sm text-[var(--foreground)]">Application: {position.data.title}</p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">Include</p>
-            <ul class="font-mono text-sm text-[var(--muted-foreground)] space-y-1 list-none p-0 m-0">
-              <li>— Your CV or LinkedIn profile</li>
-              <li>— A brief intro (2–3 sentences) on why this role interests you</li>
-              <li>— Any relevant work samples or portfolio links</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <HowToApply email={careers.email} positionTitle={position.data.title} />
   </main>
 
   <ContactFooter data={footer} />
