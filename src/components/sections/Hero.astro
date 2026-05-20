@@ -1,6 +1,5 @@
 ---
 import type { HeroData } from '@/content-definition/home';
-import { HeroHeadline } from '@/components/HeroHeadline';
 import { MethodologyMorph } from '@/components/MethodologyMorph';
 import { Boxes } from '@/components/ui/background-boxes';
 
@@ -34,8 +33,10 @@ const { data } = Astro.props;
     <!-- Methodology tag cycling with morphing text -->
     <MethodologyMorph tags={data.methodologyTags} client:load />
 
-    <!-- Headline with hover effect -->
-    <HeroHeadline headline={data.headline} client:load />
+    <!-- Company name -->
+    <h1 class="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-[var(--foreground)] mb-2">
+      {data.headline}
+    </h1>
 
     <!-- Gradient accent line -->
     <div
