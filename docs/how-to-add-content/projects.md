@@ -20,7 +20,7 @@ Each project lives in its own directory. The directory name becomes the entry's 
 
 ## Valid category keys
 
-The tabs are defined in `src/data/home.ts` under `platform.tabs`:
+The tabs are defined in `src/data/project-categories.ts`:
 
 | Key        | Label                    |
 | ---------- | ------------------------ |
@@ -46,7 +46,7 @@ categories: ["web", "ai"]
 
 ## Adding a new tab
 
-To add a new category tab, append an entry to `platform.tabs` in `src/data/home.ts`:
+To add a new category tab, append an entry to `src/data/project-categories.ts`:
 
 ```ts
 { label: "New Category", key: "new-key" }
