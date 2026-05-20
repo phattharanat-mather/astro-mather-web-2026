@@ -1,0 +1,89 @@
+---
+import { getCollection, render } from 'astro:content';
+
+const entries = await getCollection('splashModals');
+const entry = entries
+  .filter((e) => e.data.active)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))[0];
+
+if (!entry) return;
+
+const { Content } = await render(entry);
+const storageKey = `splash-hidden-${entry.id}`;
+---
+
+<div
+  id="splash-modal-backdrop"
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+>
+  <div
+    id="splash-modal"
+    class="relative mx-4 max-w-lg w-full rounded-2xl border border-white/10 bg-[var(--color-surface,#0d0f1c)] p-8 shadow-2xl"
+  >
+    {entry.data.image && (
+      <img
+        src={entry.data.image}
+        alt=""
+        class="mb-6 w-full rounded-xl object-cover max-h-48"
+      />
+    )}
+
+    <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
+      {entry.data.title}
+    </h2>
+
+    <div class="prose prose-invert prose-sm max-w-none text-white/70">
+      <Content />
+    </div>
+
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+      <button
+        id="splash-hide-today"
+        class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10"
+      >
+        Hide for today
+      </button>
+      <button
+        id="splash-close"
+        class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ storageKey }}>
+  (function () {
+    var backdrop = document.getElementById('splash-modal-backdrop');
+
+    var hidden = localStorage.getItem(storageKey);
+    if (hidden) {
+      backdrop.remove();
+      return;
+    }
+
+    function close() {
+      backdrop.remove();
+    }
+
+    document.getElementById('splash-close').addEventListener('click', close);
+
+    document.getElementById('splash-hide-today').addEventListener('click', function () {
+      var midnight = new Date();
+      midnight.setHours(23, 59, 59, 999);
+      localStorage.setItem(storageKey, midnight.getTime().toString());
+      close();
+    });
+
+    backdrop.addEventListener('click', function (e) {
+      if (e.target === backdrop) close();
+    });
+
+    // Expire stale "hide for today" entries
+    var stored = localStorage.getItem(storageKey);
+    if (stored && Date.now() > parseInt(stored, 10)) {
+      localStorage.removeItem(storageKey);
+    }
+  })();
+</script>

@@ -2,6 +2,7 @@
 import '../styles/globals.css';
 import { SEO } from 'astro-seo';
 import { siteConfig } from '../data/site';
+import SplashModal from '../components/SplashModal.astro';
 
 interface Props {
   title?: string;
@@ -70,7 +71,8 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
     </script>
   </head>
 
-  <body>
+  <body style={siteConfig.greyscaleFilter.enable ? `filter: grayscale(${siteConfig.greyscaleFilter.value})` : undefined}>
+    <SplashModal />
     <slot />
 
     <!-- Scroll reveal observer -->

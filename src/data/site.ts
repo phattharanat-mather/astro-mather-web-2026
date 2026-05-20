@@ -27,6 +27,10 @@ export const siteConfig = {
     { name: "void", label: "Void", mode: "dark" },
   ] as const,
   defaultPreset: "cosmos" as const,
+  greyscaleFilter: {
+    enable: false,
+    value: 0.6, // 0.0 = full colour → 1.0 = full grey; recommended 0.5–0.6
+  },
 } as const;
 
 export type ColorPreset = (typeof siteConfig.colorPresets)[number]["name"];
