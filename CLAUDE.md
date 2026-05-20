@@ -69,3 +69,14 @@ src/content-definition/
 - `src/content.config.ts` only imports those exports and re-exports them via `collections`.
 - TypeScript shape interfaces (not Zod schemas) live in `src/content-definition/home.ts`.
 - When adding a new collection: create `src/content-definition/<entity>.ts`, export the collection, then add it to `collections` in `content.config.ts`.
+
+## Documentation maintenance
+
+Whenever you edit or create files in `src/content-definition/` or `src/data/`, update the corresponding documentation to reflect the changes:
+
+| Source changed | Doc to update |
+| --- | --- |
+| `src/content-definition/<entity>.ts` | `docs/how-to-add-content/<entity>.md` (create if missing) |
+| `src/data/site.ts` or `src/data/home.ts` | `docs/how-to-config-site.md` |
+
+Keep the docs accurate — if a field is added, removed, or renamed in the source, the doc must reflect that before the task is considered done.
