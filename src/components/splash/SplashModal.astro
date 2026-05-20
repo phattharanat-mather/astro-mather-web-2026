@@ -15,21 +15,35 @@ const storageKey = `splash-hidden-${entry.id}`;
 const sizeClass = entry.data.size === 'large' ? 'max-w-2xl' : 'max-w-lg';
 
 const img = entry.data.image;
-const isVertical = img && img.height > img.width;
 const hasText = !!entry.data.title;
-const imageOnly = img && !hasText;
+
+// Explicit layout wins; fallback: image-only, text-only, or image-top (default)
+type Layout = 'image-top' | 'image-left' | 'image-right' | 'image-only' | 'text-only';
+let layout: Layout;
+if (entry.data.variant) {
+  layout = entry.data.variant as Layout;
+} else if (!img) {
+  layout = 'text-only';
+} else if (!hasText) {
+  layout = 'image-only';
+} else {
+  layout = 'image-top';
+}
 ---
 
 {entry.data.card3d && img ? (
   <SplashModal3DCard
-    client:load
+    client:only="react"
     imageSrc={img.src}
     imageWidth={img.width}
     imageHeight={img.height}
     title={entry.data.title}
     storageKey={storageKey}
     sizeClass={sizeClass}
-  />
+    variant={layout}
+  >
+    <Content />
+  </SplashModal3DCard>
 ) : (
 <div
   id="splash-modal-backdrop"
@@ -40,8 +54,8 @@ const imageOnly = img && !hasText;
     class={`relative w-full ${sizeClass} rounded-2xl shadow-2xl overflow-hidden border border-white/10 bg-[var(--color-surface,#0d0f1c)]`}
   >
 
-    {/* ── Image-only: full image, buttons below ── */}
-    {imageOnly && (
+    {/* ── Image only ── */}
+    {layout === 'image-only' && img && (
       <>
         <img
           src={img.src}
@@ -61,39 +75,8 @@ const imageOnly = img && !hasText;
       </>
     )}
 
-    {/* ── Vertical image + text: side-by-side ── */}
-    {!imageOnly && img && isVertical && (
-      <div class="flex flex-row">
-        <img
-          src={img.src}
-          alt=""
-          width={img.width}
-          height={img.height}
-          class="w-2/5 shrink-0 object-cover self-stretch"
-        />
-        <div class="flex flex-col p-8">
-          {entry.data.title && (
-            <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
-              {entry.data.title}
-            </h2>
-          )}
-          <div class="prose prose-invert prose-sm max-w-none text-white/70 grow">
-            <Content />
-          </div>
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <button id="splash-hide-today" class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10">
-              Hide for today
-            </button>
-            <button id="splash-close" class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
-
-    {/* ── Horizontal image + text: stacked ── */}
-    {!imageOnly && img && !isVertical && (
+    {/* ── Image top / content bottom ── */}
+    {layout === 'image-top' && img && (
       <>
         <img
           src={img.src}
@@ -123,8 +106,39 @@ const imageOnly = img && !hasText;
       </>
     )}
 
-    {/* ── Text only (no image) ── */}
-    {!img && (
+    {/* ── Image left / content right ── */}
+    {(layout === 'image-left' || layout === 'image-right') && img && (
+      <div class={`flex flex-row${layout === 'image-right' ? '-reverse' : ''}`}>
+        <img
+          src={img.src}
+          alt=""
+          width={img.width}
+          height={img.height}
+          class="w-2/5 shrink-0 object-cover self-stretch"
+        />
+        <div class="flex flex-col p-8">
+          {entry.data.title && (
+            <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
+              {entry.data.title}
+            </h2>
+          )}
+          <div class="prose prose-invert prose-sm max-w-none text-white/70 grow">
+            <Content />
+          </div>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+            <button id="splash-hide-today" class="rounded-lg border border-white/20 px-5 py-2 text-sm text-white/60 transition hover:bg-white/10">
+              Hide for today
+            </button>
+            <button id="splash-close" class="rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-white/90">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* ── Text only ── */}
+    {layout === 'text-only' && (
       <div class="p-8">
         {entry.data.title && (
           <h2 class="mb-4 text-xl font-semibold tracking-tight text-white">
@@ -149,38 +163,37 @@ const imageOnly = img && !hasText;
 </div>
 )}
 
-{!entry.data.card3d && (
-<script define:vars={{ storageKey }}>
-  (function () {
-    var backdrop = document.getElementById('splash-modal-backdrop');
+<script define:vars={{ storageKey, isCard3d: !!entry.data.card3d }}>
+  if (!isCard3d) {
+    (function () {
+      var backdrop = document.getElementById('splash-modal-backdrop');
 
-    // Expire stale "hide for today" entries
-    var stored = localStorage.getItem(storageKey);
-    if (stored && Date.now() > parseInt(stored, 10)) {
-      localStorage.removeItem(storageKey);
-    }
+      var stored = localStorage.getItem(storageKey);
+      if (stored && Date.now() > parseInt(stored, 10)) {
+        localStorage.removeItem(storageKey);
+      }
 
-    if (localStorage.getItem(storageKey)) {
-      backdrop.remove();
-      return;
-    }
+      if (localStorage.getItem(storageKey)) {
+        backdrop.remove();
+        return;
+      }
 
-    function close() {
-      backdrop.remove();
-    }
+      function close() {
+        backdrop.remove();
+      }
 
-    document.getElementById('splash-close').addEventListener('click', close);
+      document.getElementById('splash-close').addEventListener('click', close);
 
-    document.getElementById('splash-hide-today').addEventListener('click', function () {
-      var midnight = new Date();
-      midnight.setHours(23, 59, 59, 999);
-      localStorage.setItem(storageKey, midnight.getTime().toString());
-      close();
-    });
+      document.getElementById('splash-hide-today').addEventListener('click', function () {
+        var midnight = new Date();
+        midnight.setHours(23, 59, 59, 999);
+        localStorage.setItem(storageKey, midnight.getTime().toString());
+        close();
+      });
 
-    backdrop.addEventListener('click', function (e) {
-      if (e.target === backdrop) close();
-    });
-  })();
+      backdrop.addEventListener('click', function (e) {
+        if (e.target === backdrop) close();
+      });
+    })();
+  }
 </script>
-)}
