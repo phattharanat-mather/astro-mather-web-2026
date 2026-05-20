@@ -1,0 +1,47 @@
+---
+title: "Multi-Cloud in 2026: Strategy or Just Complexity?"
+date: 2026-01-15
+excerpt: "Running workloads across AWS, Azure, and GCP sounds like resilience — but for most organizations it's a cost multiplier in disguise. Here's how to think about it clearly."
+author: "The Mather Team"
+---
+
+Multi-cloud is one of those ideas that sounds obviously correct in a boardroom and reveals its costs in an engineering postmortem. Done intentionally, it adds genuine resilience and negotiating leverage. Done reactively, it just means you're bad at two clouds instead of one.
+
+## The Case For Multi-Cloud (When It's Real)
+
+There are legitimate reasons to run across providers:
+
+**Avoiding lock-in on critical services.** If a core part of your stack depends on a proprietary managed service that has no equivalent elsewhere, a provider outage can take you fully down. Distributing that dependency adds real resilience.
+
+**Regulatory geography.** Some data sovereignty requirements force you to run certain workloads in specific regions that only one provider covers. Multi-cloud becomes multi-necessity.
+
+**Best-in-class services.** GCP's BigQuery, Azure's Active Directory integration, AWS's breadth of compute options — specialists exist. If your workload genuinely benefits from a specific provider's strengths, using two providers is a deliberate architectural choice, not sprawl.
+
+## The Case Against (For Most Companies)
+
+Most organizations end up multi-cloud by accident: an acquisition brought its own AWS account, a team preferred Azure, the data science group defaulted to GCP. The result is:
+
+- Three times the IAM complexity
+- No shared networking layer without expensive cross-cloud egress
+- Three sets of cost optimization strategies that rarely get full attention
+- Engineering talent split across three ecosystems
+
+The operational overhead is real and often invisible until it isn't.
+
+## A Practical Framework
+
+Before adopting (or endorsing) a multi-cloud strategy, answer three questions:
+
+1. **What specific risk does this mitigate?** "It reduces vendor dependence" is not an answer. Name the failure scenario.
+2. **What is the engineering cost to maintain it?** Estimate actual hours per quarter for networking, security posture, and tooling alignment.
+3. **Is the risk worth the cost?** Most companies running under $5M/year in cloud spend will find the answer is no.
+
+For companies where the answer is yes — typically large enterprises with regulatory requirements or genuinely distributed global user bases — multi-cloud architecture done well requires an internal platform team that owns the abstraction layer.
+
+## The Hybrid Alternative
+
+For many mid-market companies, the better answer is single-cloud with serious availability zone distribution and an aggressive SLA from the provider. You get most of the resilience with a fraction of the operational complexity.
+
+---
+
+Evaluating your cloud architecture? [We can help you cut through the noise](#contact) and make a decision that fits your actual risk profile.

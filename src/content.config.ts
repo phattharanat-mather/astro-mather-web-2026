@@ -16,7 +16,7 @@ const services = defineCollection({
 });
 
 const blog = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/blog' }),
+  loader: glob({ pattern: '**/index.mdx', base: './src/content/blogs' }),
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),

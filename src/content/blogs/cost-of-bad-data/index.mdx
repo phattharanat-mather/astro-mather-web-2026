@@ -1,0 +1,40 @@
+---
+title: "The Hidden Cost of Bad Data (And How to Fix It)"
+date: 2026-03-18
+excerpt: "Poor data quality doesn't just slow down analytics — it erodes trust, inflates costs, and quietly kills AI initiatives before they start."
+author: "The Mather Team"
+---
+
+Most organizations underestimate what bad data actually costs them. It's not just wrong reports — it's wasted engineering hours, failed AI projects, and decisions made on a foundation of sand.
+
+## The Numbers Are Worse Than You Think
+
+Industry estimates consistently put the cost of poor data quality at 15–25% of revenue for large enterprises. The causes are mundane: duplicate records, inconsistent formats, missing fields, stale values that were never updated after a business process changed.
+
+The damage compounds over time. A CRM with 30% duplicate contacts doesn't just produce bad marketing metrics — it corrupts any model you train on it.
+
+## Where Bad Data Hides
+
+The most dangerous data quality problems are the ones nobody notices:
+
+- **Silent nulls** — fields that appear populated but contain placeholder values ("N/A", "0", "unknown") that get treated as real data downstream
+- **Schema drift** — upstream systems change a field's meaning or format without telling anyone; pipelines keep running, but the semantics are wrong
+- **Survivorship bias in historical data** — records for churned customers, discontinued products, or closed accounts are deleted instead of archived, poisoning trend analysis
+
+## A Practical Fix: Data Quality at the Source
+
+Fixing data quality in the warehouse after the fact is expensive and slow. The better approach is pushing validation upstream — to the systems that create records.
+
+Concrete steps that actually work:
+
+1. **Define non-negotiable fields** per entity type and enforce them at the API or form layer, not just in ETL
+2. **Instrument your pipelines** with data quality checks (Great Expectations, dbt tests) that fail loudly rather than silently pass bad data through
+3. **Assign data stewards** — technical ownership of data quality produces better outcomes than governance committees alone
+
+## AI Makes This Urgent
+
+If you're planning an AI initiative, data quality is not a precondition you can defer. Models trained on dirty data don't generalize — they amplify noise. Cleaning data after a model underperforms costs more than preventing the problem up front.
+
+---
+
+A data quality audit is usually the highest-ROI first step we recommend. [Start the conversation](#contact).

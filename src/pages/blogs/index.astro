@@ -14,7 +14,7 @@ const blogCollection = await getCollection('blog');
 const articles = blogCollection
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .map((e) => ({
-    slug: e.id,
+    slug: e.id.replace(/\/index$/, ''),
     title: e.data.title,
     date: e.data.date.toISOString().split('T')[0],
     excerpt: e.data.excerpt,
