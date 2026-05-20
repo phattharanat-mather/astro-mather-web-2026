@@ -16,6 +16,7 @@ const { data } = Astro.props;
     border-b border-[var(--line)]
     bg-[var(--background)]/80 backdrop-blur-md
     transition-colors duration-150
+    hero-nav
   "
 >
   <nav
@@ -71,8 +72,7 @@ const { data } = Astro.props;
           px-3 py-1.5 rounded-sm
           text-xs font-mono tracking-widest uppercase
           bg-[var(--primary)] text-[var(--primary-foreground)]
-          hover:opacity-90
-          transition-opacity duration-150
+          btn-glow
         "
       >
         Contact

@@ -31,18 +31,23 @@ const { data } = Astro.props;
   <div class="relative z-10 max-w-7xl mx-auto w-full lg:px-8">
 
     <!-- Methodology tag cycling with morphing text -->
-    <MethodologyMorph tags={data.methodologyTags} client:load />
+    <div class="hero-item" style="--delay: 100ms">
+      <MethodologyMorph tags={data.methodologyTags} client:load />
+    </div>
 
     <!-- Company name -->
-    <h1 class="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-[var(--foreground)] mb-2">
+    <h1
+      class="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-[var(--foreground)] mb-2 hero-item"
+      style="--delay: 250ms"
+    >
       {data.headline}
     </h1>
 
-    <!-- Gradient accent line -->
+    <!-- Gradient accent line — scans in from left -->
     <div
       aria-hidden="true"
-      class="mt-2 mb-8 h-px w-24"
-      style="background: var(--grad);"
+      class="mt-2 mb-8 h-px w-24 hero-line"
+      style="--delay: 440ms; background: var(--grad);"
     ></div>
 
     <!-- Subheadline -->
@@ -50,14 +55,15 @@ const { data } = Astro.props;
       class="
         text-lg sm:text-xl max-w-xl leading-relaxed
         text-[var(--muted-foreground)]
+        hero-item
       "
-      data-reveal
+      style="--delay: 560ms"
     >
       {data.subheadline}
     </p>
 
     <!-- CTA -->
-    <div class="mt-10 flex flex-wrap items-center gap-4" data-reveal>
+    <div class="mt-10 flex flex-wrap items-center gap-4 hero-item" style="--delay: 700ms">
       <a
         href={data.cta.href}
         class="
@@ -65,8 +71,7 @@ const { data } = Astro.props;
           px-5 py-2.5 rounded-sm
           text-sm font-mono tracking-widest uppercase
           bg-[var(--primary)] text-[var(--primary-foreground)]
-          hover:opacity-90
-          transition-opacity duration-150
+          btn-glow
           focus-visible:outline-2 focus-visible:outline-offset-2
         "
       >
@@ -97,8 +102,9 @@ const { data } = Astro.props;
         border-t border-[var(--line)]
         grid grid-cols-2 sm:grid-cols-3 gap-8
         max-w-lg
+        hero-item
       "
-      data-reveal
+      style="--delay: 860ms"
     >
       <div>
         <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-1">Services</p>

@@ -57,7 +57,7 @@ export function PlatformSolutions({ data }: Props) {
 
         {/* Projects grid or placeholder */}
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div key={activeKey} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-fade-up">
             {filtered.map((project, i) => (
               <a
                 key={i}
@@ -81,8 +81,9 @@ export function PlatformSolutions({ data }: Props) {
           </div>
         ) : (
           <div
+            key={activeKey}
             className="
-              grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4
+              grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 animate-fade-up
             "
             aria-label="Project placeholders"
           >

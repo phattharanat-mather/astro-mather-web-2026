@@ -118,3 +118,86 @@
     }
   }
 }
+
+/* ─── Hero entrance choreography ──────────────────────────────────────────── */
+@keyframes instrument-power-on {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Accent line wipes in from left — scanner effect */
+@keyframes line-scan {
+  from { clip-path: inset(0 100% 0 0); opacity: 0; }
+  to   { clip-path: inset(0 0 0 0);    opacity: 1; }
+}
+
+/* Nav slides in from top */
+@keyframes nav-drop {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Tab content entrance */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hero-item {
+  animation: instrument-power-on var(--dur-slow) var(--ease-out) var(--delay, 0ms) both;
+}
+
+.hero-line {
+  animation: line-scan 500ms var(--ease-out) var(--delay, 0ms) both;
+}
+
+.hero-nav {
+  animation: nav-drop 350ms var(--ease-out) 50ms both;
+}
+
+.animate-fade-up {
+  animation: fade-up 300ms var(--ease-out) both;
+}
+
+/* ─── Primary button hover glow ───────────────────────────────────────────── */
+.btn-glow {
+  transition: filter 250ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-glow:hover {
+  filter: brightness(1.14);
+  box-shadow: 0 0 22px color-mix(in oklch, var(--primary) 42%, transparent);
+}
+
+/* ─── Contact form input focus glow ───────────────────────────────────────── */
+#contact-form input:focus,
+#contact-form textarea:focus {
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--primary) 22%, transparent);
+}
+
+/* ─── Reduced motion overrides ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-item,
+  .hero-line,
+  .hero-nav {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+
+  .animate-fade-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .btn-glow {
+    transition: none;
+  }
+
+  #contact-form input:focus,
+  #contact-form textarea:focus {
+    box-shadow: none;
+  }
+}
