@@ -12,14 +12,14 @@ Projects are grouped by year. The full path `yyyy/slug` becomes the entry's ID a
 
 ## Frontmatter fields
 
-| Field        | Type       | Required | Description                                             |
-| ------------ | ---------- | -------- | ------------------------------------------------------- |
-| `title`      | `string`   | yes      | Project name shown on the card                          |
-| `year`       | `number`   | yes      | Project year (e.g. `2026`)                              |
-| `categories` | `string[]` | yes      | One or more tab keys (e.g. `["web", "ai"]`)             |
-| `image`      | `string`   | no       | Path to an image asset (e.g. `/images/my-project.jpg`)  |
-| `featured`   | `boolean`  | no       | If `true`, card links to `/projects/<yyyy>/<slug>`      |
-| `archived`   | `boolean`  | no       | If `true`, project is hidden from the portfolio grid    |
+| Field        | Type       | Required | Description                                                    |
+| ------------ | ---------- | -------- | -------------------------------------------------------------- |
+| `title`      | `string`   | yes      | Project name shown on the card                                 |
+| `year`       | `number`   | yes      | Project year (e.g. `2026`)                                     |
+| `categories` | `string[]` | yes      | One or more tab keys (e.g. `["web", "ai"]`)                    |
+| `image`      | image      | no       | Co-located image file processed by Astro's image pipeline      |
+| `featured`   | `boolean`  | no       | If `true`, card links to `/projects/<yyyy>/<slug>`             |
+| `archived`   | `boolean`  | no       | If `true`, project is hidden from the portfolio grid           |
 
 ## Valid category keys
 
@@ -33,6 +33,32 @@ The tabs are defined in `src/data/project-categories.ts`:
 | `ai`       | AI                       |
 
 A project with multiple categories appears in each matching tab.
+
+## Adding a cover image
+
+The `image` field uses Astro's `image()` schema helper — the image is processed and optimized at build time.
+
+**Where to place the file:** inside an `images/` subfolder within the project folder:
+
+```
+src/content/projects/2026/my-project/
+├── index.mdx
+└── images/
+    └── cover.jpg
+```
+
+**How to reference it in frontmatter:** use a path relative to `index.mdx`:
+
+```mdx
+---
+title: "My Project"
+year: 2026
+categories: ["web", "ai"]
+image: "./images/cover.jpg"
+---
+```
+
+> Do not use a `/public` path (e.g. `/images/...`). The `image()` helper only works with co-located files referenced by relative path.
 
 ## Example
 

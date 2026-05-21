@@ -61,6 +61,26 @@ We're expanding our practice in **AI Engineering**, **Data Strategy**, and **Dig
 Whether you're building your first data pipeline or scaling an enterprise AI platform — let's talk about what's possible.
 ```
 
+## Adding an image
+
+The `image` field uses Astro's `image()` schema helper — the file is optimized at build time.
+
+**Where to place the file:** directly inside the modal's folder (no subfolder needed):
+
+```
+src/content/splash-modals/your-modal-slug/
+├── index.mdx
+└── cover.jpg
+```
+
+**How to reference it in frontmatter:** use a relative path with `./`:
+
+```mdx
+image: "./cover.jpg"
+```
+
+> Do not use a `/public` path. The `image()` helper only works with co-located files referenced by relative path.
+
 ## Showing / hiding a modal
 
 - To show a modal: set `active: true`.

@@ -43,11 +43,31 @@ The world moves faster than ever — more complex, more unpredictable. AI and da
 
 ## Adding a portrait image
 
-1. Place the image in the entry's folder (recommended filename: `image.png` or `image.webp`).
-2. Set `image: "./image.png"` in frontmatter.
-3. Astro processes this through its image pipeline — use a high-quality original (at least 400×400 px); Astro will optimise it at build time.
+The `image` field uses Astro's `image()` schema helper — the file is optimized at build time.
 
-> The `image` field uses Astro's `image()` helper, so the path **must** be relative (`./image.png`), not an absolute or public path.
+**Where to place the file:** directly inside the entry's folder:
+
+```
+src/content/founder-quotes/firstname-lastname-initial/
+├── index.mdx
+└── image.png          ← recommended filename
+```
+
+**How to reference it in frontmatter:**
+
+```mdx
+image: "./image.png"
+```
+
+Use a high-quality original (at least 400×400 px). Astro will resize and optimise it at build time.
+
+> The path must be relative to `index.mdx` (start with `./` or `../`). Do not use a `/public` path.
+
+**Reusing an image from another entry** (e.g. a second quote by the same person):
+
+```mdx
+image: "../somprasonk-g/image.png"
+```
 
 ## Controlling display order
 
