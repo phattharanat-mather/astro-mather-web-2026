@@ -36,8 +36,8 @@ const rendered = await Promise.all(
         {data.heading}
       </p>
       <h2
-        class="text-2xl sm:text-3xl font-bold tracking-tight leading-snug"
-        style="background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
+        class="text-2xl sm:text-3xl font-black tracking-tighter leading-snug"
+        style="color: var(--primary);"
       >
         {data.tagline}
       </h2>
@@ -54,7 +54,7 @@ const rendered = await Promise.all(
           inline-flex items-center gap-3
           px-5 py-3 rounded-sm
           border border-[var(--primary)]
-          font-mono text-xs tracking-widest uppercase
+          font-sans text-sm font-medium
           text-[var(--primary)]
           hover:bg-[var(--primary)] hover:text-[var(--primary-foreground)]
           transition-colors duration-150
