@@ -55,7 +55,7 @@ const clients = {
   ...clientsMeta,
   items: clientsCollection
     .sort((a, b) => a.id.localeCompare(b.id))
-    .map((e) => ({ name: e.data.name, logo: e.data.logo, year: parseInt(e.id.split('/')[0]) })),
+    .map((e) => ({ name: e.data.name, logo: e.data.logo, year: e.data.year })),
 };
 
 /* ── Value props collection ─────────────────────────── */

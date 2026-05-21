@@ -82,18 +82,16 @@ export interface ClientsData {
   items: ClientItem[];
 }
 
-export interface TeamMember {
+export interface TeamDiscipline {
+  index: string;
   name: string;
-  role: string;
-  department: string;
-  image?: string;
+  description: string;
 }
 
 export interface TeamData {
   heading: string;
   intro: string;
-  departments: string[];
-  members: TeamMember[];
+  disciplines: TeamDiscipline[];
 }
 
 export interface TestimonialsData {

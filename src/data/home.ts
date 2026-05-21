@@ -33,21 +33,35 @@ export const clients = {
 };
 
 export const team = {
-  heading: "Meet the Team",
-  intro: "Five specialized teams, one goal — results that matter.",
-  departments: [
-    "Business Development",
-    "Data and AI Engineer",
-    "Designer",
-    "Software Development",
-    "Client Service",
+  heading: "Our Disciplines",
+  intro: "Five specialized teams structured to deliver end-to-end.",
+  disciplines: [
+    {
+      index: "01",
+      name: "Business Development",
+      description: "Scoping engagements, qualifying requirements, and structuring the right solution before a line of code is written.",
+    },
+    {
+      index: "02",
+      name: "Data & AI Engineering",
+      description: "Pipelines, models, and research infrastructure: from raw data to production-grade AI systems.",
+    },
+    {
+      index: "03",
+      name: "Design",
+      description: "Product and interface design for complex systems, built for real users under real constraints.",
+    },
+    {
+      index: "04",
+      name: "Software Development",
+      description: "Web, mobile, and custom platform engineering across the full stack.",
+    },
+    {
+      index: "05",
+      name: "Client Service",
+      description: "Delivery oversight, stakeholder communication, and ongoing partnership after launch.",
+    },
   ],
-  members: [] as {
-    name: string;
-    role: string;
-    department: string;
-    image?: string;
-  }[],
 };
 
 export const testimonials = {

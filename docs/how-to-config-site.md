@@ -192,21 +192,19 @@ export const clients = {
 
 ### `team`
 
-Team section heading, department filters, and member list.
+Team section heading and disciplines list. Each discipline is a full-width row showing an index number, team name, and a one-line description of what that team delivers.
 
 ```ts
 export const team = {
-  heading: "Meet the Team",
-  intro: "Five specialized teams, one goal — results that matter.",
-  departments: [
-    "Business Development",
-    "Data and AI Engineer",
-    // ...
-  ],
-  members: [
-    { name: "Jane Doe", role: "Lead Engineer", department: "Data and AI Engineer", image: "/team/jane.jpg" },
-    // department must match an entry in departments[]
-    // image is optional; omit or set undefined for a placeholder avatar
+  heading: "Our Disciplines",
+  intro: "Five specialized teams structured to deliver end-to-end.",
+  disciplines: [
+    {
+      index: "01",
+      name: "Business Development",
+      description: "Scoping engagements, qualifying requirements, and structuring the right solution before a line of code is written.",
+    },
+    // add or edit disciplines here; index is a zero-padded display string, not a sort key
   ],
 };
 ```

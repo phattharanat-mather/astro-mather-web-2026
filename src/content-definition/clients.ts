@@ -3,8 +3,9 @@ import { glob } from 'astro/loaders';
 
 export const clients = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/clients' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     name: z.string(),
-    logo: z.string().optional(),
+    year: z.number().optional(),
+    logo: image().optional(),
   }),
 });
