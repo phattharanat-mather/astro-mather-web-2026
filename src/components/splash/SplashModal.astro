@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import SplashModal3DCard from './SplashModal3DCard.tsx';
 import { X } from 'lucide-react';
 
-const entries = await getCollection('splashModals');
+const entries = await getCollection('announcements');
 const entry = entries
   .filter((e) => e.data.active)
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))[0];

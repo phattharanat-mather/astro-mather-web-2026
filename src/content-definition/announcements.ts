@@ -1,10 +1,10 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
-export const splashModals = defineCollection({
+export const announcements = defineCollection({
   loader: glob({
     pattern: "**/index.mdx",
-    base: "./src/content/splash-modals",
+    base: "./src/content/announcements",
   }),
   schema: ({ image }) =>
     z.object({

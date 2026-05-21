@@ -1,12 +1,12 @@
-# How to Add a Splash Modal
+# How to Add an Announcement
 
-Splash modals live in `src/content/splash-modals/`. Each modal is a folder containing an `index.mdx` file and any co-located images.
+Announcements live in `src/content/announcements/`. Each announcement is a folder containing an `index.mdx` file and any co-located images.
 
 ## Folder structure
 
 ```
-src/content/splash-modals/
-└── your-modal-slug/
+src/content/announcements/
+└── your-announcement-slug/
     ├── index.mdx        ← required
     └── cover.jpg        ← optional co-located image
 ```
@@ -65,10 +65,10 @@ Whether you're building your first data pipeline or scaling an enterprise AI pla
 
 The `image` field uses Astro's `image()` schema helper — the file is optimized at build time.
 
-**Where to place the file:** directly inside the modal's folder (no subfolder needed):
+**Where to place the file:** directly inside the announcement's folder (no subfolder needed):
 
 ```
-src/content/splash-modals/your-modal-slug/
+src/content/announcements/your-announcement-slug/
 ├── index.mdx
 └── cover.jpg
 ```
@@ -81,11 +81,11 @@ image: "./cover.jpg"
 
 > Do not use a `/public` path. The `image()` helper only works with co-located files referenced by relative path.
 
-## Showing / hiding a modal
+## Showing / hiding an announcement
 
-- To show a modal: set `active: true`.
-- To hide a modal without deleting it: set `active: false`.
-- Only one modal should have `active: true` at a time unless the display logic is designed for multiple.
+- To show an announcement: set `active: true`.
+- To hide an announcement without deleting it: set `active: false`.
+- Only one announcement should have `active: true` at a time unless the display logic is designed for multiple.
 
 ## Checklist
 
