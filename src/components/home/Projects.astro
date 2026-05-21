@@ -8,12 +8,14 @@ interface Props {
 
 const { data } = Astro.props;
 
-const INITIAL_LIMIT = 6;
+const INITIAL_LIMIT = 5;
 
 const grouped = Object.fromEntries(
   data.tabs.map((tab) => [
     tab.key,
-    data.projects.filter((p) => p.categories.includes(tab.key)),
+    data.projects
+      .filter((p) => p.categories.includes(tab.key))
+      .sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)),
   ])
 );
 ---
