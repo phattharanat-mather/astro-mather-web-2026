@@ -1,8 +1,8 @@
 import { services } from './content-definition/services';
 import { blogs } from './content-definition/blogs';
-import { founderQuotes } from './content-definition/founder-quotes';
+import { testimonials } from './content-definition/testimonials';
 import { announcements } from './content-definition/announcements';
 import { openPositions } from './content-definition/open-positions';
 import { projects } from './content-definition/projects';
 
-export const collections = { services, blogs, founderQuotes, announcements, openPositions, projects };
+export const collections = { services, blogs, testimonials, announcements, openPositions, projects };

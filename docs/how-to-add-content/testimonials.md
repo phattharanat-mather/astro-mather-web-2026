@@ -1,11 +1,11 @@
-# How to Add a Founder Quote
+# How to Add a Testimonial
 
-Founder quotes live in `src/content/founder-quotes/`. Each entry is a folder containing an `index.mdx` file and an optional portrait image.
+Testimonials live in `src/content/testimonials/`. Each entry is a folder containing an `index.mdx` file and an optional portrait image.
 
 ## Folder structure
 
 ```
-src/content/founder-quotes/
+src/content/testimonials/
 └── firstname-lastname-initial/
     ├── index.mdx        ← required
     └── image.png        ← optional portrait photo
@@ -48,7 +48,7 @@ The `image` field uses Astro's `image()` schema helper — the file is optimized
 **Where to place the file:** directly inside the entry's folder:
 
 ```
-src/content/founder-quotes/firstname-lastname-initial/
+src/content/testimonials/firstname-lastname-initial/
 ├── index.mdx
 └── image.png          ← recommended filename
 ```
