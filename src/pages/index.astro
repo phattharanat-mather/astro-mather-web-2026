@@ -16,7 +16,7 @@ import ContactFooter from '@/components/home/ContactFooter.astro';
 import { siteConfig, nav, footer } from '@/data/site';
 import {
   hero, ourServices as ourServicesMeta,
-  platform, valueProps, clients, team,
+  platform, valueProps as valuePropsMeta, clients, team,
   testimonials, blog as blogMeta,
 } from '@/data/home';
 import { projectCategories } from '@/data/project-categories';
@@ -47,6 +47,15 @@ const platformData = {
       image: e.data.image,
       featured: e.data.featured,
     })),
+};
+
+/* ── Value props collection ─────────────────────────── */
+const valuePropsCollection = await getCollection('valueProps');
+const valueProps = {
+  ...valuePropsMeta,
+  items: valuePropsCollection
+    .sort((a, b) => a.data.index.localeCompare(b.data.index))
+    .map((e) => ({ title: e.data.title, description: e.data.description })),
 };
 
 /* ── Blog collection ────────────────────────────────── */
