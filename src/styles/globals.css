@@ -15,6 +15,7 @@
 @import "./presets/blackhole.css";
 @import "./presets/pulsar.css";
 @import "./presets/nebula.css";
+@import "./presets/presentation.css";
 
 /* Dark variant: .dark class OR dark presets (so Tailwind dark: utilities work) */
 @custom-variant dark (

@@ -1,0 +1,109 @@
+---
+import '../styles/globals.css';
+import { SEO } from 'astro-seo';
+import { siteConfig } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = siteConfig.name,
+  description = siteConfig.description,
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
+---
+
+<html lang="en" data-color-preset="presentation">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonicalUrl}
+      openGraph={{
+        basic: {
+          title,
+          type: "website",
+          image: siteConfig.url + siteConfig.seo.ogImage,
+          url: canonicalUrl,
+        },
+      }}
+    />
+  </head>
+
+  <body>
+    <div class="pres-shell">
+
+      <!-- Stage: dark surround + 16:9 canvas -->
+      <div class="pres-stage">
+        <div class="pres-canvas">
+          <div class="canvas-inner prose-content">
+            <slot />
+          </div>
+        </div>
+      </div>
+
+      <!-- Control bar (injected by page) -->
+      <slot name="controls" />
+
+    </div>
+
+    <!-- Sheet + backdrop (injected by page, outside shell for fixed positioning) -->
+    <slot name="overlays" />
+  </body>
+</html>
+
+<style>
+  .pres-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+    background: var(--background);
+    color: var(--ink);
+  }
+
+  /* Stage: fills remaining height, centers the canvas */
+  .pres-stage {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    padding: 1.5rem;
+  }
+
+  /*
+   * 16:9 canvas — scales to fill the stage without overflow.
+   * Width is the smaller of: full stage width, or stage-height × (16/9).
+   * 3rem reserved for the control bar.
+   */
+  .pres-canvas {
+    aspect-ratio: 16 / 9;
+    width: min(100%, calc((100dvh - 3rem - 3rem) * (16 / 9)));
+    background: var(--background);
+    border: 1.5px solid var(--line-strong);
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    box-shadow: 0 4px 32px oklch(0 0 0 / 12%);
+  }
+
+  .canvas-inner {
+    padding: 3rem 4rem;
+    min-height: 100%;
+  }
+
+  @media (max-width: 640px) {
+    .pres-stage { padding: 0.75rem; }
+    .canvas-inner { padding: 1.5rem; }
+  }
+</style>
