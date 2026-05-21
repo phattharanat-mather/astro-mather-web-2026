@@ -51,7 +51,7 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
 ) : (
 <div
   id="splash-modal-backdrop"
-  class="fixed inset-0 z-[9999] flex items-center justify-center bg-[oklch(0.07_0.022_264/80%)] backdrop-blur-sm p-4"
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-[oklch(0.07_0.022_264/80%)] backdrop-blur-sm p-8"
 >
   <div
     id="splash-modal"
@@ -60,7 +60,7 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
     aria-labelledby={ariaLabelledBy}
     aria-label={ariaModalLabel}
     tabindex="-1"
-    class={`relative w-full ${sizeClass} rounded overflow-hidden border border-white/[8%] bg-[oklch(0.10_0.030_264)] outline-none`}
+    class={`relative w-full h-full sm:h-auto ${sizeClass} rounded overflow-hidden border border-white/[8%] bg-[oklch(0.10_0.030_264)] outline-none`}
   >
 
     {/* ── Image only ── */}
@@ -117,15 +117,15 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
 
     {/* ── Image left / content right ── */}
     {(layout === 'image-left' || layout === 'image-right') && img && (
-      <div class={`flex flex-row${layout === 'image-right' ? '-reverse' : ''}`}>
+      <div class={`flex flex-col h-full${layout === 'image-right' ? ' sm:flex-row-reverse sm:h-auto' : ' sm:flex-row sm:h-auto'}`}>
         <img
           src={img.src}
           alt=""
           width={img.width}
           height={img.height}
-          class="w-2/5 shrink-0 object-cover self-stretch"
+          class="w-full shrink-0 object-cover max-h-[50%] sm:max-h-none sm:w-2/5 sm:self-stretch"
         />
-        <div class="flex flex-col p-8">
+        <div class="flex flex-col p-8 flex-1 overflow-y-auto">
           {entry.data.title && (
             <h2 id="splash-title" class="mb-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)]">
               {entry.data.title}

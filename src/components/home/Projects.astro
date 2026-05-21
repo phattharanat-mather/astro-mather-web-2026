@@ -82,10 +82,10 @@ const grouped = Object.fromEntries(
                         <Image
                           src={project.image}
                           alt={project.title}
-                          class="w-full aspect-[16/10] object-cover object-top"
+                          class="w-full aspect-[16/7] sm:aspect-[16/10] object-cover object-top"
                         />
                       )}
-                      <div class="p-5">
+                      <div class="p-4 sm:p-5">
                         <p class="font-semibold text-sm mb-1" style="color: var(--ink)">{project.title}</p>
                         <p class="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
                           {project.categories.join(', ')}
@@ -105,10 +105,10 @@ const grouped = Object.fromEntries(
                         <Image
                           src={project.image}
                           alt=""
-                          class="w-full aspect-[16/10] object-cover object-top"
+                          class="w-full aspect-[16/7] sm:aspect-[16/10] object-cover object-top"
                         />
                       )}
-                      <div class="p-5">
+                      <div class="p-4 sm:p-5">
                         <p class="font-semibold text-sm mb-1" style="color: var(--ink)">{project.title}</p>
                         <p class="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
                           {project.categories.join(', ')}
