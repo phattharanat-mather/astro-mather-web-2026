@@ -43,7 +43,7 @@ export interface Project {
   id: string;
   title: string;
   categories: string[];
-  image?: ImageMetadata | string;
+  image?: ImageMetadata;
   featured?: boolean;
 }
 
@@ -72,8 +72,8 @@ export interface ValuePropsData {
 
 export interface ClientItem {
   name: string;
-  year: number;
-  logo?: string;
+  year?: number;
+  logo?: ImageMetadata;
 }
 
 export interface ClientsData {

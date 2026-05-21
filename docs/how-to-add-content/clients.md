@@ -1,44 +1,44 @@
 # How to Add a Client
 
-Clients live in `src/content/clients/<year>/`. Each client is a single `.mdx` file inside a year folder.
+Clients live in `src/content/clients/`. Each client is a single `.mdx` file directly in that folder, with its logo image in `src/content/clients/logos/`.
 
 ## File structure
 
 ```
 src/content/clients/
-├── 2023/
-│   ├── 01-nexlayer.mdx
-│   └── 02-finbridge.mdx
-├── 2024/
-│   └── 01-datasphere.mdx
-└── 2025/
-    └── 04-acme-corp.mdx   ← new file
+├── logos/
+│   ├── singha.png
+│   └── haier.png
+├── singha.mdx
+└── haier.mdx        ← new file
 ```
-
-The year folder determines the year group. Naming convention: `<index>-<slug>.mdx` where index is zero-padded and **restarts from `01` within each year folder**. Display order is derived from the filename — no `index` frontmatter needed.
 
 ## Frontmatter fields
 
 ```mdx
 ---
-name: Acme Corp                  # required — displayed in the marquee chip
-logo: /images/clients/acme.svg   # optional — path to logo asset in public/
+name: Acme Corp                    # required — displayed in the marquee chip
+year: 2025                         # optional — client relationship year
+logo: ./logos/acme.png             # optional — relative path to logo in logos/
 ---
 ```
 
 No body content is used.
 
+## Adding a logo
+
+Place the logo image in `src/content/clients/logos/` then reference it with a relative path (`./logos/<filename>`) in the `logo` field. Astro will optimise it at build time.
+
 ## Display order
 
-Clients are sorted by their full path (`<year>/<filename>`), so they appear year-first (ascending), then by filename order within each year.
+Clients are sorted alphabetically by filename. Prefix the filename with a number (e.g. `01-singha.mdx`) if you need explicit ordering.
 
 ## Section heading and intro
 
-"Our Clients" and "We take care of" are **not** in the collection — edit them in `src/data/home.ts` under the `clients` export.
+"Our Clients" heading and intro text are configured in `src/data/home.ts` under the `clients` export.
 
 ## Checklist
 
-- [ ] File is inside the correct `src/content/clients/<year>/` folder
-- [ ] Filename follows `<index>-<slug>.mdx` pattern, with index starting from `01` within the year
+- [ ] MDX file is directly in `src/content/clients/` (no year subfolder)
 - [ ] `name` is set in frontmatter
-- [ ] If adding a logo, the asset exists in `public/` and the path is correct
+- [ ] If adding a logo, the image is in `src/content/clients/logos/` and the `logo` path is correct
