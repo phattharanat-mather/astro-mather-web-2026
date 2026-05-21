@@ -72,7 +72,8 @@ export interface ValuePropsData {
 
 export interface ClientItem {
   name: string;
-  logo?: { light: string; dark: string };
+  year: number;
+  logo?: string;
 }
 
 export interface ClientsData {

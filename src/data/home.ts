@@ -30,18 +30,6 @@ export const valueProps = {
 export const clients = {
   heading: "Our Clients",
   intro: "We take care of",
-  items: [
-    { name: "Nexlayer" },
-    { name: "Finbridge" },
-    { name: "Orbit AI" },
-    { name: "DataSphere" },
-    { name: "Pulse Analytics" },
-    { name: "CloudNest" },
-    { name: "Vanta Systems" },
-    { name: "Meridian Tech" },
-    { name: "Synapse Labs" },
-    { name: "Acuity Corp" },
-  ],
 };
 
 export const team = {
