@@ -66,21 +66,18 @@ function formatDate(date: Date) {
             {post.data.excerpt}
           </p>
         )}
+
+        {post.data.image && (
+          <div class="mt-10" data-reveal>
+            <Image
+              src={post.data.image}
+              alt={post.data.title}
+              class="w-full rounded-sm object-cover max-h-[480px]"
+            />
+          </div>
+        )}
       </div>
     </div>
-
-    <!-- Cover image -->
-    {post.data.image && (
-      <div class="bg-[var(--surface)] border-b border-[var(--line)]">
-        <div class="max-w-3xl mx-auto px-6 lg:px-8 py-10" data-reveal>
-          <Image
-            src={post.data.image}
-            alt={post.data.title}
-            class="w-full rounded-sm object-cover max-h-[480px]"
-          />
-        </div>
-      </div>
-    )}
 
     <!-- Article body -->
     <article class="py-20 bg-[var(--background)]">
