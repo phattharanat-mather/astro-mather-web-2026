@@ -3,17 +3,15 @@ title: "Stable Diffusion QR Codes: Where Art Meets Function"
 date: 2026-05-15
 excerpt: "ControlNet taught Stable Diffusion to hide scannable QR codes inside fully rendered artwork. Here's how it works and why it matters for creative tech."
 author: "The Mather Team"
-image: "./images/qr-snow-village.png"
+image: "./images/cover.png"
 ---
 
-import qrSnow from './images/qr-snow-village.png';
-import qrAnime from './images/qr-anime.png';
+import qrSnow from './qr-snow-village.png';
+import qrAnime from './qr-anime.png';
 
 What if your brand's QR code wasn't a black-and-white grid — but a painting?
 
 That's the premise behind AI-generated QR codes using Stable Diffusion. The result is a scannable code embedded inside artwork so seamlessly that the QR structure only reveals itself to a camera, not the human eye.
-
-<img src={qrSnow.src} alt="A snowy alpine village scene where the buildings form a scannable QR code" style="border-radius: 8px; margin: 2rem 0;" />
 
 ## How ControlNet Makes It Possible
 
@@ -28,7 +26,6 @@ The process looks like this:
 
 The magic is in step 4. Too much control weight and you get a textured QR code that looks like a QR code. Too little and you get beautiful art that doesn't scan. The sweet spot — typically a control weight between 0.7–0.9 with a guidance scale around 7–9 — is where the results look like the image below.
 
-<img src={qrAnime.src} alt="An anime-style illustration with flowing ribbons where the composition encodes a QR code" style="border-radius: 8px; margin: 2rem 0;" />
 
 ## What Model Settings Matter
 
@@ -57,6 +54,9 @@ Not all generated QR codes scan reliably. A few things that help:
 QR codes are friction. People hesitate to scan something that looks like spam. An AI-generated QR code embedded in compelling artwork changes that calculus — it invites curiosity rather than suspicion.
 
 For brand activations, event signage, or product packaging, a QR code that doubles as artwork is a conversation starter. The scan is incidental to the visual.
+
+
+![qr anime](./qr-anime.png)
 
 ---
 

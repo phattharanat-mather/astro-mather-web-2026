@@ -1,14 +1,16 @@
 # How to Add a Blog Post
 
-Blog posts live in `src/content/blogs/`. Each post is a folder containing an `index.mdx` file and any attached images.
+Blog posts live in `src/content/blogs/`. Each post is a folder containing an `index.mdx` file and any images placed alongside it.
 
 ## Folder structure
 
 ```
 src/content/blogs/
 └── your-post-slug/
-    ├── index.mdx        ← required
-    └── cover.png        ← optional image attachment
+    ├── index.mdx              ← required
+    ├── cover.png              ← cover image (frontmatter image:)
+    ├── diagram.png            ← body image (markdown or import)
+    └── ...
 ```
 
 The folder name becomes the post's URL slug: `your-post-slug` → `/blogs/your-post-slug`.
@@ -17,66 +19,90 @@ The folder name becomes the post's URL slug: `your-post-slug` → `/blogs/your-p
 
 ```mdx
 ---
-title: "Your Post Title"           # required — displayed as the page heading
+title: "Your Post Title"           # required
 date: 2026-05-20                   # required — ISO date (YYYY-MM-DD)
-excerpt: "One-sentence summary."   # optional — used in blog listing cards
-image: "cover.png"                 # optional — filename of a co-located image (no path prefix needed)
-author: "The Mather Team"          # optional — displayed below the title
+excerpt: "One-sentence summary."   # optional — shown in listing cards
+image: "./cover.png"               # optional — cover image (see rules below)
+author: "The Mather Team"          # optional — shown below the title
 ---
-```
-
-All fields except `title` and `date` are optional.
-
-## Body content
-
-Write standard Markdown below the frontmatter fence. MDX is supported, so you can import and use Astro/React components if needed.
-
-```mdx
----
-title: "Example Post"
-date: 2026-05-20
-excerpt: "A short description shown in previews."
-author: "The Mather Team"
----
-
-Intro paragraph here.
-
-## Section heading
-
-More content. Use **bold**, _italic_, and standard Markdown as needed.
-
----
-
-Call-to-action line at the bottom. [Contact us](#contact) to discuss.
 ```
 
 ## Adding images
 
 ### Cover image (frontmatter `image`)
 
-The `image` field is processed by Astro's image optimization pipeline (`image()` schema helper). Rules:
+The `image` field is processed by Astro's `image()` schema helper, which resolves it to `ImageMetadata` at build time.
 
-1. Place the image **directly inside the post's folder** — no subdirectories (e.g. `src/content/blogs/your-post/cover.png`).
-2. Reference it by **filename only** — no path prefix: `image: "cover.png"`.
-3. The image is displayed as a full-width cover banner above the article body.
+**Rules:**
+- The image **must be in the same folder as `index.mdx`** — subdirectories do not work with the schema helper.
+- The path **must start with `./`**: `image: "./cover.png"`.
+- The cover is displayed as a full-width banner above the article body.
 
-### Inline images (body)
-
-To embed images inside the MDX body, import them at the top of the file and use an `<img>` tag or Astro's `<Image>` component:
-
-```mdx
-import cover from './cover.png';
-import diagram from './diagram.webp';
-
-<img src={cover.src} alt="Cover" />
+```
+your-post-slug/
+├── index.mdx
+└── cover.png    ← image: "./cover.png"  ✓
 ```
 
-> Prefer `.webp` or `.png`. Inline images imported this way are also processed by Vite and benefit from hashing/caching.
+```
+your-post-slug/
+├── index.mdx
+└── images/
+    └── cover.png    ← image: "./images/cover.png"  ✗  won't resolve
+```
+
+### Body images
+
+Two valid approaches — both work with Astro 6's MDX pipeline.
+
+**Option A — Markdown syntax (simplest):**
+
+```mdx
+![A snowy village scene](./diagram.png)
+```
+
+Astro's remark pipeline imports and optimises the image automatically. No imports needed.
+
+**Option B — ESM import with `<Image>`:**
+
+```mdx
+import { Image } from 'astro:assets';
+import diagram from './diagram.png';
+
+<Image src={diagram} alt="A snowy village scene" style="border-radius: 8px;" />
+```
+
+Pass the import directly to `src` — **not** `diagram.src`. `<img src={diagram.src}>` will throw `LocalImageUsedWrongly` in Astro 6 because `.src` is a plain string.
+
+## Full example
+
+```mdx
+---
+title: "Stable Diffusion QR Codes"
+date: 2026-05-15
+excerpt: "How ControlNet hides scannable codes inside artwork."
+author: "The Mather Team"
+image: "./cover.png"
+---
+
+import { Image } from 'astro:assets';
+import diagram from './diagram.png';
+
+Intro paragraph here.
+
+![A snowy village QR code](./photo.png)
+
+<Image src={diagram} alt="ControlNet diagram" style="border-radius: 8px;" />
+
+## Section heading
+
+More content.
+```
 
 ## Checklist
 
-- [ ] Folder name is lowercase, hyphen-separated (no spaces or special characters)
+- [ ] Folder name is lowercase and hyphen-separated
 - [ ] `index.mdx` exists inside the folder
 - [ ] `title` and `date` are set in frontmatter
-- [ ] Cover image (if any) is placed directly in the post folder and referenced by filename only (no `./` prefix)
-- [ ] Inline body images are imported at the top of the MDX file and used via `{image.src}`
+- [ ] Cover image (if any) is in the **same folder** as `index.mdx` and referenced with `./` prefix
+- [ ] Body images use markdown `![alt](./img.png)` or `<Image src={importedImg} />` — not `<img src={img.src}>`
