@@ -22,6 +22,9 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet" />
     <meta name="generator" content={Astro.generator} />
     <SEO
       title={title}
@@ -59,6 +62,13 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
     <slot name="overlays" />
   </body>
 </html>
+
+<style is:global>
+  .pres-canvas :is(h1, h2) {
+    font-family: 'Instrument Serif', ui-serif, Georgia, serif;
+    font-weight: 400;
+  }
+</style>
 
 <style>
   .pres-shell {
@@ -101,7 +111,9 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
     padding: 3rem 4rem;
     min-height: 100%;
     font-size: clamp(1rem, 1.3vw, 1.4rem);
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
   }
+
 
   @media (max-width: 640px) {
     .pres-stage { padding: 0.75rem; }
