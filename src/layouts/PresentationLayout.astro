@@ -67,6 +67,16 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
   .pres-canvas :is(h1, h2) {
     font-family: 'Instrument Serif', ui-serif, Georgia, serif;
     font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+
+  .pres-canvas h1 {
+    font-size: clamp(2.25rem, 4.5vw, 4rem);
+  }
+
+  .pres-canvas h2 {
+    font-size: clamp(1.6rem, 3vw, 2.75rem);
   }
 </style>
 
