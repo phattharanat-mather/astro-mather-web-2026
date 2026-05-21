@@ -33,7 +33,7 @@ export const siteConfig = {
   ] as const,
   defaultPreset: "void" as const,
   greyscaleFilter: {
-    enable: false,
+    enable: true,
     value: 0.6, // 0.0 = full colour → 1.0 = full grey; recommended 0.5–0.6
   },
 } as const;
