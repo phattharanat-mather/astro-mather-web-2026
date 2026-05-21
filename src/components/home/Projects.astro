@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
 import type { ProjectsData } from '@/content-definition/home';
 
 interface Props {
@@ -9,15 +8,14 @@ interface Props {
 
 const { data } = Astro.props;
 
+const INITIAL_LIMIT = 6;
+
 const grouped = Object.fromEntries(
   data.tabs.map((tab) => [
     tab.key,
     data.projects.filter((p) => p.categories.includes(tab.key)),
   ])
 );
-
-const isImageMetadata = (img: unknown): img is ImageMetadata =>
-  typeof img === 'object' && img !== null && 'src' in img;
 ---
 
 <section id="platform" class="py-24 border-b border-[var(--line)]">
@@ -41,66 +39,92 @@ const isImageMetadata = (img: unknown): img is ImageMetadata =>
       role="tablist"
       aria-label="Platform categories"
     >
-      {data.tabs.map((tab, i) => (
-        <button
-          role="tab"
-          aria-selected={i === 0 ? 'true' : 'false'}
-          data-tab={tab.key}
-          class={`px-4 py-2.5 -mb-px font-mono text-xs tracking-widest uppercase border-b-2 transition-colors duration-150 ${
-            i === 0
-              ? 'border-[var(--primary)] text-[var(--primary)]'
-              : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
-          }`}
-        >
-          {tab.label}
-        </button>
-      ))}
+      {data.tabs.map((tab, i) => {
+        const count = (grouped[tab.key] ?? []).length;
+        return (
+          <button
+            role="tab"
+            aria-selected={i === 0 ? 'true' : 'false'}
+            data-tab={tab.key}
+            class={`px-4 py-2.5 -mb-px font-mono text-xs tracking-widest uppercase border-b-2 transition-colors duration-150 flex items-center gap-2 ${
+              i === 0
+                ? 'border-[var(--primary)] text-[var(--primary)]'
+                : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+            }`}
+          >
+            {tab.label}
+            {count > 0 && (
+              <span class="opacity-40 font-mono text-[10px] tabular-nums">{count}</span>
+            )}
+          </button>
+        );
+      })}
     </div>
 
     {data.tabs.map((tab, i) => {
       const projects = grouped[tab.key] ?? [];
+      const hasMore = projects.length > INITIAL_LIMIT;
       return (
         <div data-panel={tab.key} class={i !== 0 ? 'hidden animate-fade-up' : 'animate-fade-up'}>
           {projects.length > 0 ? (
-            <div class="columns-1 sm:columns-2 lg:columns-3 gap-4">
-              {projects.map((project) => (
-                project.featured ? (
-                  <a
-                    href={`/projects/${project.id}`}
-                    class="break-inside-avoid mb-4 block rounded-sm overflow-hidden border border-[var(--line)] bg-[var(--card)] hover:border-[var(--primary)] transition-colors duration-150"
-                  >
-                    {project.image && (
-                      isImageMetadata(project.image)
-                        ? <Image src={project.image} alt={project.title} class="w-full object-cover" />
-                        : <img src={project.image as string} alt={project.title} class="w-full object-cover" />
-                    )}
-                    <div class="p-6">
-                      <p class="font-semibold text-sm mb-1" style="color: var(--ink)">{project.title}</p>
-                      <p class="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
-                        {project.categories.join(', ')}
-                      </p>
-                      <p class="mt-3 font-mono text-xs text-[var(--primary)] flex items-center gap-1">
-                        Read more <span aria-hidden="true">→</span>
-                      </p>
+            <>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {projects.map((project, j) => (
+                  project.featured ? (
+                    <a
+                      href={`/projects/${project.id}`}
+                      data-card-index={j}
+                      class={`block rounded-sm overflow-hidden border border-[var(--line)] bg-[var(--card)] hover:border-[var(--primary)] transition-colors duration-150${j >= INITIAL_LIMIT ? ' hidden' : ''}`}
+                    >
+                      {project.image && (
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          class="w-full aspect-[16/10] object-cover object-top"
+                        />
+                      )}
+                      <div class="p-5">
+                        <p class="font-semibold text-sm mb-1" style="color: var(--ink)">{project.title}</p>
+                        <p class="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
+                          {project.categories.join(', ')}
+                        </p>
+                        <p class="mt-3 font-mono text-xs text-[var(--primary)] flex items-center gap-1">
+                          Read more <span aria-hidden="true">→</span>
+                        </p>
+                      </div>
+                    </a>
+                  ) : (
+                    <div
+                      data-card-index={j}
+                      aria-hidden="true"
+                      class={`block rounded-sm overflow-hidden border border-[var(--line)] bg-[var(--card)] opacity-50 cursor-default${j >= INITIAL_LIMIT ? ' hidden' : ''}`}
+                    >
+                      {project.image && (
+                        <Image
+                          src={project.image}
+                          alt=""
+                          class="w-full aspect-[16/10] object-cover object-top"
+                        />
+                      )}
+                      <div class="p-5">
+                        <p class="font-semibold text-sm mb-1" style="color: var(--ink)">{project.title}</p>
+                        <p class="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
+                          {project.categories.join(', ')}
+                        </p>
+                      </div>
                     </div>
-                  </a>
-                ) : (
-                  <div class="break-inside-avoid mb-4 block rounded-sm overflow-hidden border border-[var(--line)] bg-[var(--card)]">
-                    {project.image && (
-                      isImageMetadata(project.image)
-                        ? <Image src={project.image} alt={project.title} class="w-full object-cover" />
-                        : <img src={project.image as string} alt={project.title} class="w-full object-cover" />
-                    )}
-                    <div class="p-6">
-                      <p class="font-semibold text-sm mb-1" style="color: var(--ink)">{project.title}</p>
-                      <p class="font-mono text-xs text-[var(--muted-foreground)] uppercase tracking-widest">
-                        {project.categories.join(', ')}
-                      </p>
-                    </div>
-                  </div>
-                )
-              ))}
-            </div>
+                  )
+                ))}
+              </div>
+              {hasMore && (
+                <button
+                  data-show-all
+                  class="mt-6 font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-150 flex items-center gap-2"
+                >
+                  Show all ({projects.length}) <span aria-hidden="true">↓</span>
+                </button>
+              )}
+            </>
           ) : (
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" aria-label="Project placeholders">
               {Array.from({ length: 8 }).map((_, j) => (
@@ -144,4 +168,15 @@ const isImageMetadata = (img: unknown): img is ImageMetadata =>
       });
     });
   }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-show-all]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const panel = btn.closest<HTMLElement>('[data-panel]');
+      if (!panel) return;
+      panel.querySelectorAll<HTMLElement>('[data-card-index]').forEach((card) => {
+        card.classList.remove('hidden');
+      });
+      btn.classList.add('hidden');
+    });
+  });
 </script>
