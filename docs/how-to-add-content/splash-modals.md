@@ -72,5 +72,5 @@ Whether you're building your first data pipeline or scaling an enterprise AI pla
 - [ ] Folder name is lowercase, hyphen-separated (no spaces or special characters)
 - [ ] `index.mdx` exists inside the folder
 - [ ] `active` is set in frontmatter
-- [ ] Image file (if any) is inside the same folder and referenced with `./`
+- [ ] Image file (if any) is co-located in the same folder and referenced with `./` (e.g. `image: "./cover.jpg"`)
 - [ ] `size` and `variant` are set when a non-default layout is needed

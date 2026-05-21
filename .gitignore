@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 .claude/settings.local.json
 .claude/projects
+
+# references
+_references/

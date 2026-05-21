@@ -20,7 +20,7 @@ The folder name becomes the post's URL slug: `your-post-slug` → `/blogs/your-p
 title: "Your Post Title"           # required — displayed as the page heading
 date: 2026-05-20                   # required — ISO date (YYYY-MM-DD)
 excerpt: "One-sentence summary."   # optional — used in blog listing cards
-image: "./cover.png"               # optional — path relative to this folder
+image: "cover.png"                 # optional — filename of a co-located image (no path prefix needed)
 author: "The Mather Team"          # optional — displayed below the title
 ---
 ```
@@ -52,15 +52,31 @@ Call-to-action line at the bottom. [Contact us](#contact) to discuss.
 
 ## Adding images
 
-1. Place the image file inside the post's folder (e.g. `cover.png`, `diagram.webp`).
-2. Reference it in frontmatter with a relative path: `image: "./cover.png"`.
-3. To embed images inline in the body, use standard Markdown: `![Alt text](./diagram.webp)`.
+### Cover image (frontmatter `image`)
 
-> Images referenced from the body are served as static assets. Prefer `.webp` or `.png` for web quality.
+The `image` field is processed by Astro's image optimization pipeline (`image()` schema helper). Rules:
+
+1. Place the image **directly inside the post's folder** — no subdirectories (e.g. `src/content/blogs/your-post/cover.png`).
+2. Reference it by **filename only** — no path prefix: `image: "cover.png"`.
+3. The image is displayed as a full-width cover banner above the article body.
+
+### Inline images (body)
+
+To embed images inside the MDX body, import them at the top of the file and use an `<img>` tag or Astro's `<Image>` component:
+
+```mdx
+import cover from './cover.png';
+import diagram from './diagram.webp';
+
+<img src={cover.src} alt="Cover" />
+```
+
+> Prefer `.webp` or `.png`. Inline images imported this way are also processed by Vite and benefit from hashing/caching.
 
 ## Checklist
 
 - [ ] Folder name is lowercase, hyphen-separated (no spaces or special characters)
 - [ ] `index.mdx` exists inside the folder
 - [ ] `title` and `date` are set in frontmatter
-- [ ] Image files (if any) are inside the same folder and referenced with `./`
+- [ ] Cover image (if any) is placed directly in the post folder and referenced by filename only (no `./` prefix)
+- [ ] Inline body images are imported at the top of the MDX file and used via `{image.src}`
