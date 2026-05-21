@@ -63,25 +63,24 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
     class={`relative w-full h-full sm:h-auto ${sizeClass} rounded overflow-hidden border border-white/[8%] bg-[oklch(0.10_0.030_264)] outline-none`}
   >
 
+    {/* ── Close button ── */}
+    <button
+      id="splash-close"
+      aria-label="Close"
+      class="absolute top-3 right-3 z-10 rounded p-1.5 text-white/40 transition hover:bg-white/10 hover:text-white/80"
+    >
+      <X size={14} />
+    </button>
+
     {/* ── Image only ── */}
     {layout === 'image-only' && img && (
-      <>
-        <img
-          src={img.src}
-          alt=""
-          width={img.width}
-          height={img.height}
-          class="w-full h-auto block"
-        />
-        <div class="flex justify-end gap-3 px-6 py-4">
-          <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
-            Not today
-          </button>
-          <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
-            <X size={14} />
-          </button>
-        </div>
-      </>
+      <img
+        src={img.src}
+        alt=""
+        width={img.width}
+        height={img.height}
+        class="w-full h-auto block"
+      />
     )}
 
     {/* ── Image top / content bottom ── */}
@@ -102,14 +101,6 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
           )}
           <div class="prose prose-invert prose-sm max-w-none text-white/70">
             <Content />
-          </div>
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
-              Not today
-            </button>
-            <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
-              <X size={14} />
-            </button>
           </div>
         </div>
       </>
@@ -134,14 +125,6 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
           <div class="prose prose-invert prose-sm max-w-none text-white/70 grow">
             <Content />
           </div>
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
-              Not today
-            </button>
-            <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
-              <X size={14} />
-            </button>
-          </div>
         </div>
       </div>
     )}
@@ -156,14 +139,6 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
         )}
         <div class="prose prose-invert prose-sm max-w-none text-white/70">
           <Content />
-        </div>
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-          <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
-            Not today
-          </button>
-          <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
-            <X size={14} />
-          </button>
         </div>
       </div>
     )}
@@ -189,29 +164,9 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
       }
 
       var prevFocus = document.activeElement;
-
       var closeBtn = document.getElementById('splash-close');
-      var hideTodayBtn = document.getElementById('splash-hide-today');
 
-      // Focus the container so screen readers announce the dialog
-      // without triggering a visible highlight on any button
       modal.focus();
-
-      // Focus trap: cycle Tab between the two buttons
-      modal.addEventListener('keydown', function (e) {
-        if (e.key !== 'Tab') return;
-        if (e.shiftKey) {
-          if (document.activeElement === hideTodayBtn) {
-            closeBtn.focus();
-            e.preventDefault();
-          }
-        } else {
-          if (document.activeElement === closeBtn) {
-            hideTodayBtn.focus();
-            e.preventDefault();
-          }
-        }
-      });
 
       function close() {
         backdrop.remove();
@@ -223,13 +178,6 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
       });
 
       closeBtn.addEventListener('click', close);
-
-      hideTodayBtn.addEventListener('click', function () {
-        var midnight = new Date();
-        midnight.setHours(23, 59, 59, 999);
-        localStorage.setItem(storageKey, midnight.getTime().toString());
-        close();
-      });
 
       backdrop.addEventListener('click', function (e) {
         if (e.target === backdrop) close();

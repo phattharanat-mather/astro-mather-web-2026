@@ -30,7 +30,6 @@ export default function SplashModal3DCard({
 }: Props) {
   const [visible, setVisible] = useState(false);
   const prevFocusRef = useRef<Element | null>(null);
-  const closeBtnRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -64,30 +63,14 @@ export default function SplashModal3DCard({
     }
   }
 
-  function hideForToday() {
-    const midnight = new Date();
-    midnight.setHours(23, 59, 59, 999);
-    localStorage.setItem(storageKey, midnight.getTime().toString());
-    close();
-  }
-
-  const buttons = (
-    <div className="flex items-center justify-end gap-3 px-6 py-4">
-      <button
-        onClick={hideForToday}
-        className="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5"
-      >
-        Not today
-      </button>
-      <button
-        ref={closeBtnRef}
-        onClick={close}
-        aria-label="Close"
-        className="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5"
-      >
-        <X size={14} />
-      </button>
-    </div>
+  const closeBtn = (
+    <button
+      onClick={close}
+      aria-label="Close"
+      className="absolute top-3 right-3 z-10 rounded p-1.5 text-white/40 transition hover:bg-white/10 hover:text-white/80"
+    >
+      <X size={14} />
+    </button>
   );
 
   const imgEl = imageSrc && (
@@ -122,6 +105,8 @@ export default function SplashModal3DCard({
           className={`relative w-full ${sizeClass} rounded border border-white/[8%] bg-[oklch(0.10_0.030_264)] h-auto`}
         >
 
+          {closeBtn}
+
           {/* ── image-left / image-right ── */}
           {isSide && imgEl && (
             <div className={`flex flex-row${variant === "image-right" ? "-reverse" : ""}`}>
@@ -147,9 +132,6 @@ export default function SplashModal3DCard({
                     {children}
                   </CardItem>
                 )}
-                <CardItem translateZ={5} className="w-full mt-6">
-                  {buttons}
-                </CardItem>
               </div>
             </div>
           )}
@@ -172,32 +154,24 @@ export default function SplashModal3DCard({
                 </CardItem>
               )}
               {children && (
-                <CardItem translateZ={8} className="px-6 pt-2 w-full prose prose-invert prose-sm max-w-none text-white/70">
+                <CardItem translateZ={8} className="px-6 pt-2 pb-6 w-full prose prose-invert prose-sm max-w-none text-white/70">
                   {children}
                 </CardItem>
               )}
-              <CardItem translateZ={5} className="w-full">
-                {buttons}
-              </CardItem>
             </>
           )}
 
           {/* ── image-only ── */}
           {variant === "image-only" && imgEl && (
-            <>
-              <CardItem translateZ={8} className="w-full">
-                <img
-                  src={imageSrc}
-                  alt=""
-                  width={imageWidth}
-                  height={imageHeight}
-                  className="w-full h-auto block rounded-t"
-                />
-              </CardItem>
-              <CardItem translateZ={5} className="w-full">
-                {buttons}
-              </CardItem>
-            </>
+            <CardItem translateZ={8} className="w-full">
+              <img
+                src={imageSrc}
+                alt=""
+                width={imageWidth}
+                height={imageHeight}
+                className="w-full h-auto block rounded"
+              />
+            </CardItem>
           )}
 
           {/* ── text-only ── */}
@@ -213,9 +187,6 @@ export default function SplashModal3DCard({
                   {children}
                 </CardItem>
               )}
-              <CardItem translateZ={5} className="w-full mt-6">
-                {buttons}
-              </CardItem>
             </div>
           )}
 
