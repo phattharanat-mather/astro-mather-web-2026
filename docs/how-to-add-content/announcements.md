@@ -24,6 +24,7 @@ image: "./cover.jpg"               # optional — path relative to this folder
 size: large                        # optional — "small" (max-w-lg) | "large" (max-w-2xl); default small
 card3d: false                      # optional — enable Aceternity 3D card effect; default false
 variant: image-left                # optional — layout variant (see below)
+fullPage: true                     # optional — show "View full page →" link in modal; generates /announcements/<slug>
 ---
 ```
 
@@ -81,6 +82,12 @@ image: "./cover.jpg"
 
 > Do not use a `/public` path. The `image()` helper only works with co-located files referenced by relative path.
 
+## Full-page route
+
+When `fullPage: true` is set, Astro generates a standalone page at `/announcements/<folder-name>` (e.g. `/announcements/announcement-2026`). A "View full page →" link appears in the modal body.
+
+Pages are only generated for announcements with `active: true`. Setting `active: false` removes both the modal and the full-page route from the build.
+
 ## Showing / hiding an announcement
 
 - To show an announcement: set `active: true`.
@@ -94,3 +101,4 @@ image: "./cover.jpg"
 - [ ] `active` is set in frontmatter
 - [ ] Image file (if any) is co-located in the same folder and referenced with `./` (e.g. `image: "./cover.jpg"`)
 - [ ] `size` and `variant` are set when a non-default layout is needed
+- [ ] If `fullPage: true`, verify the page builds at `/announcements/<slug>`

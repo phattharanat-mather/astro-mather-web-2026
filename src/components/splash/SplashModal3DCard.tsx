@@ -15,6 +15,7 @@ interface Props {
   storageKey: string;
   sizeClass: string;
   variant?: Variant;
+  fullPageHref?: string;
   children?: ReactNode;
 }
 
@@ -26,6 +27,7 @@ export default function SplashModal3DCard({
   storageKey,
   sizeClass,
   variant = "image-top",
+  fullPageHref,
   children,
 }: Props) {
   const [visible, setVisible] = useState(false);
@@ -63,24 +65,23 @@ export default function SplashModal3DCard({
     }
   }
 
+  const fullPageLink = fullPageHref && (
+    <a
+      href={fullPageHref}
+      className="inline-flex items-center gap-1.5 mt-5 text-sm font-medium text-[oklch(0.82_0.14_200)] hover:text-[oklch(0.93_0.025_272)] transition-colors duration-150"
+    >
+      View full page <span aria-hidden="true">→</span>
+    </a>
+  );
+
   const closeBtn = (
     <button
       onClick={close}
       aria-label="Close"
-      className="absolute top-3 right-3 z-10 rounded p-1.5 text-white/40 transition hover:bg-white/10 hover:text-white/80"
+      className="absolute top-2 right-2 z-10 w-11 h-11 flex items-center justify-center rounded bg-[oklch(0.07_0.022_264/70%)] text-[oklch(0.93_0.025_272)] transition-colors duration-200 hover:bg-[oklch(0.58_0.26_272/85%)]"
     >
-      <X size={14} />
+      <X size={16} />
     </button>
-  );
-
-  const imgEl = imageSrc && (
-    <img
-      src={imageSrc}
-      alt=""
-      width={imageWidth}
-      height={imageHeight}
-      className="w-full h-auto block"
-    />
   );
 
   const isSide = variant === "image-left" || variant === "image-right";
@@ -92,7 +93,7 @@ export default function SplashModal3DCard({
       aria-modal="true"
       aria-label={title || "Announcement"}
       tabIndex={-1}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[oklch(0.07_0.022_264/80%)] backdrop-blur-sm p-4 outline-none"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[oklch(0.07_0.022_264/80%)] backdrop-blur-sm p-3 sm:p-8 outline-none"
       onClick={(e) => {
         if (e.target === e.currentTarget) close();
       }}
@@ -102,26 +103,24 @@ export default function SplashModal3DCard({
         className={`w-full ${sizeClass}`}
       >
         <CardBody
-          className={`relative w-full ${sizeClass} rounded border border-white/[8%] bg-[oklch(0.10_0.030_264)] h-auto`}
+          className={`relative w-full ${sizeClass} rounded overflow-hidden border border-white/[8%] bg-[oklch(0.10_0.030_264)] h-auto`}
         >
 
           {closeBtn}
 
-          {/* ── image-left / image-right ── */}
-          {isSide && imgEl && (
-            <div className={`flex flex-row${variant === "image-right" ? "-reverse" : ""}`}>
-              <CardItem translateZ={8} className="w-2/5 shrink-0 self-stretch">
+          {/* ── image-left / image-right — stacks on mobile, side-by-side on sm+ ── */}
+          {isSide && imageSrc && (
+            <div className={`flex flex-col${variant === "image-right" ? " sm:flex-row-reverse" : " sm:flex-row"}`}>
+              <CardItem translateZ={8} className="w-full sm:w-2/5 sm:self-stretch">
                 <img
                   src={imageSrc}
                   alt=""
                   width={imageWidth}
                   height={imageHeight}
-                  className={`w-full h-full object-cover ${
-                    variant === "image-left" ? "rounded-l" : "rounded-r"
-                  }`}
+                  className="w-full object-cover max-h-[45vw] sm:max-h-none sm:h-full"
                 />
               </CardItem>
-              <div className="flex flex-col p-8 w-3/5">
+              <div className="flex flex-col p-5 sm:p-8 sm:w-3/5 flex-1">
                 {title && (
                   <CardItem translateZ={5} className="w-full mb-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)]">
                     {title}
@@ -132,12 +131,17 @@ export default function SplashModal3DCard({
                     {children}
                   </CardItem>
                 )}
+                {fullPageLink && (
+                  <CardItem translateZ={5} className="w-full">
+                    {fullPageLink}
+                  </CardItem>
+                )}
               </div>
             </div>
           )}
 
           {/* ── image-top (default) ── */}
-          {variant === "image-top" && imgEl && (
+          {variant === "image-top" && imageSrc && (
             <>
               <CardItem translateZ={8} className="w-full">
                 <img
@@ -145,38 +149,43 @@ export default function SplashModal3DCard({
                   alt=""
                   width={imageWidth}
                   height={imageHeight}
-                  className="w-full h-auto block rounded-t"
+                  className="w-full object-cover max-h-[40vh] sm:max-h-none sm:h-auto block"
                 />
               </CardItem>
               {title && (
-                <CardItem translateZ={5} className="px-6 pt-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)] w-full">
+                <CardItem translateZ={5} className="px-5 sm:px-6 pt-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)] w-full">
                   {title}
                 </CardItem>
               )}
               {children && (
-                <CardItem translateZ={8} className="px-6 pt-2 pb-6 w-full prose prose-invert prose-sm max-w-none text-white/70">
+                <CardItem translateZ={8} className={`px-5 sm:px-6 pt-2 ${fullPageLink ? "pb-2" : "pb-6"} w-full prose prose-invert prose-sm max-w-none text-white/70`}>
                   {children}
+                </CardItem>
+              )}
+              {fullPageLink && (
+                <CardItem translateZ={5} className="px-5 sm:px-6 pb-6 w-full">
+                  {fullPageLink}
                 </CardItem>
               )}
             </>
           )}
 
           {/* ── image-only ── */}
-          {variant === "image-only" && imgEl && (
+          {variant === "image-only" && imageSrc && (
             <CardItem translateZ={8} className="w-full">
               <img
                 src={imageSrc}
                 alt=""
                 width={imageWidth}
                 height={imageHeight}
-                className="w-full h-auto block rounded"
+                className="w-full h-auto block"
               />
             </CardItem>
           )}
 
           {/* ── text-only ── */}
           {variant === "text-only" && (
-            <div className="p-8">
+            <div className="p-5 sm:p-8">
               {title && (
                 <CardItem translateZ={5} className="w-full mb-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)]">
                   {title}
@@ -185,6 +194,11 @@ export default function SplashModal3DCard({
               {children && (
                 <CardItem translateZ={8} className="w-full prose prose-invert prose-sm max-w-none text-white/70">
                   {children}
+                </CardItem>
+              )}
+              {fullPageLink && (
+                <CardItem translateZ={5} className="w-full">
+                  {fullPageLink}
                 </CardItem>
               )}
             </div>

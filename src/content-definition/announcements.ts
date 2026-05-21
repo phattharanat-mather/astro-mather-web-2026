@@ -15,5 +15,6 @@ export const announcements = defineCollection({
       size: z.enum(["small", "large"]).optional(), // small=max-w-lg, large=max-w-2xl
       card3d: z.boolean().optional(),
       variant: z.enum(["image-top", "image-left", "image-right", "image-only", "text-only"]).optional(),
+      fullPage: z.boolean().optional(),
     }),
 });
