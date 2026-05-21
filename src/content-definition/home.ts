@@ -47,7 +47,7 @@ export interface Project {
   featured?: boolean;
 }
 
-export interface PlatformSolutionsData {
+export interface ProjectsData {
   heading: string;
   intro: string;
   tabs: PlatformTab[];
@@ -95,7 +95,7 @@ export interface TeamData {
   members: TeamMember[];
 }
 
-export interface FounderQuoteData {
+export interface TestimonialsData {
   heading: string;
   tagline: string;
   body: string;
@@ -142,11 +142,11 @@ export interface HomeContent {
   nav: NavData;
   hero: HeroData;
   ourServices: OurServicesData;
-  platformSolutions: PlatformSolutionsData;
+  projects: ProjectsData;
   valueProps: ValuePropsData;
   clients: ClientsData;
   team: TeamData;
-  founderQuote: FounderQuoteData;
+  testimonials: TestimonialsData;
   blog: BlogData;
   footer: FooterData;
 }

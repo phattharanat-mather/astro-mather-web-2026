@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import type { PlatformSolutionsData } from '@/content-definition/home';
+import type { ProjectsData } from '@/content-definition/home';
 
 interface Props {
-  data: PlatformSolutionsData;
+  data: ProjectsData;
 }
 
-export function PlatformSolutions({ data }: Props) {
+export function Projects({ data }: Props) {
   const [activeKey, setActiveKey] = useState(data.tabs[0]?.key ?? '');
 
   const filtered = data.projects.filter((p) => p.categories.includes(activeKey));

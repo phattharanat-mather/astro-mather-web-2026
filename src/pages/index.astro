@@ -5,11 +5,11 @@ import Layout from '@/layouts/Layout.astro';
 import Nav from '@/components/Nav.astro';
 import Hero from '@/components/home/Hero.astro';
 import OurServices from '@/components/home/OurServices.astro';
-import PlatformSolutions from '@/components/home/PlatformSolutions.astro';
+import Projects from '@/components/home/Projects.astro';
 import ValueProps from '@/components/home/ValueProps.astro';
 import Clients from '@/components/home/Clients.astro';
 import Team from '@/components/home/Team.astro';
-import FounderQuote from '@/components/home/FounderQuote.astro';
+import Testimonials from '@/components/home/Testimonials.astro';
 import Blog from '@/components/home/Blog.astro';
 import ContactFooter from '@/components/home/ContactFooter.astro';
 
@@ -17,7 +17,7 @@ import { siteConfig, nav, footer } from '@/data/site';
 import {
   hero, ourServices as ourServicesMeta,
   platform, valueProps, clients, team,
-  founderQuote, blog as blogMeta,
+  testimonials, blog as blogMeta,
 } from '@/data/home';
 import { projectCategories } from '@/data/project-categories';
 
@@ -31,7 +31,7 @@ const ourServices = {
 };
 
 /* ── Founder quotes collection ──────────────────────── */
-const founderQuotesCollection = await getCollection('testimonials');
+const testimonialsCollection = await getCollection('testimonials');
 
 /* ── Projects collection ────────────────────────────── */
 const projectsCollection = await getCollection('projects');
@@ -74,11 +74,11 @@ const blog = {
   <main>
     <Hero data={hero} />
     <OurServices data={ourServices} />
-    <PlatformSolutions data={platformData} />
+    <Projects data={platformData} />
     <ValueProps data={valueProps} />
     <Clients data={clients} />
     <Team data={team} />
-    <FounderQuote data={founderQuote} quotes={founderQuotesCollection} />
+    <Testimonials data={testimonials} quotes={testimonialsCollection} />
     <Blog data={blog} />
   </main>
 

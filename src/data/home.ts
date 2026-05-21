@@ -79,7 +79,7 @@ export const team = {
   }[],
 };
 
-export const founderQuote = {
+export const testimonials = {
   heading: "From the Founder",
   tagline: "SIMPLE. VALUABLE. EXPERT.",
   body: "Quality work at a fair price — we handle the complexity so you don't have to.",
