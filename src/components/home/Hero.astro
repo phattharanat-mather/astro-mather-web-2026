@@ -1,7 +1,7 @@
 ---
 import type { HeroData } from '@/content-definition/home';
 import { HeroSignal } from '@/components/home/HeroSignal';
-import { Boxes } from '@/components/ui/background-boxes';
+import { IsoWireframe } from '@/components/home/IsoWireframe';
 
 interface Props {
   data: HeroData;
@@ -19,13 +19,13 @@ const { data } = Astro.props;
     overflow-hidden
   "
 >
-  <!-- Isometric boxes background -->
+  <!-- Isometric wireframe — right-side decoration, desktop only -->
   <div
     aria-hidden="true"
-    class="absolute inset-0 overflow-hidden"
-    style="opacity: 0.45; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);"
+    class="absolute right-[-4%] top-1/2 -translate-y-1/2 w-[48vw] h-[72vh] max-w-[640px] pointer-events-none hidden md:block"
+    style="mask-image: radial-gradient(ellipse 65% 70% at 55% 48%, black 20%, transparent 80%);"
   >
-    <Boxes client:load />
+    <IsoWireframe client:only="react" />
   </div>
 
   <div class="relative z-10 max-w-7xl mx-auto w-full lg:px-8">
