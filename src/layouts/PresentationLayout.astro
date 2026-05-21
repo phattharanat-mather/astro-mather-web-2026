@@ -100,10 +100,11 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
   .canvas-inner {
     padding: 3rem 4rem;
     min-height: 100%;
+    font-size: clamp(1rem, 1.3vw, 1.4rem);
   }
 
   @media (max-width: 640px) {
     .pres-stage { padding: 0.75rem; }
-    .canvas-inner { padding: 1.5rem; }
+    .canvas-inner { padding: 1.5rem; font-size: clamp(0.875rem, 3vw, 1rem); }
   }
 </style>
