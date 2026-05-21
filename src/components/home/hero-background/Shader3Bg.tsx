@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import * as THREE from "three";
-import { Shader3 } from "@/components/shader3";
+import { Shader3 } from "./Shader3";
 import { useCssColor } from "./useCssColor";
 
 // Modified fragment shader: replaces the hardcoded dark vec3(0.05,0.05,0.05)
