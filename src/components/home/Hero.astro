@@ -1,7 +1,12 @@
 ---
 import type { HeroData } from '@/content-definition/home';
 import { HeroSignal } from '@/components/home/HeroSignal';
-import { IsoWireframe } from '@/components/home/IsoWireframe';
+// Hero background options — swap the active import to change the background:
+// import { IsoWireframe as HeroBg }  from '@/components/home/hero-background/IsoWireframe';
+// import { LiquidMetalBg as HeroBg } from '@/components/home/hero-background/LiquidMetalBg';
+// import { DotGridBg as HeroBg }     from '@/components/home/hero-background/DotGridBg';
+// import { NeuroNoiseBg as HeroBg }  from '@/components/home/hero-background/NeuroNoiseBg';
+import { Shader3Bg as HeroBg }     from '@/components/home/hero-background/Shader3Bg';
 
 interface Props {
   data: HeroData;
@@ -19,13 +24,13 @@ const { data } = Astro.props;
     overflow-hidden
   "
 >
-  <!-- Isometric wireframe — right-side decoration, desktop only -->
+  <!-- Hero background — swap the import above to change the effect -->
   <div
     aria-hidden="true"
-    class="absolute right-[-4%] top-1/2 -translate-y-1/2 w-[48vw] h-[72vh] max-w-[640px] pointer-events-none hidden md:block"
-    style="mask-image: radial-gradient(ellipse 65% 70% at 55% 48%, black 20%, transparent 80%);"
+    class="absolute inset-0 pointer-events-none"
+    style="opacity: var(--hero-bg-opacity, 0.38); mask-image: radial-gradient(ellipse 90% 80% at 60% 50%, black 20%, transparent 85%);"
   >
-    <IsoWireframe client:only="react" />
+    <HeroBg client:only="react" />
   </div>
 
   <div class="relative z-10 max-w-7xl mx-auto w-full lg:px-8">

@@ -243,6 +243,13 @@
   box-shadow: 0 0 0 3px color-mix(in oklch, var(--primary) 22%, transparent);
 }
 
+/* ─── Hero background opacity per preset ──────────────────────────────────── */
+/* Dark presets: slightly stronger effect; light presets: softer */
+:root                              { --hero-bg-opacity: 0.38; }
+[data-color-preset="dawn"],
+[data-color-preset="sun"],
+[data-color-preset="moon"]         { --hero-bg-opacity: 0.18; }
+
 /* ─── Reduced motion overrides ────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .hero-item,
