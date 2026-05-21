@@ -99,7 +99,7 @@ const grouped = Object.fromEntries(
                     <div
                       data-card-index={j}
                       aria-hidden="true"
-                      class={`block rounded-sm overflow-hidden border border-[var(--line)] bg-[var(--card)] opacity-50 cursor-default${j >= INITIAL_LIMIT ? ' hidden' : ''}`}
+                      class={`block rounded-sm overflow-hidden border border-[var(--line)] bg-[var(--card)] grayscale opacity-50 hover:grayscale-0 hover:opacity-100 hover:border-[var(--line-strong)] transition-all duration-200 cursor-default${j >= INITIAL_LIMIT ? ' hidden' : ''}`}
                     >
                       {project.image && (
                         <Image
@@ -119,12 +119,20 @@ const grouped = Object.fromEntries(
                 ))}
               </div>
               {hasMore && (
-                <button
-                  data-show-all
-                  class="mt-6 font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-150 flex items-center gap-2"
-                >
-                  Show all ({projects.length}) <span aria-hidden="true">↓</span>
-                </button>
+                <div class="mt-6 flex items-center gap-4">
+                  <button
+                    data-show-all
+                    class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-150 flex items-center gap-2"
+                  >
+                    Show all ({projects.length}) <span aria-hidden="true">↓</span>
+                  </button>
+                  <button
+                    data-hide-all
+                    class="hidden font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-150 flex items-center gap-2"
+                  >
+                    Hide <span aria-hidden="true">↑</span>
+                  </button>
+                </div>
               )}
             </>
           ) : (
@@ -179,6 +187,21 @@ const grouped = Object.fromEntries(
         card.classList.remove('hidden');
       });
       btn.classList.add('hidden');
+      panel.querySelector<HTMLButtonElement>('[data-hide-all]')?.classList.remove('hidden');
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-hide-all]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const panel = btn.closest<HTMLElement>('[data-panel]');
+      if (!panel) return;
+      const limit = parseInt(panel.closest('[data-panel]')?.getAttribute('data-limit') ?? '5');
+      panel.querySelectorAll<HTMLElement>('[data-card-index]').forEach((card) => {
+        const idx = parseInt(card.dataset.cardIndex ?? '0');
+        if (idx >= 5) card.classList.add('hidden');
+      });
+      btn.classList.add('hidden');
+      panel.querySelector<HTMLButtonElement>('[data-show-all]')?.classList.remove('hidden');
     });
   });
 </script>
