@@ -59,6 +59,7 @@ export default function SplashModal3DCard({
   if (!visible) return null;
 
   function close() {
+    localStorage.setItem(storageKey, String(Date.now() + 86400000));
     setVisible(false);
     if (prevFocusRef.current instanceof HTMLElement) {
       prevFocusRef.current.focus();
