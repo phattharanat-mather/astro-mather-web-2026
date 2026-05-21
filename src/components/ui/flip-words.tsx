@@ -7,10 +7,12 @@ export const FlipWords = ({
   words,
   duration = 3000,
   className,
+  onWordChange,
 }: {
   words: string[];
   duration?: number;
   className?: string;
+  onWordChange?: (word: string) => void;
 }) => {
   const [currentWord, setCurrentWord] = useState(words[0]);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
@@ -20,7 +22,8 @@ export const FlipWords = ({
     const word = words[words.indexOf(currentWord) + 1] || words[0];
     setCurrentWord(word);
     setIsAnimating(true);
-  }, [currentWord, words]);
+    onWordChange?.(word);
+  }, [currentWord, words, onWordChange]);
 
   useEffect(() => {
     if (!isAnimating)

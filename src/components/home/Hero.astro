@@ -1,6 +1,6 @@
 ---
 import type { HeroData } from '@/content-definition/home';
-import { MethodologyMorph } from '@/components/home/MethodologyMorph';
+import { HeroSignal } from '@/components/home/HeroSignal';
 import { Boxes } from '@/components/ui/background-boxes';
 
 interface Props {
@@ -30,15 +30,10 @@ const { data } = Astro.props;
 
   <div class="relative z-10 max-w-7xl mx-auto w-full lg:px-8">
 
-    <!-- Methodology tag cycling with morphing text -->
-    <div class="hero-item" style="--delay: 100ms">
-      <MethodologyMorph tags={data.methodologyTags} client:load />
-    </div>
-
     <!-- Company name -->
     <h1
       class="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-[var(--foreground)] mb-2 hero-item"
-      style="--delay: 250ms"
+      style="--delay: 100ms"
     >
       {data.headline}
     </h1>
@@ -47,7 +42,7 @@ const { data } = Astro.props;
     <div
       aria-hidden="true"
       class="mt-2 mb-8 h-px w-24 hero-line"
-      style="--delay: 440ms; background: var(--grad);"
+      style="--delay: 290ms; background: var(--grad);"
     ></div>
 
     <!-- Subheadline -->
@@ -57,52 +52,14 @@ const { data } = Astro.props;
         text-[var(--muted-foreground)]
         hero-item
       "
-      style="--delay: 560ms"
+      style="--delay: 410ms"
     >
       {data.subheadline}
     </p>
 
-    <!-- CTA -->
-    <div class="mt-10 hero-item" style="--delay: 700ms">
-      <a
-        href={data.cta.href}
-        class="
-          inline-flex items-center gap-2
-          px-5 py-2.5 rounded-sm
-          text-sm font-mono tracking-widest uppercase
-          bg-[var(--primary)] text-[var(--primary-foreground)]
-          btn-glow
-          focus-visible:outline-2 focus-visible:outline-offset-2
-        "
-      >
-        {data.cta.label}
-        <span aria-hidden="true">→</span>
-      </a>
-    </div>
+    <!-- 4M + methodology morph — grouped signal below the tagline -->
+    <HeroSignal tags={data.methodologyTags} delay="580ms" client:load />
 
-    <!-- Stats strip -->
-    <div
-      class="
-        mt-20 pt-8
-        border-t border-[var(--line)]
-        grid grid-cols-2 sm:grid-cols-3 gap-8
-        max-w-lg
-        hero-item
-      "
-      style="--delay: 860ms"
-    >
-      <div>
-        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-1">Services</p>
-        <p class="text-2xl font-bold" style="color: var(--headline1);">06</p>
-      </div>
-      <div>
-        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-1">Methodology</p>
-        <p class="text-2xl font-bold" style="color: var(--headline2);">4M</p>
-      </div>
-      <div>
-        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-1">Domains</p>
-        <p class="text-2xl font-bold text-[var(--accent)]">AI · Data · Web</p>
-      </div>
-    </div>
+
   </div>
 </section>
