@@ -63,7 +63,7 @@ const { data } = Astro.props;
     </p>
 
     <!-- CTA -->
-    <div class="mt-10 flex flex-wrap items-center gap-4 hero-item" style="--delay: 700ms">
+    <div class="mt-10 hero-item" style="--delay: 700ms">
       <a
         href={data.cta.href}
         class="
@@ -77,21 +77,6 @@ const { data } = Astro.props;
       >
         {data.cta.label}
         <span aria-hidden="true">→</span>
-      </a>
-
-      <a
-        href="#contact"
-        class="
-          inline-flex items-center gap-2
-          text-sm font-mono tracking-widest uppercase
-          text-[var(--muted-foreground)]
-          hover:text-[var(--foreground)]
-          transition-colors duration-150
-          border-b border-[var(--line)]
-          pb-0.5
-        "
-      >
-        Contact Us
       </a>
     </div>
 
