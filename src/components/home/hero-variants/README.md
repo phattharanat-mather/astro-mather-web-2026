@@ -4,23 +4,17 @@ Saved variants of the landing page hero section. Each file is a drop-in replacem
 
 ## How to switch
 
-In `src/pages/index.astro`, change the import line:
+`Hero.astro` is a thin switcher — it just imports and renders the active variant. Change one line there:
 
 ```astro
-// Before (active variant)
-import Hero from '@/components/home/Hero.astro';
+// src/components/home/Hero.astro
 
-// After (switch to a variant)
+// Switch to a different variant by changing this import:
 import Hero from '@/components/home/hero-variants/HeroVariant1.astro';
+// import Hero from '@/components/home/hero-variants/HeroVariant2.astro';
 ```
 
-The component interface is identical across all variants — they all accept `data: HeroData` — so no other changes are needed.
-
-To make a variant the new active hero, copy it over `Hero.astro`:
-
-```bash
-cp src/components/home/hero-variants/HeroVariant1.astro src/components/home/Hero.astro
-```
+`index.astro` never needs to change. All variants share the same `data: HeroData` interface.
 
 ---
 
