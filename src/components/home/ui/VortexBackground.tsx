@@ -1,5 +1,14 @@
+import { useState, useEffect } from 'react';
 import { Vortex } from '@/components/ui/vortex';
-import { useCssColor } from '@/components/home/hero-background/useCssColor';
+
+function readBackground(): string {
+  const el = document.createElement('div');
+  el.style.cssText = 'position:absolute;width:1px;height:1px;background-color:var(--background)';
+  document.body.appendChild(el);
+  const color = getComputedStyle(el).backgroundColor;
+  document.body.removeChild(el);
+  return color || 'rgb(7, 8, 13)';
+}
 
 interface Props {
   baseHue?: number;
@@ -14,7 +23,17 @@ export function VortexBackground({
   rangeY = 800,
   rangeSpeed = 1.2,
 }: Props) {
-  const bg = useCssColor('--background');
+  const [bg, setBg] = useState<string>(() => readBackground());
+
+  useEffect(() => {
+    const update = () => setBg(readBackground());
+    const mo = new MutationObserver(update);
+    mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-color-preset', 'class'],
+    });
+    return () => mo.disconnect();
+  }, []);
 
   return (
     <Vortex
