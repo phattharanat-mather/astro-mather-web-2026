@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { BlogData } from '@/content-definition/home';
 
 interface Props {
@@ -6,6 +7,11 @@ interface Props {
 }
 
 const { data } = Astro.props;
+
+const articleCols = [
+  data.articles.filter((_, i) => i % 2 === 0),
+  data.articles.filter((_, i) => i % 2 !== 0),
+];
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-GB', {
@@ -50,52 +56,78 @@ function formatDate(iso: string) {
       </a>
     </div>
 
-    <!-- Article grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-px border border-[var(--line)]">
-      {data.articles.map((article, i) => (
-        <a
-          href={article.href}
-          class="
-            group block p-8 bg-[var(--background)]
-            hover:bg-[var(--card)]
-            transition-colors duration-150
-          "
-          data-reveal
-          style={`transition-delay: ${i * 60}ms`}
-        >
-          <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-4">
-            {formatDate(article.date)}
-          </p>
-          <h3
-            class="
-              text-base font-semibold leading-snug mb-4
-              group-hover:text-[var(--primary)]
-              transition-colors duration-150
-            "
-            style="color: var(--ink);"
-          >
-            {article.title}
-          </h3>
-          <span
-            class="
-              font-mono text-xs tracking-widest uppercase
-              text-[var(--muted-foreground)]
-              group-hover:text-[var(--primary)]
-              transition-colors duration-150
-              inline-flex items-center gap-1
-            "
-          >
-            Read more
-            <span
-              aria-hidden="true"
-              class="
-                inline-block translate-x-0
-                group-hover:translate-x-1
-                transition-transform duration-150
-              "
-            >→</span>
-          </span>
-        </a>
+    <!-- Article masonry -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {articleCols.map((col) => (
+        <div class="flex flex-col gap-4">
+          {col.map((article) => {
+            const globalIdx = data.articles.indexOf(article);
+            return (
+              <a
+                href={article.href}
+                class="
+                  group block
+                  border border-[var(--line)] bg-[var(--background)]
+                  hover:bg-[var(--card)]
+                  transition-colors duration-150
+                "
+                data-reveal
+                style={`transition-delay: ${globalIdx * 60}ms`}
+              >
+                {article.image && (
+                  <div class="overflow-hidden aspect-[3/2]">
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      widths={[400, 800]}
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                    />
+                  </div>
+                )}
+                <div class="p-6">
+                  <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-3">
+                    {formatDate(article.date)}
+                  </p>
+                  <h3
+                    class="
+                      text-base font-semibold leading-snug mb-3
+                      group-hover:text-[var(--primary)]
+                      transition-colors duration-150
+                    "
+                    style="color: var(--ink);"
+                  >
+                    {article.title}
+                  </h3>
+                  {article.excerpt && (
+                    <p class="text-sm text-[var(--muted-foreground)] leading-relaxed mb-4 line-clamp-2">
+                      {article.excerpt}
+                    </p>
+                  )}
+                  <span
+                    class="
+                      font-mono text-xs tracking-widest uppercase
+                      text-[var(--muted-foreground)]
+                      group-hover:text-[var(--primary)]
+                      transition-colors duration-150
+                      inline-flex items-center gap-1
+                    "
+                  >
+                    Read more
+                    <span
+                      aria-hidden="true"
+                      class="
+                        inline-block translate-x-0
+                        group-hover:translate-x-1
+                        transition-transform duration-150
+                      "
+                    >→</span>
+                  </span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
       ))}
     </div>
   </div>

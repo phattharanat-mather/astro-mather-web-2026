@@ -105,7 +105,7 @@ export interface Article {
   title: string;
   date: string;
   href: string;
-  image?: string;
+  image?: ImageMetadata;
   excerpt?: string;
 }
 
