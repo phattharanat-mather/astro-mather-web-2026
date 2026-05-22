@@ -1,14 +1,8 @@
-import { useState, useEffect } from 'react';
 import { Vortex } from '@/components/ui/vortex';
 
-function readBackground(): string {
-  const el = document.createElement('div');
-  el.style.cssText = 'position:absolute;width:1px;height:1px;background-color:var(--background)';
-  document.body.appendChild(el);
-  const color = getComputedStyle(el).backgroundColor;
-  document.body.removeChild(el);
-  return color || 'rgb(7, 8, 13)';
-}
+// Cosmos dark — vortex uses additive glow compositing which requires darkness.
+// This value is fixed regardless of the active page theme.
+const CANVAS_BG = 'oklch(0.07 0.022 264)';
 
 interface Props {
   baseHue?: number;
@@ -23,21 +17,9 @@ export function VortexBackground({
   rangeY = 800,
   rangeSpeed = 1.2,
 }: Props) {
-  const [bg, setBg] = useState<string>(() => readBackground());
-
-  useEffect(() => {
-    const update = () => setBg(readBackground());
-    const mo = new MutationObserver(update);
-    mo.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-color-preset', 'class'],
-    });
-    return () => mo.disconnect();
-  }, []);
-
   return (
     <Vortex
-      backgroundColor={bg}
+      backgroundColor={CANVAS_BG}
       baseHue={baseHue}
       particleCount={particleCount}
       rangeY={rangeY}

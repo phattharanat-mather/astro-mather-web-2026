@@ -10,6 +10,15 @@ interface Props {
 const { data } = Astro.props;
 ---
 
+<!--
+  Variant 2 always renders on a cosmos-dark canvas.
+  The vortex uses additive glow compositing which requires darkness.
+  Text colours are pinned to the cosmos-dark palette via CSS variable
+  overrides so the hero is legible on any page theme.
+  The scrim fades the canvas to var(--background) which resolves from
+  the page scope (not overridden here), giving a clean transition into
+  whatever theme is active.
+-->
 <section
   id="welcome"
   class="
@@ -17,6 +26,14 @@ const { data } = Astro.props;
     pt-14 pb-16 px-6
     border-b border-[var(--line)]
     overflow-hidden
+  "
+  style="
+    --foreground:         oklch(0.93 0.025 272);
+    --muted-foreground:   oklch(0.55 0.055 258);
+    --primary:            oklch(0.58 0.26 272);
+    --headline2:          oklch(0.82 0.14 200);
+    --line:               oklch(1 0 0 / 8%);
+    --grad:               linear-gradient(90deg, oklch(0.58 0.26 272), oklch(0.67 0.22 350));
   "
 >
   <!-- Vortex background — violet-cyan particle field, full height -->
@@ -33,7 +50,7 @@ const { data } = Astro.props;
     />
   </div>
 
-  <!-- Bottom fade scrim — blends vortex into the section border -->
+  <!-- Bottom fade scrim — blends canvas into the page background -->
   <div
     aria-hidden="true"
     class="absolute bottom-0 left-0 right-0 h-40 z-10 pointer-events-none"
