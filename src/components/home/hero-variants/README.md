@@ -20,7 +20,7 @@ import Hero from '@/components/home/hero-variants/HeroVariant1.astro';
 
 ## Active variant
 
-`Hero.astro` currently loads: **HeroVariant2**
+`Hero.astro` currently loads: **HeroVariant1**
 
 ---
 
