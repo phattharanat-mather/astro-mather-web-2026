@@ -1,7 +1,7 @@
 ---
 import type { HeroData } from '@/content-definition/home';
 import { HeroSignal } from '@/components/home/ui/HeroSignal';
-import { Boxes } from '@/components/ui/background-boxes';
+import { VortexBackground } from '@/components/home/ui/VortexBackground';
 
 interface Props {
   data: HeroData;
@@ -19,16 +19,21 @@ const { data } = Astro.props;
     overflow-hidden
   "
 >
-  <!-- Isometric boxes background — visible full height, fades at bottom edge -->
+  <!-- Vortex background — violet-cyan particle field, full height -->
   <div
     aria-hidden="true"
     class="absolute inset-0 overflow-hidden"
-    style="opacity: 0.4; mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);"
   >
-    <Boxes client:load />
+    <VortexBackground
+      baseHue={210}
+      particleCount={500}
+      rangeY={800}
+      rangeSpeed={1.2}
+      client:only="react"
+    />
   </div>
 
-  <!-- Bottom fade scrim — blends boxes into the section border -->
+  <!-- Bottom fade scrim — blends vortex into the section border -->
   <div
     aria-hidden="true"
     class="absolute bottom-0 left-0 right-0 h-40 z-10 pointer-events-none"

@@ -18,6 +18,12 @@ import Hero from '@/components/home/hero-variants/HeroVariant1.astro';
 
 ---
 
+## Active variant
+
+`Hero.astro` currently loads: **HeroVariant2**
+
+---
+
 ## Variants
 
 ### HeroVariant1 — Isometric Boxes + Bottom Readout Strip
@@ -39,3 +45,21 @@ import Hero from '@/components/home/hero-variants/HeroVariant1.astro';
 This fills the dead space that appears below centered content in a full-viewport section, and reinforces the Instrument Panel aesthetic from the design system.
 
 **Dependencies:** `HeroSignal`, `Boxes` (from `@/components/ui/background-boxes`), `motion/react` (via HeroSignal), `FlipWords`.
+
+---
+
+### HeroVariant2 — Vortex Particle Field
+
+**File:** `HeroVariant2.astro`
+
+**Background:** Animated noise-flow particle field (`<Vortex />`) rendered on a canvas filling the full section. Particles span `baseHue={210}` with a 100-degree range, covering the cyan-blue-violet-purple band of the design system palette (`oklch` hue ~200–310). Background canvas fill is `oklch(0.07 0.022 264)` (Observatory Black). Uses `client:only="react"` since the component depends on `window` and canvas APIs.
+
+**Layout:** Identical structure to HeroVariant1 — vertically centered content block, bottom fade scrim, bottom readout strip. Only the background layer changes.
+
+**Tuning props on `<Vortex>`:**
+- `baseHue={210}` — cyan start, violet-purple range
+- `particleCount={500}` — dense field
+- `rangeY={800}` — particles spread across full viewport height
+- `rangeSpeed={1.2}` — deliberate flow, not frantic
+
+**Dependencies:** `HeroSignal`, `Vortex` (from `@/components/ui/vortex`), `simplex-noise`, `motion/react`.
