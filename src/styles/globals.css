@@ -4,7 +4,6 @@
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
 
 /* Color presets — values override shadcn defaults via [data-color-preset] selectors */
 @import "./presets/cosmos.css";
@@ -28,7 +27,7 @@
 );
 
 @theme inline {
-  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono:
     ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
   --font-heading: var(--font-sans);

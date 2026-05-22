@@ -1,5 +1,6 @@
 ---
 import '../styles/globals.css';
+import FontLoader from './FontLoader.astro';
 import { SEO } from 'astro-seo';
 import { siteConfig } from '../data/site';
 import SplashModal from '../components/splash/SplashModal.astro';
@@ -23,6 +24,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <FontLoader />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#05070f" />
     <SEO
