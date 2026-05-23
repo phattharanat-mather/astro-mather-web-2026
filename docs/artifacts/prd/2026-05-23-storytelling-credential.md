@@ -47,37 +47,47 @@ The page system is **multi-topic**: each topic lives at `/storytelling/<topic>`.
 
 ---
 
-## 3. Interaction Model — Scrollytelling
+## 3. Interaction Model — Slide Deck with Internal Animation
 
-The page is divided into **two columns**:
+Each scene occupies the **full viewport** (`100vw × 100vh`) — like a PowerPoint slide that has its own interactive story and animation sequence inside.
 
 ```
-┌─────────────────────┬──────────────────────────────┐
-│                     │                              │
-│   STORY (left)      │   ASSET PANEL (right)        │
-│                     │                              │
-│  Narrative text     │  position: sticky; top: 0    │
-│  scrolls normally   │  height: 100vh               │
-│                     │                              │
-│  Each "step" block  │  Transitions to new visual   │
-│  acts as a waypoint │  when step enters viewport   │
-│                     │                              │
-└─────────────────────┴──────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│                   SCENE (full viewport)              │
+│                                                      │
+│   Each scene owns its own layout, copy, and          │
+│   animation steps. The engine just says "you're      │
+│   active" and passes the current step index.         │
+│                                                      │
+│                    step: 0 → 1 → 2 → … → N          │
+│                                                      │
+└──────────────────────────────────────────────────────┘
 ```
 
-**Scroll mechanics:**
+**Two control axes:**
 
-- `IntersectionObserver` watches each story step block
-- When a step enters the viewport (threshold ~40%), the active scene index updates
-- The sticky right panel cross-fades to the corresponding visual asset
-- Asset transitions use `motion/react` (`AnimatePresence` + `motion.div`)
-- On mobile: columns stack vertically; asset appears above its corresponding text step
+| Axis | Input | Action |
+|---|---|---|
+| **Flow** | `↓` / scroll down / swipe up | Next animation step within scene → when fully progressed, advance to next scene |
+| **Flow** | `↑` / scroll up / swipe down | Previous animation step → when at step 0, go to previous scene |
+| **Jump** | `→` / on-screen right arrow | Skip to next scene (ignores remaining animation steps) |
+| **Jump** | `←` / on-screen left arrow | Jump to previous scene start (resets to step 0) |
+| **Jump** | ChapterNav click | Jump directly to any scene (resets to step 0) |
 
-**Chapter skip navigation:**
+**Flow behaviour (↓):**
+- `step < maxSteps` → `step++` (next animation state within scene)
+- `step === maxSteps` → `sceneIndex++` (advance to next scene, reset step to 0)
 
-- A floating chapter nav (dots or labelled list) overlays the left edge or top
-- Clicking a chapter label smooth-scrolls to that step's anchor (`#scene-001`, `#scene-002`, …)
-- The active chapter is highlighted as the user scrolls
+**State managed by `StoryEngine`:**
+- `activeScene: number` — which scene is displayed
+- `activeStep: number` — current animation step within that scene
+- Scene receives `step` as a controlled prop; scene renders based on it
+- `StoryEngine` owns all keyboard and wheel event listeners
+
+**Scene transition:**
+- `AnimatePresence` wraps the active scene
+- Transition style: **TBD** (see §13 open questions)
 
 ---
 
@@ -85,22 +95,23 @@ The page is divided into **two columns**:
 
 | Decision              | Choice                                                         | Rationale                                                                                                   |
 | --------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Story column position | **Left**                                                       | Classic FT/editorial convention; natural reading flow                                                       |
-| Asset panel position  | **Right sticky**                                               | Visuals anchor while text scrolls                                                                           |
+| Scene model           | **Full-viewport slide deck**                                   | Each scene = 100vw × 100vh; discrete units with internal animation, not a continuous scroll page            |
+| Navigation — between scenes | **↓ (flow) auto-advances when done; → (jump) skips**   | Two axes: flow (↓↑) progresses naturally; jump (←→) lets user skip. See §3.                                |
+| Navigation — within scene | **`step` prop controlled by `StoryEngine`**              | Scene receives `step: number`; engine owns all keyboard/wheel events; scene is a pure renderer               |
 | Color theme           | **Full-bleed light / editorial**                               | White background, newspaper feel — deliberately distinct from the dark main site to signal a different mode |
 | Navigation            | **Standalone — no site Nav**                                   | Immersive experience; subtle back-arrow only                                                                |
 | Typography feel       | Editorial — generous line-height, serif accent for pull quotes | Matches the "story" framing                                                                                 |
-| Chapter skip nav      | **Yes — floating ToC**                                         | User requested; allows non-linear reading                                                                   |
-| Scene component names | **3-digit numbered — `Scene001Intro`, `Scene002Methodology`, …** | Keeps folder sort correct up to 999 scenes; consistent with anchor IDs (`#scene-001`) |
+| Chapter skip nav      | **Yes — floating ToC**                                         | Allows non-linear reading; jumps to scene start (step 0)                                                    |
+| Scene component names | **3-digit numbered — `Scene001Intro`, `Scene002Methodology`, …** | Keeps folder sort correct up to 999 scenes; consistent with anchor IDs (`#scene-001`)                    |
 | Component location    | `src/components/storytelling/<topic>/`                         | Topic-scoped; clean separation when more topics are added                                                   |
 | Scene tech            | **React** (not Astro)                                          | Scenes live inside the React tree; need Motion animations + shared scroll state. See §8.                    |
-| Scene content         | **Hardcoded inside each scene component**                      | Left column copy + right panel visual both live in the same `.tsx` file; no MDX or external data file for content |
-| Scene loading         | **`React.lazy()` via scene registry**                         | Scene components are lazy-imported; `credential.ts` holds the registry (id, label, dynamic import). Avoids a large static import block; scales to many scenes |
-| Static assets         | **`src/assets/storytelling/credential/`**                     | Processed by Astro image pipeline; subdirs `clients/` and `tech/` for logo sets |
-| Scene types           | **`standard` \| `divider` \| `sub`**                          | `standard` = two-column scrollytelling; `divider` = full-bleed chapter break; `sub` = sub-scene under a divider (defaults to two-column unless the component overrides its own layout) |
-| Divider scene layout  | **Full-bleed title card**                                     | Large heading, background image/colour, full viewport — no two-column split. `StoryEngine` detects `type: "divider"` and skips the two-col wrapper |
-| Sub-scene layout      | **Two-column by default; bespoke if the story demands it**    | Registry entry is `type: "sub"`; the scene component itself decides if it needs a custom layout (e.g. a hero project with a special visual treatment) |
-| Chapter nav           | **All scenes visible**                                        | Every scene (standard, divider, sub) appears in the ToC; dividers styled as section headings, sub-scenes as regular items beneath them |
+| Scene content         | **Hardcoded inside each scene component**                      | Copy + layout + animation all owned by the scene file; no MDX or external data file for content             |
+| Scene loading         | **`React.lazy()` via scene registry**                         | Scene components are lazy-imported from `credential.ts`. Avoids large static import block; scales to many scenes |
+| Static assets         | **`src/assets/storytelling/credential/`**                     | Processed by Astro image pipeline; subdirs `clients/` and `tech/` for logo sets                             |
+| Scene types           | **`standard` \| `divider` \| `sub`**                          | `standard` = any scene layout (two-col default); `divider` = full-bleed chapter break; `sub` = sub-scene under a divider. All are full-viewport. |
+| Divider scene layout  | **Full-bleed title card**                                     | Large heading, background image/colour, full viewport. `ChapterNav` renders dividers as section headings.   |
+| Sub-scene layout      | **Two-column by default; bespoke if story demands it**        | Scene component decides its own layout internally; no wrapper imposed by `StoryEngine`                      |
+| Chapter nav           | **All scenes visible**                                        | Every scene (standard, divider, sub) appears in the ToC; dividers as section headings, sub-scenes as regular items |
 
 ---
 
@@ -115,66 +126,67 @@ _(Topic: `credential`)_
 ### Scene 001 — Introduction `[standard]`
 
 **Anchor:** `#scene-001`
-**Left text:** Brand introduction, The Mather name origin, company founding context — hardcoded in `Scene001Intro.tsx`
-**Right asset:** Animated `IsoWireframe` component (already built) + The Mather wordmark with 4M letters animating in
-**Waypoint trigger:** Page load / first step
+**Steps:** TBD (wordmark letters animate in + IsoWireframe build-up)
+**Content:** Brand introduction, The Mather name origin, company founding context — hardcoded in `Scene001Intro.tsx`
+**Asset:** Animated `IsoWireframe` component (already built) + The Mather wordmark with 4M letters animating in
 
 ---
 
 ### Scene 002 — Methodology `[standard]`
 
 **Anchor:** `#scene-002`
-**Left text:** Explanation of the 4M framework (Methodology, Mathematics, Machine Learning, Matching) — hardcoded in `Scene002Methodology.tsx`
-**Right asset:** 4-quadrant diagram; each M label and quadrant animates in sequentially on entry
-**Waypoint trigger:** Step 2 enters viewport
+**Steps:** 4 (one per M — Methodology, Mathematics, Machine Learning, Matching)
+**Content:** Explanation of the 4M framework — hardcoded in `Scene002Methodology.tsx`
+**Asset:** 4-quadrant diagram; each M label and quadrant animates in on each step
 
 ---
 
 ### Scene 003 — Services `[standard]`
 
 **Anchor:** `#scene-003`
-**Left text:** What The Mather builds — overview of the 6 service areas (AI Technology, Data Research, Web/Mobile, Data Migration, Data-Driven Strategy, Data Analysis) — hardcoded in `Scene003Services.tsx`
-**Right asset:** 6 service cards tile in with staggered Motion animation
-**Waypoint trigger:** Step 3 enters viewport
+**Steps:** 6 (one per service area) or 1 (all cards tile in together)
+**Content:** What The Mather builds — 6 service areas — hardcoded in `Scene003Services.tsx`
+**Asset:** 6 service cards tile in with staggered Motion animation
 
 ---
 
 ### Scene 004 — Tech Stack `[standard]`
 
 **Anchor:** `#scene-004`
-**Left text:** "Powered by modern tools" — description of engineering philosophy — hardcoded in `Scene004TechStack.tsx`
-**Right asset:** Tech logo grid (React, Next.js, Flutter, Firebase, Prisma, Vercel, shadcn, etc.) with logos appearing in sequence
+**Steps:** 1–N (logos appear in sequence or in groups)
+**Content:** "Powered by modern tools" — hardcoded in `Scene004TechStack.tsx`
+**Asset:** Tech logo grid (React, Next.js, Flutter, Firebase, Prisma, Vercel, shadcn, etc.)
 **Asset source:** `src/assets/storytelling/credential/tech/`
-**Waypoint trigger:** Step 4 enters viewport
 
 ---
 
 ### Scene 005 — Clients `[standard]`
 
 **Anchor:** `#scene-005`
-**Left text:** "Trusted by leading organisations across Thailand and Southeast Asia" — hardcoded in `Scene005Clients.tsx`
-**Right asset:** Client logo mosaic (PTT, Chevron, Suzuki, Haier, LINE BK, Sansiri, 15+ logos) fades in as a grid
+**Steps:** 1 (all logos fade in as a grid) or N (logos appear in rows)
+**Content:** "Trusted by leading organisations across Thailand and Southeast Asia" — hardcoded in `Scene005Clients.tsx`
+**Asset:** Client logo mosaic (PTT, Chevron, Suzuki, Haier, LINE BK, Sansiri, 15+ logos)
 **Asset source:** `src/assets/storytelling/credential/clients/`
-**Waypoint trigger:** Step 5 enters viewport
 
 ---
 
 ### Scene 006 — Projects _(chapter divider)_ `[divider]`
 
 **Anchor:** `#scene-006`
-**Layout:** Full-bleed title card — large "Projects" heading, background image/colour, full viewport. No two-column split.
+**Steps:** 1 (static title card; no internal animation)
+**Layout:** Full-bleed title card — large "Projects" heading, background image/colour, full viewport
 **Component:** `Scene006ProjectsDivider.tsx`
-**Waypoint trigger:** Step 6 enters viewport
 
 ---
 
 ### Scene 007+ — Individual Projects `[sub]`
 
 **Anchors:** `#scene-007`, `#scene-008`, …
+**Steps:** Defined per scene component
 **Layout:** Two-column by default. Scene component may override to a bespoke layout if the project story demands it.
 **Components:** `Scene007ProjectName.tsx`, `Scene008ProjectName.tsx`, …
-**Left text:** Project narrative — hardcoded in each component
-**Right asset:** Project visuals — sourced from `src/content/projects/2026-imported/**/*.png`
+**Content:** Project narrative — hardcoded in each component
+**Asset:** Project visuals — sourced from `src/content/projects/2026-imported/**/*.png`
 
 > Project scenes are added incrementally. Each project gets a dedicated scene file.
 
@@ -198,68 +210,79 @@ src/
 │   └── storytelling/
 │       ├── credential/                    ← Topic-scoped components
 │       │   ├── ScrollyTelling.tsx         ← React root (client:only="react")
-│       │   ├── StoryEngine.tsx            ← IntersectionObserver + active scene state
-│       │   ├── StoryStep.tsx              ← Left col: individual narrative block + anchor
-│       │   ├── StoryPanel.tsx             ← Right sticky panel + AnimatePresence
-│       │   ├── ChapterNav.tsx             ← Floating ToC — dots/labels, scroll-spy
+│       │   ├── StoryEngine.tsx            ← activeScene + activeStep state; keyboard/wheel handler
+│       │   ├── SceneArrows.tsx            ← On-screen ← → jump buttons (desktop)
+│       │   ├── ChapterNav.tsx             ← Floating ToC + controls hint
 │       │   └── scenes/
-│       │       ├── Scene001Intro.tsx      ← Owns copy + animation (hardcoded)
+│       │       ├── Scene001Intro.tsx      ← Full viewport; owns layout + copy + animation
 │       │       ├── Scene002Methodology.tsx
 │       │       ├── Scene003Services.tsx
 │       │       ├── Scene004TechStack.tsx
 │       │       ├── Scene005Clients.tsx
-│       │       └── Scene006Projects.tsx
+│       │       ├── Scene006ProjectsDivider.tsx
+│       │       └── Scene007+ProjectName.tsx
 │       └── shared/                        ← Reusable across future topics
-│           └── (e.g. SceneShell.tsx, useScrollSpy.ts)
+│           ├── useSceneNav.ts             ← keydown + wheel hook; returns { goNext, goPrev, jumpTo }
+│           └── SceneTransition.tsx        ← AnimatePresence wrapper for scene entrance/exit
 │
 └── data/
     └── storytelling/
-        └── credential.ts                  ← Scene registry only: id, label, lazy import
+        └── credential.ts                  ← Scene registry: id, label, type, steps, lazy import
 ```
 
-**`credential.ts` shape (registry, no content):**
+**`credential.ts` shape:**
 
 ```ts
 export type SceneType = "standard" | "divider" | "sub"
 
+export interface SceneProps {
+  step: number       // current animation step (0-indexed), controlled by StoryEngine
+  isActive: boolean  // true when this scene is the displayed scene
+}
+
 export interface SceneEntry {
-  id: string          // e.g. "scene-001"
-  label: string       // shown in ChapterNav
+  id: string         // e.g. "scene-001" — used as anchor id
+  label: string      // shown in ChapterNav
   type: SceneType
-  component: () => Promise<{ default: React.ComponentType }>
+  steps: number      // total animation steps (1 = no internal animation, just entrance)
+  component: () => Promise<{ default: React.ComponentType<SceneProps> }>
 }
 
 export const scenes: SceneEntry[] = [
-  { id: "scene-001", label: "Introduction",  type: "standard", component: () => import('./scenes/Scene001Intro') },
-  { id: "scene-002", label: "Methodology",   type: "standard", component: () => import('./scenes/Scene002Methodology') },
-  { id: "scene-003", label: "Services",      type: "standard", component: () => import('./scenes/Scene003Services') },
-  { id: "scene-004", label: "Tech Stack",    type: "standard", component: () => import('./scenes/Scene004TechStack') },
-  { id: "scene-005", label: "Clients",       type: "standard", component: () => import('./scenes/Scene005Clients') },
-  { id: "scene-006", label: "Projects",      type: "divider",  component: () => import('./scenes/Scene006ProjectsDivider') },
-  { id: "scene-007", label: "Project A",     type: "sub",      component: () => import('./scenes/Scene007ProjectA') },
+  { id: "scene-001", label: "Introduction", type: "standard", steps: 4, component: () => import('./scenes/Scene001Intro') },
+  { id: "scene-002", label: "Methodology",  type: "standard", steps: 4, component: () => import('./scenes/Scene002Methodology') },
+  { id: "scene-003", label: "Services",     type: "standard", steps: 1, component: () => import('./scenes/Scene003Services') },
+  { id: "scene-004", label: "Tech Stack",   type: "standard", steps: 1, component: () => import('./scenes/Scene004TechStack') },
+  { id: "scene-005", label: "Clients",      type: "standard", steps: 1, component: () => import('./scenes/Scene005Clients') },
+  { id: "scene-006", label: "Projects",     type: "divider",  steps: 1, component: () => import('./scenes/Scene006ProjectsDivider') },
+  { id: "scene-007", label: "Project A",    type: "sub",      steps: 3, component: () => import('./scenes/Scene007ProjectA') },
   // … add projects here
 ]
 ```
 
-`StoryEngine` checks `scene.type`:
-- `"divider"` → renders `<DividerLayout>` (full-bleed, full viewport)
-- `"standard"` | `"sub"` → renders `<TwoColLayout>` (unless the component overrides internally)
+**`StoryEngine` logic:**
+- `↓` / wheel down: `step < scene.steps - 1` → `step++`; else → `sceneIndex++`, `step = 0`
+- `↑` / wheel up: `step > 0` → `step--`; else → `sceneIndex--`, `step = 0`
+- `→`: `sceneIndex++`, `step = 0`
+- `←`: `sceneIndex--`, `step = 0`
+- ChapterNav click: `sceneIndex = target`, `step = 0`
 
 ---
 
 ## 7. Technology Choices
 
-| Concern             | Solution                                                               | Already in stack?                    |
-| ------------------- | ---------------------------------------------------------------------- | ------------------------------------ |
-| Scroll detection    | `IntersectionObserver` (custom hook `useScrollSpy`)                    | ✅ pattern exists in `Layout.astro`  |
-| Asset transitions   | `motion/react` `AnimatePresence`                                       | ✅ `motion` v12 installed            |
-| Sticky layout       | CSS `position: sticky` + Tailwind `sticky top-0 h-screen`             | ✅                                   |
-| Project images      | `import.meta.glob` over `src/content/projects/`                       | ✅ images already present            |
-| Component hydration | `client:only="react"` on `ScrollyTelling`                             | ✅                                   |
-| Scene lazy loading  | `React.lazy()` resolved from scene registry in `credential.ts`        | ✅ React built-in                    |
-| UI primitives       | shadcn `Badge` for project categories                                  | ✅                                   |
-| Chapter nav anchors | Native `id` attributes + `scrollIntoView` / `href="#scene-00X"`       | ✅ no library needed                 |
-| **New libraries**   | **None**                                                               | ✅                                   |
+| Concern                   | Solution                                                               | Already in stack?                    |
+| ------------------------- | ---------------------------------------------------------------------- | ------------------------------------ |
+| Scene navigation (between)| `keydown` + `wheel` events in `useSceneNav` hook                      | ✅ no library; native browser APIs   |
+| Scene navigation (within) | `step` state in `StoryEngine`; passed as prop to active scene          | ✅ React `useState`                  |
+| Scene transitions         | `motion/react` `AnimatePresence` in `SceneTransition.tsx`             | ✅ `motion` v12 installed            |
+| Scene lazy loading        | `React.lazy()` resolved from scene registry in `credential.ts`        | ✅ React built-in                    |
+| Project images            | `import.meta.glob` over `src/content/projects/`                       | ✅ images already present            |
+| Component hydration       | `client:only="react"` on `ScrollyTelling`                             | ✅                                   |
+| UI primitives             | shadcn `Badge` for project categories                                  | ✅                                   |
+| On-screen arrows          | `SceneArrows.tsx` — `fixed` positioned, ghost buttons                 | ✅ no library needed                 |
+| Controls hint             | Inline hint in `ChapterNav.tsx`; first-visit overlay in `StoryEngine` | ✅ no library needed                 |
+| **New libraries**         | **None**                                                               | ✅                                   |
 
 ---
 
@@ -281,11 +304,14 @@ export const scenes: SceneEntry[] = [
 
 ## 9. Responsive Behaviour
 
-| Breakpoint    | Layout                                                                     |
-| ------------- | -------------------------------------------------------------------------- |
-| `lg` and up   | Two-column sticky (story left 40%, asset right 60%)                        |
-| Below `lg`    | Single column; asset appears **above** each step, full-width, `h-64`       |
-| Chapter nav   | Left-edge floating on `lg`+; collapses to a top progress bar on mobile     |
+Every scene is always full viewport (`100vw × 100vh`) on all breakpoints. Layout inside the scene adapts.
+
+| Breakpoint    | Scene layout                                               | Navigation                                                   |
+| ------------- | ---------------------------------------------------------- | ------------------------------------------------------------ |
+| `lg` and up   | Scene decides (two-column default for standard/sub)        | Keyboard `↓↑←→`; on-screen `SceneArrows` (←→); `ChapterNav` |
+| Below `lg`    | Scene decides (single column; asset stacked)               | Swipe up/down (flow); swipe left/right (jump); `ChapterNav`  |
+| Chapter nav   | `fixed left-6 top-1/2` on `lg`+                            | Bottom pill / collapsed on mobile                            |
+| SceneArrows   | `fixed` mid-left and mid-right, visible on `lg`+           | Hidden on mobile (replaced by swipe)                         |
 
 ---
 
@@ -306,20 +332,20 @@ The `editorial` color preset uses `--color-background: #fff`, `--color-foregroun
 
 ---
 
-## 11. Chapter Navigation (ToC)
+## 11. Chapter Navigation (ToC) + Controls Hint
 
-`ChapterNav.tsx` — a floating panel rendered inside the React tree so it has access to `activeScene` state.
+### ChapterNav
+
+`ChapterNav.tsx` — floating panel inside the React tree; reads `activeScene` from `StoryEngine`.
 
 **Behaviour:**
-- Renders a vertical list of chapter labels (or dots with tooltips on hover)
-- Highlights the currently active scene using `activeScene` state from `StoryEngine`
-- Each item is an `<a href="#scene-00X">` for native scroll-to-anchor
+- Renders a vertical list of all scenes
+- Dividers styled as section headings; sub-scenes as regular items beneath
+- Clicking any item calls `jumpTo(sceneIndex)` — sets `sceneIndex` and resets `step` to 0
 - Positioned `fixed left-6 top-1/2 -translate-y-1/2` on desktop
-- Hidden or collapsed to a progress bar on mobile
+- Collapsed to a bottom pill / progress bar on mobile
 
 **Chapter labels (credential topic):**
-
-All scenes appear in the ToC. Dividers are styled as section headings; sub-scenes appear as regular items beneath them.
 
 | # | Label | Type |
 |---|---|---|
@@ -330,6 +356,43 @@ All scenes appear in the ToC. Dividers are styled as section headings; sub-scene
 | 005 | Clients | standard |
 | 006 | **Projects** | **divider** |
 | 007+ | Project Name | sub |
+
+### Controls Hint
+
+Two-layer approach so the hint informs without cluttering:
+
+**Layer 1 — First-visit overlay (auto-dismiss):**
+- Centred overlay on Scene 001 load
+- Shows the full control scheme for 3–4 seconds then fades out
+- Dismissed immediately on any input
+- Stored in `sessionStorage` so it only shows once per visit
+
+```
+  ┌─────────────────────────────────┐
+  │                                 │
+  │   ↓  scroll to explore          │
+  │   →  skip to next scene         │
+  │   ←→  jump between scenes       │
+  │                                 │
+  │   or use the menu on the left   │
+  │                                 │
+  └─────────────────────────────────┘
+```
+
+**Layer 2 — Persistent hint in ChapterNav footer:**
+- Always visible; small, muted text at the bottom of the floating nav
+- `↓ explore  ·  → skip`
+- Serves as a reminder after the first-visit overlay has dismissed
+
+### SceneArrows
+
+`SceneArrows.tsx` — on-screen ← → jump buttons for mouse users.
+
+- `fixed` positioned at mid-left and mid-right viewport edges
+- Ghost/outline circle style; `opacity-30` idle, `opacity-100` on hover
+- Arrow icon only; no label
+- Visible on `lg+` desktop; hidden on mobile
+- Left arrow disabled (visually) on Scene 001; right arrow disabled on last scene
 
 ---
 
@@ -349,8 +412,12 @@ All scenes appear in the ToC. Dividers are styled as section headings; sub-scene
 - [x] ~~Scene type model~~ → `standard | divider | sub`; dividers are full-bleed title cards
 - [x] ~~Sub-scene layout~~ → two-column default; component may override for special stories
 - [x] ~~Chapter nav visibility~~ → all scenes shown; dividers as section headings, sub-scenes as regular items
+- [x] ~~Interaction model~~ → slide deck; ↓↑ flow, ←→ jump; `StoryEngine` owns state + keyboard/wheel
+- [x] ~~Scene component API~~ → `step: number` + `isActive: boolean` props; scene is a pure renderer
+- [x] ~~On-screen arrows~~ → `SceneArrows.tsx`; ghost buttons fixed mid-left/right; desktop only
+- [x] ~~Controls hint~~ → first-visit overlay (auto-dismiss) + persistent hint in ChapterNav footer
+- [ ] **Scene transition style** — how do scenes animate in/out? Fade, slide (push from right), or cut (scene handles own entrance)?
 - [ ] **Other dividers** — which other chapter groups (besides Projects) get a divider scene? What are they?
 - [ ] **End CTA** — is there a call-to-action at the very end of the story? (e.g. "Start a project with us" → `/contact`)
 - [ ] **Nav linking** — is `/storytelling/credential` linked from the main site Nav, or a standalone shareable URL only?
 - [ ] **Chapter nav style** — numbered dots with tooltip labels on hover, or full text labels always visible on desktop?
-- [ ] **Scene component API** — does `StoryEngine` pass a `side` prop (`"left"` / `"right"`) so each scene renders only one half, or does each scene component own and render both halves internally?
