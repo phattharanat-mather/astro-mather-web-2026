@@ -25,6 +25,7 @@ const grouped = Object.fromEntries(
 
     <div class="mb-12">
       <h2
+        id="platform-heading"
         class="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
         style="color: var(--ink)"
       >
@@ -202,6 +203,7 @@ const grouped = Object.fromEntries(
       });
       btn.classList.add('hidden');
       panel.querySelector<HTMLButtonElement>('[data-show-all]')?.classList.remove('hidden');
+      document.getElementById('platform-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 </script>
