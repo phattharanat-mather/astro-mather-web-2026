@@ -499,5 +499,5 @@ Two-layer approach so the hint informs without cluttering:
 - [x] ~~Scene transition style~~ → **slide** (next scene pushes in from right; prev pushes in from left). Transition variant is a configurable prop on `SceneTransition.tsx` so it can be changed per-topic or per-scene later without touching engine logic.
 - [x] ~~Other dividers~~ → **Cover** (Scene001, opening slide), **Clients** (Scene006), **Projects** (Scene008). CTA is `type: "cta"` (separate type). Scene numbering updated throughout.
 - [x] ~~End CTA~~ → **yes** — a closing panel appears after the last scene. Added as `type: "cta"` in the registry. See §5 Scene 999.
-- [ ] **Nav linking** — is `/storytelling/credential` linked from the main site Nav, or a standalone shareable URL only?
+- [x] ~~Nav linking~~ → **shareable URL only** — not linked from the main site Nav. Shared directly with prospects/clients as a curated link. No `noindex` required unless explicitly requested.
 - [ ] **Chapter nav style** — numbered dots with tooltip labels on hover, or full text labels always visible on desktop?
