@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { motion } from 'motion/react'
 import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
 import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
-import { StripedBackground } from '@/components/storytelling/backgrounds/StripedBackground'
+import { StorytellingLayout } from '@/components/storytelling/credential/StorytellingLayout'
 import type { SceneProps } from '@/data/storytelling/credential'
 
 export default function Scene008ProjectsDivider({ isActive: _isActive }: SceneProps) {
@@ -15,44 +15,42 @@ export default function Scene008ProjectsDivider({ isActive: _isActive }: ScenePr
   })
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden"
-      style={{ background: 'var(--story-bg)' }}
+    <StorytellingLayout
+      containerRef={containerRef}
+      background="stripes"
+      backgroundOpacity={0.05}
+      stripeSpacing={20}
+      innerClassName="flex flex-col items-center text-center"
     >
-      <StripedBackground lineColor="var(--story-line-hex)" stripeSpacing={20} angle={-45} opacity={0.05} />
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+        className="tracking-[0.3em] uppercase mb-6"
+        style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
+      >
+        Chapter 03
+      </motion.p>
 
-      <div className="relative w-full max-w-[1200px] mx-auto px-8 flex flex-col items-center text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-[11px] tracking-[0.3em] uppercase mb-6"
-          style={{ color: 'var(--story-fg-muted)' }}
-        >
-          Chapter 03
-        </motion.p>
+      <motion.h2
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        className="leading-none"
+        style={{ fontSize: 'clamp(4rem, 12vw, 10rem)', color: 'var(--story-fg)' }}
+      >
+        Projects
+      </motion.h2>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="leading-none"
-          style={{ fontSize: 'clamp(4rem, 12vw, 10rem)', color: 'var(--story-fg)' }}
-        >
-          Projects
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-          className="mt-6 max-w-md text-[15px] leading-relaxed"
-          style={{ color: 'var(--story-fg-muted)' }}
-        >
-          A selection of our work across web, mobile, AI, and data strategy.
-        </motion.p>
-      </div>
-    </div>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.7, duration: 0.6 }}
+        className="mt-6 max-w-md leading-relaxed"
+        style={{ fontSize: 'var(--story-fs-base)', color: 'var(--story-fg-muted)' }}
+      >
+        A selection of our work across web, mobile, AI, and data strategy.
+      </motion.p>
+    </StorytellingLayout>
   )
 }

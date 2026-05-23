@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
 import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
 import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
-import { StripedBackground } from '@/components/storytelling/backgrounds/StripedBackground'
+import { StorytellingLayout } from '@/components/storytelling/credential/StorytellingLayout'
 import type { SceneProps } from '@/data/storytelling/credential'
 
 const SERVICES = [
@@ -36,62 +36,71 @@ export default function Scene004Services({ isActive: _isActive }: SceneProps) {
   const ct = [{ o: c0Op, y: c0Y }, { o: c1Op, y: c1Y }, { o: c2Op, y: c2Y }, { o: c3Op, y: c3Y }, { o: c4Op, y: c4Y }, { o: c5Op, y: c5Y }]
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: 'var(--story-bg)' }}
+    <StorytellingLayout
+      containerRef={containerRef}
+      background="stripes"
+      backgroundOpacity={0.04}
     >
-      <StripedBackground lineColor="var(--story-line-hex)" stripeSpacing={24} angle={-45} opacity={0.04} />
-      <div className="relative w-full max-w-[1200px] mx-auto px-8">
-
-        <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-8">
-          <p className="text-[11px] tracking-[0.25em] uppercase mb-2" style={{ color: 'var(--story-fg-muted)' }}>
-            What we do
-          </p>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--story-fg)' }}>
-            Six service domains
-          </h2>
-        </motion.div>
-
-        <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px rounded-2xl overflow-hidden"
-          style={{ background: 'var(--story-line)', border: '1px solid var(--story-line)' }}
+      <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-8">
+        <p
+          className="tracking-[0.25em] uppercase mb-2"
+          style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
         >
-          {SERVICES.map((service, i) => (
-            <motion.div
-              key={service.number}
-              style={{ opacity: ct[i].o, y: ct[i].y, background: 'var(--story-bg)' }}
-              className="p-6 transition-colors duration-200"
-              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-surface)' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-bg)' }}
+          What we do
+        </p>
+        <h2 style={{ fontSize: 'var(--story-fs-h2)', color: 'var(--story-fg)' }}>
+          Six service domains
+        </h2>
+      </motion.div>
+
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px rounded-2xl overflow-hidden"
+        style={{ background: 'var(--story-line)', border: '1px solid var(--story-line)' }}
+      >
+        {SERVICES.map((service, i) => (
+          <motion.div
+            key={service.number}
+            style={{ opacity: ct[i].o, y: ct[i].y, background: 'var(--story-bg)' }}
+            className="p-6 transition-colors duration-200"
+            onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-surface)' }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-bg)' }}
+          >
+            <span
+              className="font-medium tracking-[0.2em] block mb-3"
+              style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)', opacity: 0.5 }}
             >
-              <span
-                className="text-[11px] font-medium tracking-[0.2em] block mb-3"
-                style={{ color: 'var(--story-fg-muted)', opacity: 0.5 }}
-              >
-                {service.number}
-              </span>
-              <h3 className="font-semibold text-[15px] mb-2" style={{ color: 'var(--story-fg)' }}>
-                {service.title}
-              </h3>
-              <p className="text-[13px] leading-relaxed mb-3" style={{ color: 'var(--story-fg-muted)' }}>
-                {service.description}
-              </p>
-              <div className="flex flex-wrap gap-1.5">
-                {service.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[10px] tracking-wide px-2 py-0.5 rounded-full"
-                    style={{ background: 'var(--story-surface)', color: 'var(--story-fg-muted)' }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              {service.number}
+            </span>
+            <h3
+              className="font-semibold mb-2"
+              style={{ fontSize: 'var(--story-fs-title)', color: 'var(--story-fg)' }}
+            >
+              {service.title}
+            </h3>
+            <p
+              className="leading-relaxed mb-3"
+              style={{ fontSize: 'var(--story-fs-sm)', color: 'var(--story-fg-muted)' }}
+            >
+              {service.description}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {service.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="tracking-wide px-2 py-0.5 rounded-full"
+                  style={{
+                    fontSize: 'var(--story-fs-xs)',
+                    background: 'var(--story-surface)',
+                    color: 'var(--story-fg-muted)',
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
       </div>
-    </div>
+    </StorytellingLayout>
   )
 }

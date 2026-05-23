@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
 import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
 import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
-import { StripedBackground } from '@/components/storytelling/backgrounds/StripedBackground'
+import { StorytellingLayout } from '@/components/storytelling/credential/StorytellingLayout'
 import type { SceneProps } from '@/data/storytelling/credential'
 
 const MOBILE = [{ name: 'Haier', category: 'Mobile App', desc: 'iOS & Android application for Haier home appliance management and support' }]
@@ -31,8 +31,8 @@ function Pill({ label, variant }: { label: string; variant: 'accent' | 'rose' | 
   }
   return (
     <span
-      className="text-[10px] px-2 py-0.5 rounded-full"
-      style={styles[variant]}
+      className="px-2 py-0.5 rounded-full"
+      style={{ fontSize: 'var(--story-fs-xs)', ...styles[variant] }}
     >
       {label}
     </span>
@@ -54,118 +54,162 @@ export default function Scene010MobileStrategy({ isActive: _isActive }: ScenePro
   const col3Op = useTransform(progress, [0.4, 0.55], [0, 1]); const col3Y = useTransform(progress, [0.4, 0.55], [20, 0])
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: 'var(--story-bg)' }}
+    <StorytellingLayout
+      containerRef={containerRef}
+      background="stripes"
+      backgroundOpacity={0.04}
     >
-      <StripedBackground lineColor="var(--story-line-hex)" stripeSpacing={24} angle={-45} opacity={0.04} />
-      <div className="relative w-full max-w-[1200px] mx-auto px-8">
+      <motion.div style={{ opacity: headerOp }} className="mb-8">
+        <p
+          className="tracking-[0.25em] uppercase mb-2"
+          style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
+        >
+          Mobile, Strategy & AI
+        </p>
+        <h2 style={{ fontSize: 'var(--story-fs-h2)', color: 'var(--story-fg)' }}>
+          Beyond the web
+        </h2>
+        <p
+          className="mt-2 max-w-lg"
+          style={{ fontSize: 'var(--story-fs-base)', color: 'var(--story-fg-muted)' }}
+        >
+          Mobile applications, data-driven strategy, and AI projects across sectors.
+        </p>
+      </motion.div>
 
-        <motion.div style={{ opacity: headerOp }} className="mb-8">
-          <p className="text-[11px] tracking-[0.25em] uppercase mb-2" style={{ color: 'var(--story-fg-muted)' }}>
-            Mobile, Strategy & AI
-          </p>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--story-fg)' }}>
-            Beyond the web
-          </h2>
-          <p className="mt-2 max-w-lg text-[15px]" style={{ color: 'var(--story-fg-muted)' }}>
-            Mobile applications, data-driven strategy, and AI projects across sectors.
-          </p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        {/* Mobile */}
+        <motion.div style={{ opacity: col1Op, y: col1Y }}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-2 h-2 rounded-full" style={{ background: 'var(--story-accent)' }} />
+            <p
+              className="tracking-[0.2em] uppercase font-medium"
+              style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
+            >
+              Mobile
+            </p>
+          </div>
+          {MOBILE.map((p) => (
+            <div
+              key={p.name}
+              className="p-4 rounded-xl"
+              style={{ border: '1px solid var(--story-line)' }}
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <h4
+                  className="font-semibold"
+                  style={{ fontSize: 'var(--story-fs-sm)', color: 'var(--story-fg)' }}
+                >
+                  {p.name}
+                </h4>
+                <Pill label={p.category} variant="accent" />
+              </div>
+              <p
+                className="leading-relaxed"
+                style={{ fontSize: 'var(--story-fs-xs)', color: 'var(--story-fg-muted)' }}
+              >
+                {p.desc}
+              </p>
+            </div>
+          ))}
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-          {/* Mobile */}
-          <motion.div style={{ opacity: col1Op, y: col1Y }}>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-2 h-2 rounded-full" style={{ background: 'var(--story-accent)' }} />
-              <p className="text-[11px] tracking-[0.2em] uppercase font-medium" style={{ color: 'var(--story-fg-muted)' }}>
-                Mobile
-              </p>
-            </div>
-            {MOBILE.map((p) => (
+        {/* Strategy */}
+        <motion.div style={{ opacity: col2Op, y: col2Y }}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-2 h-2 rounded-full" style={{ background: 'var(--story-rose)' }} />
+            <p
+              className="tracking-[0.2em] uppercase font-medium"
+              style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
+            >
+              Strategy
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            {STRATEGY.map((p) => (
               <div
                 key={p.name}
-                className="p-4 rounded-xl"
+                className="p-3 rounded-xl"
                 style={{ border: '1px solid var(--story-line)' }}
               >
-                <div className="flex items-center justify-between mb-1.5">
-                  <h4 className="font-semibold text-sm" style={{ color: 'var(--story-fg)' }}>{p.name}</h4>
-                  <Pill label={p.category} variant="accent" />
+                <div className="flex items-center justify-between mb-1">
+                  <h4
+                    className="font-semibold"
+                    style={{ fontSize: 'var(--story-fs-sm)', color: 'var(--story-fg)' }}
+                  >
+                    {p.name}
+                  </h4>
+                  <Pill label={p.category} variant="rose" />
                 </div>
-                <p className="text-[12px] leading-relaxed" style={{ color: 'var(--story-fg-muted)' }}>{p.desc}</p>
+                <p
+                  className="leading-relaxed"
+                  style={{ fontSize: 'var(--story-fs-xs)', color: 'var(--story-fg-muted)' }}
+                >
+                  {p.desc}
+                </p>
               </div>
             ))}
-          </motion.div>
+          </div>
+        </motion.div>
 
-          {/* Strategy */}
-          <motion.div style={{ opacity: col2Op, y: col2Y }}>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-2 h-2 rounded-full" style={{ background: 'var(--story-rose)' }} />
-              <p className="text-[11px] tracking-[0.2em] uppercase font-medium" style={{ color: 'var(--story-fg-muted)' }}>
-                Strategy
-              </p>
-            </div>
-            <div className="flex flex-col gap-2">
-              {STRATEGY.map((p) => (
-                <div
-                  key={p.name}
-                  className="p-3 rounded-xl"
-                  style={{ border: '1px solid var(--story-line)' }}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <h4 className="font-semibold text-sm" style={{ color: 'var(--story-fg)' }}>{p.name}</h4>
-                    <Pill label={p.category} variant="rose" />
-                  </div>
-                  <p className="text-[11px] leading-relaxed" style={{ color: 'var(--story-fg-muted)' }}>{p.desc}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* AI + Team */}
-          <motion.div style={{ opacity: col3Op, y: col3Y }}>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-2 h-2 rounded-full" style={{ background: 'var(--story-cyan)' }} />
-              <p className="text-[11px] tracking-[0.2em] uppercase font-medium" style={{ color: 'var(--story-fg-muted)' }}>
-                AI
-              </p>
-            </div>
-            <div className="flex flex-col gap-2 mb-6">
-              {AI.map((p, i) => (
-                <div
-                  key={i}
-                  className="p-3 rounded-xl"
-                  style={{ border: '1px solid var(--story-line)' }}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <h4 className="font-semibold text-sm" style={{ color: 'var(--story-fg)' }}>{p.name}</h4>
-                    <Pill label={p.category} variant="cyan" />
-                  </div>
-                  <p className="text-[11px] leading-relaxed" style={{ color: 'var(--story-fg-muted)' }}>{p.desc}</p>
-                </div>
-              ))}
-            </div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-2 h-2 rounded-full" style={{ background: 'var(--story-line)' }} />
-              <p className="text-[11px] tracking-[0.2em] uppercase font-medium" style={{ color: 'var(--story-fg-muted)' }}>
-                Our team
-              </p>
-            </div>
-            {TEAM.map((d) => (
+        {/* AI + Team */}
+        <motion.div style={{ opacity: col3Op, y: col3Y }}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-2 h-2 rounded-full" style={{ background: 'var(--story-cyan)' }} />
+            <p
+              className="tracking-[0.2em] uppercase font-medium"
+              style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
+            >
+              AI
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 mb-6">
+            {AI.map((p, i) => (
               <div
-                key={d}
-                className="flex items-center gap-2 py-1.5 last:border-0"
-                style={{ borderBottom: '1px solid var(--story-line)' }}
+                key={i}
+                className="p-3 rounded-xl"
+                style={{ border: '1px solid var(--story-line)' }}
               >
-                <span className="w-1 h-1 rounded-full shrink-0" style={{ background: 'var(--story-fg-muted)', opacity: 0.4 }} />
-                <span className="text-[12px]" style={{ color: 'var(--story-fg-muted)' }}>{d}</span>
+                <div className="flex items-center justify-between mb-1">
+                  <h4
+                    className="font-semibold"
+                    style={{ fontSize: 'var(--story-fs-sm)', color: 'var(--story-fg)' }}
+                  >
+                    {p.name}
+                  </h4>
+                  <Pill label={p.category} variant="cyan" />
+                </div>
+                <p
+                  className="leading-relaxed"
+                  style={{ fontSize: 'var(--story-fs-xs)', color: 'var(--story-fg-muted)' }}
+                >
+                  {p.desc}
+                </p>
               </div>
             ))}
-          </motion.div>
-        </div>
+          </div>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-2 h-2 rounded-full" style={{ background: 'var(--story-line)' }} />
+            <p
+              className="tracking-[0.2em] uppercase font-medium"
+              style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
+            >
+              Our team
+            </p>
+          </div>
+          {TEAM.map((d) => (
+            <div
+              key={d}
+              className="flex items-center gap-2 py-1.5 last:border-0"
+              style={{ borderBottom: '1px solid var(--story-line)' }}
+            >
+              <span className="w-1 h-1 rounded-full shrink-0" style={{ background: 'var(--story-fg-muted)', opacity: 0.4 }} />
+              <span style={{ fontSize: 'var(--story-fs-sm)', color: 'var(--story-fg-muted)' }}>{d}</span>
+            </div>
+          ))}
+        </motion.div>
       </div>
-    </div>
+    </StorytellingLayout>
   )
 }

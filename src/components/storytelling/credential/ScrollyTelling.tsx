@@ -11,6 +11,32 @@ import { scenes } from '@/data/storytelling/credential'
 // Two presets: dark (Cosmos) and light (Dawn).
 
 const THEME_CSS = `
+  /* ─── Storytelling typography scale ───────────────────────────────────────
+     Theme-agnostic — same values in both dark and light presets.
+     Use these in scene style={{ fontSize: 'var(--story-fs-*)' }} props so
+     a single edit here propagates to every scene instantly.
+
+     Scale rationale (presentation / large-screen context):
+       xs    12 px  — tag pills, micro labels
+       label 13 px  — overline / metadata (tracking + uppercase)
+       sm    15 px  — secondary body, dense-card text
+       base  17 px  — primary body copy
+       title 20 px  — card headings (h3)
+       h2-sm clamp 2–2.6 rem   — section headline, narrow layout
+       h2    clamp 2.2–3.2 rem — section headline, standard
+       h2-lg clamp 2.8–4.5 rem — CTA / feature headline
+  */
+  [data-story-theme] {
+    --story-fs-xs:    0.75rem;
+    --story-fs-label: 0.8125rem;
+    --story-fs-sm:    0.9375rem;
+    --story-fs-base:  1.0625rem;
+    --story-fs-title: 1.25rem;
+    --story-fs-h2-sm: clamp(2rem, 3.5vw, 2.6rem);
+    --story-fs-h2:    clamp(2.2rem, 4.5vw, 3.2rem);
+    --story-fs-h2-lg: clamp(2.8rem, 6vw, 4.5rem);
+  }
+
   [data-story-theme="dark"] {
     --story-bg:           oklch(0.07 0.022 264);
     --story-surface:      oklch(0.10 0.030 264);

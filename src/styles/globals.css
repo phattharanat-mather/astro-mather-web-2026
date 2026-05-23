@@ -78,6 +78,16 @@
   --dur-fast: 150ms;
   --dur-base: 250ms;
   --dur-slow: 400ms;
+
+  /* Storytelling font scale — mirrors --story-fs-* CSS vars in ScrollyTelling.tsx.
+     Registers Tailwind utilities: text-story-xs, text-story-label, text-story-sm,
+     text-story-base, text-story-title (the clamp h2 variants only work via CSS vars
+     since Tailwind 4 @theme does not support clamp() in font-size values). */
+  --font-size-story-xs:    0.75rem;
+  --font-size-story-label: 0.8125rem;
+  --font-size-story-sm:    0.9375rem;
+  --font-size-story-base:  1.0625rem;
+  --font-size-story-title: 1.25rem;
   --animate-ripple: ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite;
   @keyframes ripple {
   0%, 100% {

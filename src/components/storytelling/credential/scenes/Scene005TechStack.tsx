@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
 import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
 import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
-import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
+import { StorytellingLayout } from '@/components/storytelling/credential/StorytellingLayout'
 import type { SceneProps } from '@/data/storytelling/credential'
 
 const TECH_GROUPS = [
@@ -34,64 +34,66 @@ export default function Scene005TechStack({ isActive: _isActive }: SceneProps) {
   const gt = [{ o: g0Op, y: g0Y }, { o: g1Op, y: g1Y }, { o: g2Op, y: g2Y }, { o: g3Op, y: g3Y }, { o: g4Op, y: g4Y }]
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: 'var(--story-bg)' }}
+    <StorytellingLayout
+      containerRef={containerRef}
+      backgroundOpacity={0.03}
     >
-      <GridBackground lineColor="var(--story-line-hex)" cellSize={40} opacity={0.03} />
-      <div className="relative w-full max-w-[1200px] mx-auto px-8">
+      <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-10">
+        <p
+          className="tracking-[0.25em] uppercase mb-2"
+          style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
+        >
+          Powered by
+        </p>
+        <h2 style={{ fontSize: 'var(--story-fs-h2)', color: 'var(--story-fg)' }}>
+          Modern tools, proven in production
+        </h2>
+        <p
+          className="mt-2 max-w-lg leading-relaxed"
+          style={{ fontSize: 'var(--story-fs-base)', color: 'var(--story-fg-muted)' }}
+        >
+          We choose the right tool for each job — not the most fashionable one.
+        </p>
+      </motion.div>
 
-        <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-10">
-          <p className="text-[11px] tracking-[0.25em] uppercase mb-2" style={{ color: 'var(--story-fg-muted)' }}>
-            Powered by
-          </p>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--story-fg)' }}>
-            Modern tools, proven in production
-          </h2>
-          <p className="mt-2 max-w-lg text-[15px] leading-relaxed" style={{ color: 'var(--story-fg-muted)' }}>
-            We choose the right tool for each job — not the most fashionable one.
-          </p>
-        </motion.div>
-
-        <div className="flex flex-col gap-6 max-w-3xl">
-          {TECH_GROUPS.map((group, i) => (
-            <motion.div key={group.label} style={{ opacity: gt[i].o, y: gt[i].y }}>
-              <p
-                className="text-[11px] tracking-[0.2em] uppercase mb-2"
-                style={{ color: 'var(--story-fg-muted)', opacity: 0.6 }}
-              >
-                {group.label}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((item) => (
-                  <span
-                    key={item}
-                    className="text-[13px] font-medium px-4 py-1.5 rounded-full transition-colors cursor-default"
-                    style={{
-                      color: 'var(--story-fg-muted)',
-                      background: 'var(--story-surface)',
-                      border: '1px solid var(--story-line)',
-                    }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget as HTMLSpanElement
-                      el.style.color = 'var(--story-fg)'
-                      el.style.borderColor = 'var(--story-fg-muted)'
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLSpanElement
-                      el.style.color = 'var(--story-fg-muted)'
-                      el.style.borderColor = 'var(--story-line)'
-                    }}
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+      <div className="flex flex-col gap-6 max-w-3xl">
+        {TECH_GROUPS.map((group, i) => (
+          <motion.div key={group.label} style={{ opacity: gt[i].o, y: gt[i].y }}>
+            <p
+              className="tracking-[0.2em] uppercase mb-2"
+              style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)', opacity: 0.6 }}
+            >
+              {group.label}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {group.items.map((item) => (
+                <span
+                  key={item}
+                  className="font-medium px-4 py-1.5 rounded-full transition-colors cursor-default"
+                  style={{
+                    fontSize: 'var(--story-fs-sm)',
+                    color: 'var(--story-fg-muted)',
+                    background: 'var(--story-surface)',
+                    border: '1px solid var(--story-line)',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLSpanElement
+                    el.style.color = 'var(--story-fg)'
+                    el.style.borderColor = 'var(--story-fg-muted)'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLSpanElement
+                    el.style.color = 'var(--story-fg-muted)'
+                    el.style.borderColor = 'var(--story-line)'
+                  }}
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
       </div>
-    </div>
+    </StorytellingLayout>
   )
 }

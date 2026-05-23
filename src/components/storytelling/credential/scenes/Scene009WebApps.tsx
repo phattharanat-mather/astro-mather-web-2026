@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
 import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
 import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
-import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
+import { StorytellingLayout } from '@/components/storytelling/credential/StorytellingLayout'
 import type { SceneProps } from '@/data/storytelling/credential'
 
 const WEB_PROJECTS = [
@@ -49,54 +49,67 @@ export default function Scene009WebApps({ isActive: _isActive }: SceneProps) {
   ]
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: 'var(--story-bg)' }}
+    <StorytellingLayout
+      containerRef={containerRef}
+      backgroundOpacity={0.03}
     >
-      <GridBackground lineColor="var(--story-line-hex)" cellSize={40} opacity={0.03} />
-      <div className="relative w-full max-w-[1200px] mx-auto px-8">
-
-        <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-8">
-          <p className="text-[11px] tracking-[0.25em] uppercase mb-2" style={{ color: 'var(--story-fg-muted)' }}>
-            Web Applications
-          </p>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--story-fg)' }}>
-            Digital products that represent brands
-          </h2>
-          <p className="mt-2 max-w-lg text-[15px]" style={{ color: 'var(--story-fg-muted)' }}>
-            {WEB_PROJECTS.length} projects — from fintech to luxury hospitality.
-          </p>
-        </motion.div>
-
-        <div
-          className="grid grid-cols-1 md:grid-cols-2 gap-px rounded-2xl overflow-hidden"
-          style={{ background: 'var(--story-line)', border: '1px solid var(--story-line)' }}
+      <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-8">
+        <p
+          className="tracking-[0.25em] uppercase mb-2"
+          style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
         >
-          {WEB_PROJECTS.map((project, i) => (
-            <motion.div
-              key={project.name}
-              style={{ opacity: ct[i].o, y: ct[i].y, background: 'var(--story-bg)' }}
-              className="p-5 transition-colors"
-              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-surface)' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-bg)' }}
+          Web Applications
+        </p>
+        <h2 style={{ fontSize: 'var(--story-fs-h2)', color: 'var(--story-fg)' }}>
+          Digital products that represent brands
+        </h2>
+        <p
+          className="mt-2 max-w-lg"
+          style={{ fontSize: 'var(--story-fs-base)', color: 'var(--story-fg-muted)' }}
+        >
+          {WEB_PROJECTS.length} projects — from fintech to luxury hospitality.
+        </p>
+      </motion.div>
+
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 gap-px rounded-2xl overflow-hidden"
+        style={{ background: 'var(--story-line)', border: '1px solid var(--story-line)' }}
+      >
+        {WEB_PROJECTS.map((project, i) => (
+          <motion.div
+            key={project.name}
+            style={{ opacity: ct[i].o, y: ct[i].y, background: 'var(--story-bg)' }}
+            className="p-5 transition-colors"
+            onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-surface)' }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-bg)' }}
+          >
+            <div className="flex items-start justify-between gap-4 mb-1.5">
+              <h3
+                className="font-semibold"
+                style={{ fontSize: 'var(--story-fs-title)', color: 'var(--story-fg)' }}
+              >
+                {project.name}
+              </h3>
+              <span
+                className="shrink-0 tracking-wide px-2 py-0.5 rounded-full"
+                style={{
+                  fontSize: 'var(--story-fs-xs)',
+                  background: 'var(--story-surface)',
+                  color: 'var(--story-fg-muted)',
+                }}
+              >
+                {project.category}
+              </span>
+            </div>
+            <p
+              className="leading-relaxed"
+              style={{ fontSize: 'var(--story-fs-sm)', color: 'var(--story-fg-muted)' }}
             >
-              <div className="flex items-start justify-between gap-4 mb-1.5">
-                <h3 className="font-semibold text-[15px]" style={{ color: 'var(--story-fg)' }}>{project.name}</h3>
-                <span
-                  className="shrink-0 text-[10px] tracking-wide px-2 py-0.5 rounded-full"
-                  style={{ background: 'var(--story-surface)', color: 'var(--story-fg-muted)' }}
-                >
-                  {project.category}
-                </span>
-              </div>
-              <p className="text-[13px] leading-relaxed" style={{ color: 'var(--story-fg-muted)' }}>
-                {project.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
+              {project.desc}
+            </p>
+          </motion.div>
+        ))}
       </div>
-    </div>
+    </StorytellingLayout>
   )
 }

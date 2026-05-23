@@ -2,11 +2,11 @@ import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
 import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
 import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
-import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
+import { StorytellingLayout } from '@/components/storytelling/credential/StorytellingLayout'
 import type { SceneProps } from '@/data/storytelling/credential'
 
 const LETTERS = ['M', 'A', 'T', 'H', 'E', 'R']
-const FONT_LARGE = 'clamp(2.5rem, 7vw, 5rem)'
+const FONT_LARGE = 'clamp(2.8rem, 7vw, 5.5rem)'
 
 export default function Scene002Intro({ isActive: _isActive }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -34,69 +34,89 @@ export default function Scene002Intro({ isActive: _isActive }: SceneProps) {
   const textY = useTransform(progress, [0.4, 0.65], [24, 0])
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: 'var(--story-bg)' }}
+    <StorytellingLayout
+      containerRef={containerRef}
+      backgroundOpacity={0.03}
+      innerClassName="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center"
     >
-      <GridBackground lineColor="var(--story-line-hex)" cellSize={40} opacity={0.03} />
-      <div className="relative w-full max-w-[1200px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-
-        {/* Left — animated wordmark */}
-        <div>
-          <p className="text-[11px] tracking-[0.25em] uppercase mb-8" style={{ color: 'var(--story-fg-muted)' }}>
-            Introduction
-          </p>
-          <div className="flex gap-1 lg:gap-2 mb-6">
-            {LETTERS.map((letter, i) => (
-              <motion.span
-                key={letter}
-                style={{ opacity: letterTransforms[i].opacity, y: letterTransforms[i].y, fontSize: FONT_LARGE, color: 'var(--story-fg)', fontWeight: 700, lineHeight: 1 }}
-              >
-                {letter}
-              </motion.span>
-            ))}
-          </div>
-          <motion.p style={{ opacity: subtitleOpacity, color: 'var(--story-fg-muted)' }} className="text-sm leading-relaxed max-w-sm">
-            Four principles. One methodology.
-          </motion.p>
+      {/* Left — animated wordmark */}
+      <div>
+        <p
+          className="tracking-[0.25em] uppercase mb-8"
+          style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
+        >
+          Introduction
+        </p>
+        <div className="flex gap-1 lg:gap-2 mb-6">
+          {LETTERS.map((letter, i) => (
+            <motion.span
+              key={letter}
+              style={{
+                opacity: letterTransforms[i].opacity,
+                y: letterTransforms[i].y,
+                fontSize: FONT_LARGE,
+                color: 'var(--story-fg)',
+                fontWeight: 700,
+                lineHeight: 1,
+              }}
+            >
+              {letter}
+            </motion.span>
+          ))}
         </div>
-
-        {/* Right — company intro */}
-        <motion.div style={{ opacity: textOpacity, y: textY }}>
-          <p className="text-[11px] tracking-[0.25em] uppercase mb-6" style={{ color: 'var(--story-fg-muted)', opacity: 0.6 }}>
-            Who we are
-          </p>
-          <h2
-            className="leading-tight mb-6"
-            style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.9rem)', color: 'var(--story-fg)' }}
-          >
-            We're a data and technology company headquartered in Bangkok, Thailand.
-          </h2>
-          <div className="space-y-4 leading-relaxed text-[15px]" style={{ color: 'var(--story-fg-muted)' }}>
-            <p>
-              The Mather partners with businesses across Southeast Asia to turn raw data into
-              confident decisions — through AI, analytics, and purpose-built digital products.
-            </p>
-            <p>
-              Our name comes from the four cornerstones that guide every engagement:{' '}
-              <strong style={{ color: 'var(--story-fg)' }}>Methodology</strong>,{' '}
-              <strong style={{ color: 'var(--story-fg)' }}>Mathematics</strong>,{' '}
-              <strong style={{ color: 'var(--story-fg)' }}>Machine Learning</strong>, and{' '}
-              <strong style={{ color: 'var(--story-fg)' }}>Matching</strong> — the 4M framework.
-            </p>
-          </div>
-          <div className="mt-8 pt-6" style={{ borderTop: '1px solid var(--story-line)' }}>
-            <p className="text-[11px] tracking-[0.2em] uppercase mb-3" style={{ color: 'var(--story-fg-muted)', opacity: 0.6 }}>
-              Founded by
-            </p>
-            <p className="font-medium" style={{ color: 'var(--story-fg)' }}>Somprasonk Gabbualoy</p>
-            <p className="text-sm mt-1" style={{ color: 'var(--story-fg-muted)' }}>
-              "Quality work at a fair price — we handle the complexity so you don't have to."
-            </p>
-          </div>
-        </motion.div>
+        <motion.p
+          style={{ opacity: subtitleOpacity, color: 'var(--story-fg-muted)', fontSize: 'var(--story-fs-sm)' }}
+          className="leading-relaxed max-w-sm"
+        >
+          Four principles. One methodology.
+        </motion.p>
       </div>
-    </div>
+
+      {/* Right — company intro */}
+      <motion.div style={{ opacity: textOpacity, y: textY }}>
+        <p
+          className="tracking-[0.25em] uppercase mb-6"
+          style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)', opacity: 0.6 }}
+        >
+          Who we are
+        </p>
+        <h2
+          className="leading-tight mb-6"
+          style={{ fontSize: 'var(--story-fs-h2-sm)', color: 'var(--story-fg)' }}
+        >
+          We're a data and technology company headquartered in Bangkok, Thailand.
+        </h2>
+        <div
+          className="space-y-4 leading-relaxed"
+          style={{ fontSize: 'var(--story-fs-base)', color: 'var(--story-fg-muted)' }}
+        >
+          <p>
+            The Mather partners with businesses across Southeast Asia to turn raw data into
+            confident decisions — through AI, analytics, and purpose-built digital products.
+          </p>
+          <p>
+            Our name comes from the four cornerstones that guide every engagement:{' '}
+            <strong style={{ color: 'var(--story-fg)' }}>Methodology</strong>,{' '}
+            <strong style={{ color: 'var(--story-fg)' }}>Mathematics</strong>,{' '}
+            <strong style={{ color: 'var(--story-fg)' }}>Machine Learning</strong>, and{' '}
+            <strong style={{ color: 'var(--story-fg)' }}>Matching</strong> — the 4M framework.
+          </p>
+        </div>
+        <div className="mt-8 pt-6" style={{ borderTop: '1px solid var(--story-line)' }}>
+          <p
+            className="tracking-[0.2em] uppercase mb-3"
+            style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)', opacity: 0.6 }}
+          >
+            Founded by
+          </p>
+          <p className="font-medium" style={{ fontSize: 'var(--story-fs-sm)', color: 'var(--story-fg)' }}>
+            Somprasonk Gabbualoy
+          </p>
+          <p className="mt-1 leading-relaxed" style={{ fontSize: 'var(--story-fs-sm)', color: 'var(--story-fg-muted)' }}>
+            "Quality work at a fair price — we handle the complexity so you don't have to."
+          </p>
+        </div>
+      </motion.div>
+    </StorytellingLayout>
   )
 }
