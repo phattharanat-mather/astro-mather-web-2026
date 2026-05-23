@@ -412,16 +412,42 @@ The `editorial` color preset uses `--color-background: #fff`, `--color-foregroun
 
 ### ChapterNav
 
-`ChapterNav.tsx` — floating panel inside the React tree; reads `activeScene` from `StoryEngine`.
+`ChapterNav.tsx` — collapsible sidebar panel inside the React tree; reads `activeScene` from `StoryEngine`.
+
+**Layout:**
+- `fixed left-0 top-0 h-screen` — full-height sidebar
+- Width: `~200px` expanded, `0` (or `40px` for toggle button) collapsed
+- Slide animation via `motion/react` on width change
+- Toggle button `[‹]` / `[›]` sits at the right edge of the panel, always visible
 
 **Behaviour:**
-- Renders a vertical list of all scenes
-- Dividers styled as section headings; sub-scenes as regular items beneath
+- Full text labels always visible when expanded — no hover required
+- Dividers styled as section headings with a separator line above
+- Sub-scenes indented under their divider
 - Clicking any item calls `jumpTo(sceneIndex)` — sets `activeScene`; Lenis resets to `progress = 0` on mount
-- Positioned `fixed left-6 top-1/2 -translate-y-1/2` on desktop
-- Collapsed to a bottom pill / progress bar on mobile
+- Active scene highlighted
+- **Collapsed by default on mobile**; toggle to open
+- **Expanded by default on desktop** (`lg+`); user can collapse
+- Collapse state saved in `localStorage` — remembered across scenes and visits
 
 **Chapter labels (credential topic):**
+
+```
+  ● Cover
+  ○ Introduction
+  ○ Methodology
+  ○ Services
+  ○ Tech Stack
+  ──────────────
+  ○ Clients
+    ○ Our Clients
+  ──────────────
+  ○ Projects
+    ○ Project A
+    ○ Project B
+  ──────────────
+  ○ Get in touch
+```
 
 | # | Label | Type |
 |---|---|---|
@@ -500,4 +526,4 @@ Two-layer approach so the hint informs without cluttering:
 - [x] ~~Other dividers~~ → **Cover** (Scene001, opening slide), **Clients** (Scene006), **Projects** (Scene008). CTA is `type: "cta"` (separate type). Scene numbering updated throughout.
 - [x] ~~End CTA~~ → **yes** — a closing panel appears after the last scene. Added as `type: "cta"` in the registry. See §5 Scene 999.
 - [x] ~~Nav linking~~ → **shareable URL only** — not linked from the main site Nav. Shared directly with prospects/clients as a curated link. No `noindex` required unless explicitly requested.
-- [ ] **Chapter nav style** — numbered dots with tooltip labels on hover, or full text labels always visible on desktop?
+- [x] ~~Chapter nav style~~ → **Option B — full text labels always visible**, with a collapsible sidebar toggle. See §11 for full spec.
