@@ -112,7 +112,7 @@ function SceneRenderer() {
             </div>
           }
         >
-          <SceneComponent isActive />
+          <SceneComponent isActive direction={direction} />
         </Suspense>
       </SceneTransition>
     </div>

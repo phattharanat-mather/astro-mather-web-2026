@@ -13,14 +13,14 @@ const QUADRANTS = [
   { letter: 'H', title: 'Matching', description: 'Right-fit solutions — matching technology choices to business context, not trends.', alt: true },
 ]
 
-export default function Scene003Methodology({ isActive: _isActive }: SceneProps) {
+export default function Scene003Methodology({ isActive: _isActive, direction }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { nextScene, prevScene } = useStoryEngine()
 
   const progress = useSceneScroll(containerRef, (dir) => {
     if (dir === 'forward') nextScene()
     else prevScene()
-  })
+  }, 1200, direction === -1 ? 1 : 0)
 
   const headerOpacity = useTransform(progress, [0, 0.12], [0, 1])
   const headerY = useTransform(progress, [0, 0.12], [16, 0])

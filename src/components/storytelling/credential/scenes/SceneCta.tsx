@@ -5,13 +5,13 @@ import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine
 import { StorytellingLayout } from '@/components/storytelling/credential/StorytellingLayout'
 import type { SceneProps } from '@/data/storytelling/credential'
 
-export default function SceneCta({ isActive: _isActive }: SceneProps) {
+export default function SceneCta({ isActive: _isActive, direction }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { prevScene } = useStoryEngine()
 
   const progress = useSceneScroll(containerRef, (dir) => {
     if (dir === 'backward') prevScene()
-  })
+  }, 1200, direction === -1 ? 1 : 0)
 
   const headlineOpacity = useTransform(progress, [0, 0.3], [0, 1])
   const headlineY = useTransform(progress, [0, 0.3], [24, 0])

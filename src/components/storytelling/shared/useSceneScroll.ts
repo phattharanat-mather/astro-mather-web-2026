@@ -12,16 +12,20 @@ export type ScrollDirection = 'forward' | 'backward'
  *
  * onComplete(direction) fires (once, debounced) when user scrolls past
  * the 0 or 1 boundary.
+ *
+ * initialProgress: pass 1 when entering via backward navigation so the scene
+ * starts at its fully-rendered end state instead of its start state.
  */
 export function useSceneScroll(
   containerRef: React.RefObject<HTMLDivElement | null>,
   onComplete: (direction: ScrollDirection) => void,
   scrollRange = 1200,
+  initialProgress = 0,
 ): MotionValue<number> {
-  const progress = useMotionValue(0)
+  const progress = useMotionValue(initialProgress)
   const onCompleteRef = useRef(onComplete)
-  const targetRef = useRef(0)
-  const currentRef = useRef(0)
+  const targetRef = useRef(initialProgress)
+  const currentRef = useRef(initialProgress)
   const rafRef = useRef<number>(0)
   // Cooldown prevents repeated scene-change firings from a single overscroll burst
   const cooldownRef = useRef(false)
@@ -31,10 +35,10 @@ export function useSceneScroll(
   })
 
   useEffect(() => {
-    // Reset on scene entry
-    progress.set(0)
-    targetRef.current = 0
-    currentRef.current = 0
+    // Reset on scene entry — start at end state if entering backward
+    progress.set(initialProgress)
+    targetRef.current = initialProgress
+    currentRef.current = initialProgress
     cooldownRef.current = false
 
     // Smooth lerp animation loop
@@ -98,7 +102,7 @@ export function useSceneScroll(
       el.removeEventListener('touchstart', onTouchStart)
       el.removeEventListener('touchmove', onTouchMove)
     }
-  }, [containerRef, scrollRange]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [containerRef, scrollRange, initialProgress]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return progress
 }

@@ -39,14 +39,14 @@ function Pill({ label, variant }: { label: string; variant: 'accent' | 'rose' | 
   )
 }
 
-export default function Scene010MobileStrategy({ isActive: _isActive }: SceneProps) {
+export default function Scene010MobileStrategy({ isActive: _isActive, direction }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { nextScene, prevScene } = useStoryEngine()
 
   const progress = useSceneScroll(containerRef, (dir) => {
     if (dir === 'forward') nextScene()
     else prevScene()
-  })
+  }, 1200, direction === -1 ? 1 : 0)
 
   const headerOp = useTransform(progress, [0, 0.1], [0, 1])
   const col1Op = useTransform(progress, [0.1, 0.25], [0, 1]); const col1Y = useTransform(progress, [0.1, 0.25], [20, 0])

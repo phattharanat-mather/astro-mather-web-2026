@@ -5,14 +5,14 @@ import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine
 import { StorytellingLayout } from '@/components/storytelling/credential/StorytellingLayout'
 import type { SceneProps } from '@/data/storytelling/credential'
 
-export default function Scene006ClientsDivider({ isActive: _isActive }: SceneProps) {
+export default function Scene006ClientsDivider({ isActive: _isActive, direction }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { nextScene, prevScene } = useStoryEngine()
 
   useSceneScroll(containerRef, (dir) => {
     if (dir === 'forward') nextScene()
     else prevScene()
-  })
+  }, 1200, direction === -1 ? 1 : 0)
 
   return (
     <StorytellingLayout

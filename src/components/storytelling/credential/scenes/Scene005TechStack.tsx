@@ -13,14 +13,14 @@ const TECH_GROUPS = [
   { label: 'Infrastructure', items: ['Vercel', 'AWS', 'Docker', 'GitHub Actions', 'Cloudflare'] },
 ]
 
-export default function Scene005TechStack({ isActive: _isActive }: SceneProps) {
+export default function Scene005TechStack({ isActive: _isActive, direction }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { nextScene, prevScene } = useStoryEngine()
 
   const progress = useSceneScroll(containerRef, (dir) => {
     if (dir === 'forward') nextScene()
     else prevScene()
-  })
+  }, 1200, direction === -1 ? 1 : 0)
 
   const headerOpacity = useTransform(progress, [0, 0.1], [0, 1])
   const headerY = useTransform(progress, [0, 0.1], [16, 0])

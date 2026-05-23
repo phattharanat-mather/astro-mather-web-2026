@@ -32,14 +32,14 @@ function MarqueeRow({ items, reverse = false }: { items: string[]; reverse?: boo
   )
 }
 
-export default function Scene007ClientsShowcase({ isActive: _isActive }: SceneProps) {
+export default function Scene007ClientsShowcase({ isActive: _isActive, direction }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { nextScene, prevScene } = useStoryEngine()
 
   const progress = useSceneScroll(containerRef, (dir) => {
     if (dir === 'forward') nextScene()
     else prevScene()
-  })
+  }, 1200, direction === -1 ? 1 : 0)
 
   const textOpacity = useTransform(progress, [0, 0.2], [0, 1])
   const textY = useTransform(progress, [0, 0.2], [24, 0])

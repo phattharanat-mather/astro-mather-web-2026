@@ -14,14 +14,14 @@ const SERVICES = [
   { number: '06', title: 'Data Analysis', description: 'In-depth data science analysis with visualisation and reporting to generate strategic planning for the future.', tags: ['Data Science', 'Visualisation', 'Reporting'] },
 ]
 
-export default function Scene004Services({ isActive: _isActive }: SceneProps) {
+export default function Scene004Services({ isActive: _isActive, direction }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { nextScene, prevScene } = useStoryEngine()
 
   const progress = useSceneScroll(containerRef, (dir) => {
     if (dir === 'forward') nextScene()
     else prevScene()
-  })
+  }, 1200, direction === -1 ? 1 : 0)
 
   const headerOpacity = useTransform(progress, [0, 0.1], [0, 1])
   const headerY = useTransform(progress, [0, 0.1], [16, 0])

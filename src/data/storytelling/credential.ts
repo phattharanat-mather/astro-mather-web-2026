@@ -6,6 +6,8 @@ export type SceneType = 'standard' | 'divider' | 'sub' | 'cta'
 export interface SceneProps {
   /** true when this scene is the currently displayed scene */
   isActive: boolean
+  /** 1 = entered via forward scroll, -1 = entered via backward scroll */
+  direction: 1 | -1
 }
 
 export interface SceneEntry {

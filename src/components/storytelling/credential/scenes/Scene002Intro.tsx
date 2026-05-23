@@ -8,14 +8,14 @@ import type { SceneProps } from '@/data/storytelling/credential'
 const LETTERS = ['M', 'A', 'T', 'H', 'E', 'R']
 const FONT_LARGE = 'clamp(2.8rem, 7vw, 5.5rem)'
 
-export default function Scene002Intro({ isActive: _isActive }: SceneProps) {
+export default function Scene002Intro({ isActive: _isActive, direction }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { nextScene, prevScene } = useStoryEngine()
 
   const progress = useSceneScroll(containerRef, (dir) => {
     if (dir === 'forward') nextScene()
     else prevScene()
-  })
+  }, 1200, direction === -1 ? 1 : 0)
 
   const l0Op = useTransform(progress, [0, 0.06], [0, 1]); const l0Y = useTransform(progress, [0, 0.08], [30, 0])
   const l1Op = useTransform(progress, [0.06, 0.12], [0, 1]); const l1Y = useTransform(progress, [0.06, 0.14], [30, 0])

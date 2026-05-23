@@ -18,14 +18,14 @@ const WEB_PROJECTS = [
   { name: 'PAC Architect', category: 'Architecture', desc: 'Portfolio and client-facing web platform for PAC Architect' },
 ]
 
-export default function Scene009WebApps({ isActive: _isActive }: SceneProps) {
+export default function Scene009WebApps({ isActive: _isActive, direction }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { nextScene, prevScene } = useStoryEngine()
 
   const progress = useSceneScroll(containerRef, (dir) => {
     if (dir === 'forward') nextScene()
     else prevScene()
-  })
+  }, 1200, direction === -1 ? 1 : 0)
 
   const headerOpacity = useTransform(progress, [0, 0.1], [0, 1])
   const headerY = useTransform(progress, [0, 0.1], [16, 0])
