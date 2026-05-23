@@ -136,72 +136,101 @@ lenis.on('scroll', ({ progress, velocity }) => {
 
 _(Topic: `credential`)_
 
-> Scene count will grow as projects are added. Scene numbers are sequential and permanent — do not renumber. Divider scenes mark chapter breaks; sub-scenes follow their divider.
+> Scene numbers are sequential and permanent — do not renumber after implementation begins. Divider scenes mark chapter breaks; sub-scenes follow their divider.
 
 ---
 
-### Scene 001 — Introduction `[standard]`
+### Scene 001 — Cover `[divider]`
 
 **Anchor:** `#scene-001`
+**Scroll animation:** Entrance only — company name + tagline animate in; single overscroll advances to Scene 002
+**Layout:** Full-bleed opening cover slide — company name, tagline, full visual background
+**Component:** `Scene001Cover.tsx`
+
+---
+
+### Scene 002 — Introduction `[standard]`
+
+**Anchor:** `#scene-002`
 **Scroll animation:** `progress 0→0.5` wordmark 4M letters animate in; `0.5→1` IsoWireframe builds up
-**Content:** Brand introduction, The Mather name origin, company founding context — hardcoded in `Scene001Intro.tsx`
+**Content:** Brand introduction, The Mather name origin, company founding context — hardcoded in `Scene002Intro.tsx`
 **Asset:** Animated `IsoWireframe` component (already built) + The Mather wordmark
 
 ---
 
-### Scene 002 — Methodology `[standard]`
+### Scene 003 — Methodology `[standard]`
 
-**Anchor:** `#scene-002`
+**Anchor:** `#scene-003`
 **Scroll animation:** `progress 0→1` divided into 4 equal bands — one quadrant (M) reveals per band
-**Content:** Explanation of the 4M framework — hardcoded in `Scene002Methodology.tsx`
+**Content:** Explanation of the 4M framework — hardcoded in `Scene003Methodology.tsx`
 **Asset:** 4-quadrant diagram built up as user scrolls
 
 ---
 
-### Scene 003 — Services `[standard]`
+### Scene 004 — Services `[standard]`
 
-**Anchor:** `#scene-003`
+**Anchor:** `#scene-004`
 **Scroll animation:** 6 service cards stagger in across `progress 0→0.8`
-**Content:** What The Mather builds — 6 service areas — hardcoded in `Scene003Services.tsx`
+**Content:** What The Mather builds — 6 service areas — hardcoded in `Scene004Services.tsx`
 **Asset:** Service cards tile in with staggered animation
 
 ---
 
-### Scene 004 — Tech Stack `[standard]`
+### Scene 005 — Tech Stack `[standard]`
 
-**Anchor:** `#scene-004`
+**Anchor:** `#scene-005`
 **Scroll animation:** Tech logos appear in groups across `progress 0→1`
-**Content:** "Powered by modern tools" — hardcoded in `Scene004TechStack.tsx`
+**Content:** "Powered by modern tools" — hardcoded in `Scene005TechStack.tsx`
 **Asset:** Tech logo grid (React, Next.js, Flutter, Firebase, Prisma, Vercel, shadcn, etc.)
 **Asset source:** `src/assets/storytelling/credential/tech/`
 
 ---
 
-### Scene 005 — Clients `[standard]`
+### Scene 006 — Clients _(chapter divider)_ `[divider]`
 
-**Anchor:** `#scene-005`
-**Scroll animation:** Client logos fade in row by row across `progress 0→0.8`
-**Content:** "Trusted by leading organisations across Thailand and Southeast Asia" — hardcoded in `Scene005Clients.tsx`
-**Asset:** Client logo mosaic (PTT, Chevron, Suzuki, Haier, LINE BK, Sansiri, 15+ logos)
+**Anchor:** `#scene-006`
+**Scroll animation:** Entrance only; single overscroll advances to Scene 007
+**Layout:** Full-bleed title card — large "Clients" heading, full viewport
+**Component:** `Scene006ClientsDivider.tsx`
+
+---
+
+### Scene 007 — Clients Showcase `[sub]`
+
+**Anchor:** `#scene-007`
+**Scroll animation:** Left column text reveals across `progress 0→0.8`; right column marquee runs **continuously and independently** (CSS infinite scroll, not tied to Lenis progress)
+**Layout:** Two-column
+
+```
+┌──────────────────────┬────────────────────────────┐
+│  Left: narrative     │  Right: marquee ticker     │
+│  text reveals as     │  ← PTT  Chevron  Haier →  │
+│  user scrolls        │  ← Sansiri  LINE BK  →    │
+│  (Lenis progress)    │  (CSS animation, looping)  │
+└──────────────────────┴────────────────────────────┘
+```
+
+**Content:** "Trusted by leading organisations across Thailand and Southeast Asia" — hardcoded in `Scene007ClientsShowcase.tsx`
+**Marquee:** Multiple rows of client logos (PTT, Chevron, Suzuki, Haier, LINE BK, Sansiri, 15+ logos); alternating rows scroll in opposite directions
 **Asset source:** `src/assets/storytelling/credential/clients/`
 
 ---
 
-### Scene 006 — Projects _(chapter divider)_ `[divider]`
+### Scene 008 — Projects _(chapter divider)_ `[divider]`
 
-**Anchor:** `#scene-006`
-**Scroll animation:** Minimal — entrance only; Lenis scroll container is short (single overscroll advances to Scene 007)
+**Anchor:** `#scene-008`
+**Scroll animation:** Entrance only; single overscroll advances to Scene 009
 **Layout:** Full-bleed title card — large "Projects" heading, background image/colour, full viewport
-**Component:** `Scene006ProjectsDivider.tsx`
+**Component:** `Scene008ProjectsDivider.tsx`
 
 ---
 
-### Scene 007+ — Individual Projects `[sub]`
+### Scene 009+ — Individual Projects `[sub]`
 
-**Anchors:** `#scene-007`, `#scene-008`, …
+**Anchors:** `#scene-009`, `#scene-010`, …
 **Scroll animation:** Defined per scene component using `useSceneScroll()` progress
 **Layout:** Two-column by default. Scene component may override to a bespoke layout if the project story demands it.
-**Components:** `Scene007ProjectName.tsx`, `Scene008ProjectName.tsx`, …
+**Components:** `Scene009ProjectName.tsx`, `Scene010ProjectName.tsx`, …
 **Content:** Project narrative — hardcoded in each component
 **Asset:** Project visuals — sourced from `src/content/projects/2026-imported/**/*.png`
 
@@ -209,15 +238,15 @@ _(Topic: `credential`)_
 
 ---
 
-### Scene 999 — End CTA `[cta]`
+### Scene CTA — Get in touch `[cta]`
 
 **Anchor:** `#scene-cta`
-**Scroll animation:** Entrance only — headline and button animate in on `progress 0→0.4`; no further scroll content (overscroll does nothing — story ends here)
+**Scroll animation:** Entrance only — headline and button animate in on `progress 0→0.4`; overscroll does nothing (story ends here)
 **Layout:** Full-bleed, centred — large closing headline + primary action button
 **Component:** `SceneCta.tsx`
 **CTA destination:** TBD (likely `/contact`)
 **CTA copy:** TBD (e.g. "Start a project with us")
-**ChapterNav:** Appears as the last item; visually distinct (e.g. accent colour or separator above)
+**ChapterNav:** Appears as the last item; visually distinct (separator above, accent colour)
 
 ---
 
@@ -243,14 +272,16 @@ src/
 │       │   ├── SceneArrows.tsx            ← On-screen ← → jump buttons (desktop)
 │       │   ├── ChapterNav.tsx             ← Floating ToC + controls hint
 │       │   └── scenes/
-│       │       ├── Scene001Intro.tsx      ← Full viewport; owns layout + copy + animation
-│       │       ├── Scene002Methodology.tsx
-│       │       ├── Scene003Services.tsx
-│       │       ├── Scene004TechStack.tsx
-│       │       ├── Scene005Clients.tsx
-│       │       ├── Scene006ProjectsDivider.tsx
-│       │       ├── Scene007+ProjectName.tsx
-│       │       └── SceneCta.tsx           ← always last; type "cta"
+│       │       ├── Scene001Cover.tsx          ← [divider] opening cover
+│       │       ├── Scene002Intro.tsx          ← [standard]
+│       │       ├── Scene003Methodology.tsx    ← [standard]
+│       │       ├── Scene004Services.tsx       ← [standard]
+│       │       ├── Scene005TechStack.tsx      ← [standard]
+│       │       ├── Scene006ClientsDivider.tsx ← [divider]
+│       │       ├── Scene007ClientsShowcase.tsx← [sub] two-col + CSS marquee
+│       │       ├── Scene008ProjectsDivider.tsx← [divider]
+│       │       ├── Scene009+ProjectName.tsx   ← [sub] individual projects
+│       │       └── SceneCta.tsx               ← [cta] always last
 │       └── shared/                        ← Reusable across future topics
 │           ├── useSceneScroll.ts          ← creates scoped Lenis instance; returns MotionValue<number> 0→1
 │           └── SceneTransition.tsx        ← AnimatePresence wrapper; variant prop (slide|fade|cut)
@@ -277,15 +308,17 @@ export interface SceneEntry {
 }
 
 export const scenes: SceneEntry[] = [
-  { id: "scene-001", label: "Introduction", type: "standard", component: () => import('./scenes/Scene001Intro') },
-  { id: "scene-002", label: "Methodology",  type: "standard", component: () => import('./scenes/Scene002Methodology') },
-  { id: "scene-003", label: "Services",     type: "standard", component: () => import('./scenes/Scene003Services') },
-  { id: "scene-004", label: "Tech Stack",   type: "standard", component: () => import('./scenes/Scene004TechStack') },
-  { id: "scene-005", label: "Clients",      type: "standard", component: () => import('./scenes/Scene005Clients') },
-  { id: "scene-006", label: "Projects",     type: "divider",  component: () => import('./scenes/Scene006ProjectsDivider') },
-  { id: "scene-007", label: "Project A",    type: "sub",      component: () => import('./scenes/Scene007ProjectA') },
+  { id: "scene-001", label: "Cover",              type: "divider",  component: () => import('./scenes/Scene001Cover') },
+  { id: "scene-002", label: "Introduction",        type: "standard", component: () => import('./scenes/Scene002Intro') },
+  { id: "scene-003", label: "Methodology",         type: "standard", component: () => import('./scenes/Scene003Methodology') },
+  { id: "scene-004", label: "Services",            type: "standard", component: () => import('./scenes/Scene004Services') },
+  { id: "scene-005", label: "Tech Stack",          type: "standard", component: () => import('./scenes/Scene005TechStack') },
+  { id: "scene-006", label: "Clients",             type: "divider",  component: () => import('./scenes/Scene006ClientsDivider') },
+  { id: "scene-007", label: "Our Clients",         type: "sub",      component: () => import('./scenes/Scene007ClientsShowcase') },
+  { id: "scene-008", label: "Projects",            type: "divider",  component: () => import('./scenes/Scene008ProjectsDivider') },
+  { id: "scene-009", label: "Project Name",        type: "sub",      component: () => import('./scenes/Scene009ProjectName') },
   // … add projects here
-  { id: "scene-cta", label: "Get in touch", type: "cta",      component: () => import('./scenes/SceneCta') },
+  { id: "scene-cta", label: "Get in touch",        type: "cta",      component: () => import('./scenes/SceneCta') },
 ]
 ```
 
@@ -322,6 +355,7 @@ export function useSceneScroll(
 | Project images                 | `import.meta.glob` over `src/content/projects/`                                 | ✅ images already present      |
 | Component hydration            | `client:only="react"` on `ScrollyTelling`                                       | ✅                             |
 | UI primitives                  | shadcn `Badge` for project categories                                           | ✅                             |
+| Client logo marquee            | CSS `@keyframes` infinite scroll on right column; independent of Lenis          | ✅ pure CSS, no library        |
 | On-screen arrows               | `SceneArrows.tsx` — `fixed` positioned, ghost buttons                           | ✅ no extra library            |
 | Controls hint                  | First-visit overlay in `StoryEngine` + persistent footer in `ChapterNav`        | ✅ no extra library            |
 | **New libraries**              | **`lenis` only** (MIT, ~2kb)                                                    | ⬆️ one new dep                 |
@@ -391,13 +425,16 @@ The `editorial` color preset uses `--color-background: #fff`, `--color-foregroun
 
 | # | Label | Type |
 |---|---|---|
-| 001 | Introduction | standard |
-| 002 | Methodology | standard |
-| 003 | Services | standard |
-| 004 | Tech Stack | standard |
-| 005 | Clients | standard |
-| 006 | **Projects** | **divider** |
-| 007+ | Project Name | sub |
+| 001 | **Cover** | **divider** |
+| 002 | Introduction | standard |
+| 003 | Methodology | standard |
+| 004 | Services | standard |
+| 005 | Tech Stack | standard |
+| 006 | **Clients** | **divider** |
+| 007 | Our Clients | sub |
+| 008 | **Projects** | **divider** |
+| 009+ | Project Name | sub |
+| CTA | Get in touch | cta |
 
 ### Controls Hint
 
@@ -460,7 +497,7 @@ Two-layer approach so the hint informs without cluttering:
 - [x] ~~On-screen arrows~~ → `SceneArrows.tsx`; ghost buttons fixed mid-left/right; desktop only
 - [x] ~~Controls hint~~ → first-visit overlay (auto-dismiss) + persistent hint in ChapterNav footer
 - [x] ~~Scene transition style~~ → **slide** (next scene pushes in from right; prev pushes in from left). Transition variant is a configurable prop on `SceneTransition.tsx` so it can be changed per-topic or per-scene later without touching engine logic.
-- [ ] **Other dividers** — which other chapter groups (besides Projects) get a divider scene? What are they?
+- [x] ~~Other dividers~~ → **Cover** (Scene001, opening slide), **Clients** (Scene006), **Projects** (Scene008). CTA is `type: "cta"` (separate type). Scene numbering updated throughout.
 - [x] ~~End CTA~~ → **yes** — a closing panel appears after the last scene. Added as `type: "cta"` in the registry. See §5 Scene 999.
 - [ ] **Nav linking** — is `/storytelling/credential` linked from the main site Nav, or a standalone shareable URL only?
 - [ ] **Chapter nav style** — numbered dots with tooltip labels on hover, or full text labels always visible on desktop?
