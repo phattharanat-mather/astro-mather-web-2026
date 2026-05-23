@@ -71,9 +71,10 @@ export interface ValuePropsData {
 }
 
 export interface ClientItem {
-  name: string;
+  name?: string;
   year?: number;
   logo?: ImageMetadata;
+  logoDark?: ImageMetadata;
 }
 
 export interface ClientsData {
