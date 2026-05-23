@@ -42,16 +42,8 @@ const r2 = [...row2, ...row2, ...row2, ...row2];
                                 src={c.logo!}
                                 alt={c.name ?? ""}
                                 height={32}
-                                class={`logo-img${c.logoDark ? ' logo-light' : ''}`}
+                                class="logo-img"
                             />
-                            {c.logoDark && (
-                                <Image
-                                    src={c.logoDark}
-                                    alt={c.name ?? ""}
-                                    height={32}
-                                    class="logo-img logo-dark"
-                                />
-                            )}
                         </div>
                         <span class="client-name">{c.name}</span>
                     </div>
@@ -69,16 +61,8 @@ const r2 = [...row2, ...row2, ...row2, ...row2];
                                 src={c.logo!}
                                 alt={c.name ?? ""}
                                 height={32}
-                                class={`logo-img${c.logoDark ? ' logo-light' : ''}`}
+                                class="logo-img"
                             />
-                            {c.logoDark && (
-                                <Image
-                                    src={c.logoDark}
-                                    alt={c.name ?? ""}
-                                    height={32}
-                                    class="logo-img logo-dark"
-                                />
-                            )}
                         </div>
                         <span class="client-name">{c.name}</span>
                     </div>
@@ -179,10 +163,6 @@ const r2 = [...row2, ...row2, ...row2, ...row2];
         filter: grayscale(0) opacity(1);
     }
 
-    /* Dark-mode logo swap: show logo-dark only in dark theme */
-    :global(.dark) .logo-light { display: none; }
-    .logo-dark { display: none; }
-    :global(.dark) .logo-dark { display: block; }
 
     .client-name {
         font-family: var(--font-mono);
