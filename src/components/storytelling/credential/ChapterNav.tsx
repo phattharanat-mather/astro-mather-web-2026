@@ -81,19 +81,6 @@ export function ChapterNav() {
         </AnimatePresence>
       </motion.nav>
 
-      {/* Toggle button */}
-      <button
-        onClick={toggleNav}
-        className="pointer-events-auto self-center -ml-px w-5 h-12 bg-white border border-neutral-100 rounded-r-md flex items-center justify-center text-neutral-400 hover:text-neutral-700 hover:bg-neutral-50 transition-colors shadow-sm"
-        aria-label={collapsed ? 'Expand navigation' : 'Collapse navigation'}
-      >
-        <svg
-          width="10" height="10" viewBox="0 0 10 10" fill="currentColor"
-          className={`transition-transform duration-300 ${collapsed ? '' : 'rotate-180'}`}
-        >
-          <path d="M3 1l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
     </div>
   )
 }

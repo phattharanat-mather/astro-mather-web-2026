@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
-import { useSceneScroll } from '../../shared/useSceneScroll'
-import { useStoryEngine } from '../StoryEngine'
-import type { SceneProps } from '../../../../data/storytelling/credential'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
+import type { SceneProps } from '@/data/storytelling/credential'
 
 const TECH_GROUPS = [
   { label: 'Frontend', items: ['React', 'Next.js', 'Astro', 'TypeScript', 'Tailwind CSS', 'shadcn/ui'] },
@@ -35,9 +36,10 @@ export default function Scene005TechStack({ isActive: _isActive }: SceneProps) {
   return (
     <div
       ref={containerRef}
-      className="w-full h-screen flex items-center justify-center bg-white overflow-hidden"
+      className="relative w-full h-screen flex items-center justify-center bg-white overflow-hidden"
     >
-      <div className="w-full max-w-[1200px] mx-auto px-8">
+      <GridBackground lineColor="#000000" cellSize={40} opacity={0.025} />
+      <div className="relative w-full max-w-[1200px] mx-auto px-8">
 
         <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-10">
           <p className="text-[11px] tracking-[0.25em] text-neutral-400 uppercase mb-2">Powered by</p>

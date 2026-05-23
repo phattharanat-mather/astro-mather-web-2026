@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { motion } from 'motion/react'
-import { useSceneScroll } from '../../shared/useSceneScroll'
-import { useStoryEngine } from '../StoryEngine'
-import type { SceneProps } from '../../../../data/storytelling/credential'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
+import type { SceneProps } from '@/data/storytelling/credential'
 
 export default function Scene001Cover({ isActive: _isActive }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -17,14 +18,7 @@ export default function Scene001Cover({ isActive: _isActive }: SceneProps) {
       ref={containerRef}
       className="w-full h-screen flex flex-col items-center justify-center relative bg-neutral-950 overflow-hidden"
     >
-      {/* Background grid texture */}
-      <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 39px, #fff 39px, #fff 40px),
-            repeating-linear-gradient(90deg, transparent, transparent 39px, #fff 39px, #fff 40px)`,
-        }}
-      />
+      <GridBackground lineColor="#ffffff" cellSize={40} opacity={0.03} />
 
       {/* Content — centered, max 1200px */}
       <div className="relative w-full max-w-[1200px] mx-auto px-8 flex flex-col items-center text-center">

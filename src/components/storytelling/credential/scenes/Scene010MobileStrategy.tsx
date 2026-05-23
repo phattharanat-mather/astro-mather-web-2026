@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
-import { useSceneScroll } from '../../shared/useSceneScroll'
-import { useStoryEngine } from '../StoryEngine'
-import type { SceneProps } from '../../../../data/storytelling/credential'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { StripedBackground } from '@/components/storytelling/backgrounds/StripedBackground'
+import type { SceneProps } from '@/data/storytelling/credential'
 
 const MOBILE = [{ name: 'Haier', category: 'Mobile App', desc: 'iOS & Android application for Haier home appliance management and support' }]
 const STRATEGY = [
@@ -41,8 +42,9 @@ export default function Scene010MobileStrategy({ isActive: _isActive }: ScenePro
   }
 
   return (
-    <div ref={containerRef} className="w-full h-screen flex items-center justify-center bg-white overflow-hidden">
-      <div className="w-full max-w-[1200px] mx-auto px-8">
+    <div ref={containerRef} className="relative w-full h-screen flex items-center justify-center bg-white overflow-hidden">
+      <StripedBackground lineColor="#000000" stripeSpacing={24} angle={-45} opacity={0.025} />
+      <div className="relative w-full max-w-[1200px] mx-auto px-8">
 
         <motion.div style={{ opacity: headerOp }} className="mb-8">
           <p className="text-[11px] tracking-[0.25em] text-neutral-400 uppercase mb-2">Mobile, Strategy & AI</p>

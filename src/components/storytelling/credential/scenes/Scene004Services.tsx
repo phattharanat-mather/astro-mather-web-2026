@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
-import { useSceneScroll } from '../../shared/useSceneScroll'
-import { useStoryEngine } from '../StoryEngine'
-import type { SceneProps } from '../../../../data/storytelling/credential'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { StripedBackground } from '@/components/storytelling/backgrounds/StripedBackground'
+import type { SceneProps } from '@/data/storytelling/credential'
 
 const SERVICES = [
   { number: '01', title: 'AI Technology', description: 'Developing AI technologies across signal, image, and NLP domains — avoiding unconscious human error in complex decision-making.', tags: ['Signal Processing', 'Image Recognition', 'NLP'] },
@@ -37,9 +38,10 @@ export default function Scene004Services({ isActive: _isActive }: SceneProps) {
   return (
     <div
       ref={containerRef}
-      className="w-full h-screen flex items-center justify-center bg-white overflow-hidden"
+      className="relative w-full h-screen flex items-center justify-center bg-white overflow-hidden"
     >
-      <div className="w-full max-w-[1200px] mx-auto px-8">
+      <StripedBackground lineColor="#000000" stripeSpacing={24} angle={-45} opacity={0.025} />
+      <div className="relative w-full max-w-[1200px] mx-auto px-8">
 
         <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-8">
           <p className="text-[11px] tracking-[0.25em] text-neutral-400 uppercase mb-2">What we do</p>

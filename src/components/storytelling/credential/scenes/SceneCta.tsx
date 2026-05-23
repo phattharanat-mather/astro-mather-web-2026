@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
-import { useSceneScroll } from '../../shared/useSceneScroll'
-import { useStoryEngine } from '../StoryEngine'
-import type { SceneProps } from '../../../../data/storytelling/credential'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
+import type { SceneProps } from '@/data/storytelling/credential'
 
 export default function SceneCta({ isActive: _isActive }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -24,10 +25,7 @@ export default function SceneCta({ isActive: _isActive }: SceneProps) {
       className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden"
       style={{ background: 'linear-gradient(160deg, #0d0d0d 0%, #1a1a2e 60%, #0d0d0d 100%)' }}
     >
-      <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 39px, #fff 39px, #fff 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, #fff 39px, #fff 40px)` }}
-      />
+      <GridBackground lineColor="#ffffff" cellSize={40} opacity={0.03} />
 
       <div className="relative w-full max-w-[1200px] mx-auto px-8 flex flex-col items-center text-center">
         <motion.p

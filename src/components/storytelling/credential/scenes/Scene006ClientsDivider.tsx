@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { motion } from 'motion/react'
-import { useSceneScroll } from '../../shared/useSceneScroll'
-import { useStoryEngine } from '../StoryEngine'
-import type { SceneProps } from '../../../../data/storytelling/credential'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
+import type { SceneProps } from '@/data/storytelling/credential'
 
 export default function Scene006ClientsDivider({ isActive: _isActive }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -19,10 +20,7 @@ export default function Scene006ClientsDivider({ isActive: _isActive }: ScenePro
       className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)' }}
     >
-      <div
-        className="absolute inset-0 opacity-[0.04] pointer-events-none"
-        style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 59px, #fff 59px, #fff 60px), repeating-linear-gradient(90deg, transparent, transparent 59px, #fff 59px, #fff 60px)` }}
-      />
+      <GridBackground lineColor="#ffffff" cellSize={60} opacity={0.04} />
 
       <div className="relative w-full max-w-[1200px] mx-auto px-8 flex flex-col items-center text-center">
         <motion.p

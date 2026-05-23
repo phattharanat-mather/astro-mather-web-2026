@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
-import { useSceneScroll } from '../../shared/useSceneScroll'
-import { useStoryEngine } from '../StoryEngine'
-import type { SceneProps } from '../../../../data/storytelling/credential'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
+import type { SceneProps } from '@/data/storytelling/credential'
 
 const WEB_PROJECTS = [
   { name: 'Hachiban', category: 'Restaurant Chain', desc: "Digital platform for Japan's leading ramen chain in Thailand" },
@@ -50,9 +51,10 @@ export default function Scene009WebApps({ isActive: _isActive }: SceneProps) {
   return (
     <div
       ref={containerRef}
-      className="w-full h-screen flex items-center justify-center bg-white overflow-hidden"
+      className="relative w-full h-screen flex items-center justify-center bg-white overflow-hidden"
     >
-      <div className="w-full max-w-[1200px] mx-auto px-8">
+      <GridBackground lineColor="#000000" cellSize={40} opacity={0.025} />
+      <div className="relative w-full max-w-[1200px] mx-auto px-8">
 
         <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-8">
           <p className="text-[11px] tracking-[0.25em] text-neutral-400 uppercase mb-2">Web Applications</p>

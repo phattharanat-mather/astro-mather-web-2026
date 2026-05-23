@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
-import { useSceneScroll } from '../../shared/useSceneScroll'
-import { useStoryEngine } from '../StoryEngine'
-import type { SceneProps } from '../../../../data/storytelling/credential'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
+import type { SceneProps } from '@/data/storytelling/credential'
 
 const LETTERS = ['M', 'A', 'T', 'H', 'E', 'R']
 const FONT_LARGE = 'clamp(2.5rem, 7vw, 5rem)'
@@ -36,9 +37,10 @@ export default function Scene002Intro({ isActive: _isActive }: SceneProps) {
   return (
     <div
       ref={containerRef}
-      className="w-full h-screen flex items-center justify-center bg-white overflow-hidden"
+      className="relative w-full h-screen flex items-center justify-center bg-white overflow-hidden"
     >
-      <div className="w-full max-w-[1200px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+      <GridBackground lineColor="#000000" cellSize={40} opacity={0.025} />
+      <div className="relative w-full max-w-[1200px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
 
         {/* Left — animated wordmark */}
         <div>

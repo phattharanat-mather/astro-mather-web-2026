@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { motion } from 'motion/react'
-import { useSceneScroll } from '../../shared/useSceneScroll'
-import { useStoryEngine } from '../StoryEngine'
-import type { SceneProps } from '../../../../data/storytelling/credential'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { StripedBackground } from '@/components/storytelling/backgrounds/StripedBackground'
+import type { SceneProps } from '@/data/storytelling/credential'
 
 export default function Scene008ProjectsDivider({ isActive: _isActive }: SceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -18,10 +19,7 @@ export default function Scene008ProjectsDivider({ isActive: _isActive }: ScenePr
       ref={containerRef}
       className="w-full h-screen flex flex-col items-center justify-center relative bg-neutral-50 overflow-hidden"
     >
-      <div
-        className="absolute inset-0 opacity-[0.04] pointer-events-none"
-        style={{ backgroundImage: `repeating-linear-gradient(-45deg, transparent, transparent 20px, #000 20px, #000 21px)` }}
-      />
+      <StripedBackground lineColor="#000000" stripeSpacing={20} angle={-45} opacity={0.04} />
 
       <div className="relative w-full max-w-[1200px] mx-auto px-8 flex flex-col items-center text-center">
         <motion.p

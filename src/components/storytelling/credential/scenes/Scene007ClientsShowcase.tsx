@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { motion, useTransform } from 'motion/react'
-import { useSceneScroll } from '../../shared/useSceneScroll'
-import { useStoryEngine } from '../StoryEngine'
-import type { SceneProps } from '../../../../data/storytelling/credential'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { StripedBackground } from '@/components/storytelling/backgrounds/StripedBackground'
+import type { SceneProps } from '@/data/storytelling/credential'
 
 const CLIENTS_ROW_1 = ['PTT', 'Chevron', 'Singha Corporation', 'CIMB Thai Auto', 'Haier', 'Sansiri', 'PTT', 'Chevron', 'Singha Corporation', 'CIMB Thai Auto', 'Haier', 'Sansiri']
 const CLIENTS_ROW_2 = ['Thai-Denmark', 'LINE BK', 'Ministry of Culture', 'BMA', 'Autodeft', 'SACIT', 'Thai-Denmark', 'LINE BK', 'Ministry of Culture', 'BMA', 'Autodeft', 'SACIT']
@@ -48,9 +49,10 @@ export default function Scene007ClientsShowcase({ isActive: _isActive }: ScenePr
 
       <div
         ref={containerRef}
-        className="w-full h-screen flex items-center justify-center bg-white overflow-hidden"
+        className="relative w-full h-screen flex items-center justify-center bg-white overflow-hidden"
       >
-        <div className="w-full max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-0 items-center">
+        <StripedBackground lineColor="#000000" stripeSpacing={24} angle={-45} opacity={0.02} />
+        <div className="relative w-full max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-0 items-center">
 
           {/* Left — narrative */}
           <div className="px-8 py-12">
