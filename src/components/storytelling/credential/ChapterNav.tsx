@@ -3,19 +3,22 @@ import { scenes } from '../../../data/storytelling/credential'
 import { useStoryEngine } from './StoryEngine'
 
 export function ChapterNav() {
-  const { activeIndex, jumpTo, navCollapsed: collapsed, toggleNav } = useStoryEngine()
+  const { activeIndex, jumpTo, navCollapsed: collapsed } = useStoryEngine()
 
   type NavItem = { index: number; scene: (typeof scenes)[0] }
   const items: NavItem[] = scenes.map((scene, index) => ({ index, scene }))
 
   return (
     <div className="fixed left-0 top-0 h-screen z-50 flex items-stretch pointer-events-none">
-      {/* Main panel */}
       <motion.nav
         animate={{ width: collapsed ? 0 : 220 }}
         transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-        className="relative bg-white/96 backdrop-blur-sm border-r border-neutral-100 shadow-sm overflow-hidden pointer-events-auto flex flex-col"
-        style={{ minWidth: 0 }}
+        className="relative backdrop-blur-sm overflow-hidden pointer-events-auto flex flex-col"
+        style={{
+          minWidth: 0,
+          background: 'color-mix(in oklch, var(--story-bg) 96%, transparent)',
+          borderRight: '1px solid var(--story-line)',
+        }}
         aria-label="Chapter navigation"
       >
         <AnimatePresence>
@@ -28,11 +31,16 @@ export function ChapterNav() {
               className="flex flex-col h-full py-6"
             >
               {/* Brand */}
-              <div className="px-5 mb-5 pb-4 border-b border-neutral-100">
-                <span className="text-[10px] font-semibold tracking-[0.2em] text-neutral-400 uppercase">
+              <div className="px-5 mb-5 pb-4" style={{ borderBottom: '1px solid var(--story-line)' }}>
+                <span
+                  className="text-[10px] font-semibold tracking-[0.2em] uppercase"
+                  style={{ color: 'var(--story-fg-muted)' }}
+                >
                   The Mather
                 </span>
-                <p className="text-[10px] text-neutral-300 mt-0.5">Credential · 2026</p>
+                <p className="text-[10px] mt-0.5" style={{ color: 'var(--story-fg-muted)', opacity: 0.6 }}>
+                  Credential · 2026
+                </p>
               </div>
 
               {/* Scene list */}
@@ -45,24 +53,54 @@ export function ChapterNav() {
 
                   return (
                     <li key={scene.id}>
-                      {/* Separator above dividers (except the first scene) */}
                       {isDivider && index > 0 && (
-                        <div className="my-2 border-t border-neutral-100" />
+                        <div className="my-2" style={{ borderTop: '1px solid var(--story-line)' }} />
                       )}
 
                       <button
                         onClick={() => jumpTo(index)}
                         className={[
                           'w-full text-left rounded-md transition-all duration-150 flex items-center gap-2',
-                          isDivider ? 'px-2 py-1.5 text-[10px] font-semibold tracking-wider text-neutral-500 uppercase' :
-                          isSub ? 'pl-5 pr-2 py-1.5 text-[12px] text-neutral-400' :
-                          isCta ? 'px-2 py-1.5 text-[12px] font-medium text-amber-600' :
-                          'px-2 py-1.5 text-[12px] text-neutral-500',
-                          isActive ? 'bg-neutral-900 !text-white' : 'hover:bg-neutral-50 hover:text-neutral-800',
+                          isDivider ? 'px-2 py-1.5 text-[10px] font-semibold tracking-wider uppercase' :
+                          isSub ? 'pl-5 pr-2 py-1.5 text-[12px]' :
+                          isCta ? 'px-2 py-1.5 text-[12px] font-medium' :
+                          'px-2 py-1.5 text-[12px]',
                         ].join(' ')}
+                        style={
+                          isActive
+                            ? { background: 'var(--story-fg)', color: 'var(--story-bg)' }
+                            : isCta
+                              ? { color: 'var(--story-accent)', background: 'transparent' }
+                              : isDivider
+                                ? { color: 'var(--story-fg-muted)', background: 'transparent' }
+                                : { color: isSub ? 'var(--story-fg-muted)' : 'var(--story-fg-muted)', background: 'transparent' }
+                        }
+                        onMouseEnter={(e) => {
+                          if (!isActive) {
+                            (e.currentTarget as HTMLButtonElement).style.background = 'var(--story-surface)'
+                            ;(e.currentTarget as HTMLButtonElement).style.color = 'var(--story-fg)'
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isActive) {
+                            (e.currentTarget as HTMLButtonElement).style.background = 'transparent'
+                            ;(e.currentTarget as HTMLButtonElement).style.color = isCta
+                              ? 'var(--story-accent)'
+                              : 'var(--story-fg-muted)'
+                          }
+                        }}
                         aria-current={isActive ? 'page' : undefined}
                       >
-                        <span className={['shrink-0 w-1.5 h-1.5 rounded-full transition-all', isActive ? 'bg-white' : isDivider ? 'bg-neutral-300' : 'bg-neutral-200'].join(' ')} />
+                        <span
+                          className="shrink-0 w-1.5 h-1.5 rounded-full transition-all"
+                          style={{
+                            background: isActive
+                              ? 'var(--story-bg)'
+                              : isDivider
+                                ? 'var(--story-fg-muted)'
+                                : 'var(--story-line)',
+                          }}
+                        />
                         <span className="truncate">{scene.label}</span>
                       </button>
                     </li>
@@ -71,8 +109,8 @@ export function ChapterNav() {
               </ol>
 
               {/* Controls hint */}
-              <div className="px-5 pt-4 border-t border-neutral-100 mt-2">
-                <p className="text-[10px] text-neutral-300 leading-relaxed">
+              <div className="px-5 pt-4 mt-2" style={{ borderTop: '1px solid var(--story-line)' }}>
+                <p className="text-[10px] leading-relaxed" style={{ color: 'var(--story-fg-muted)', opacity: 0.6 }}>
                   ↓ scroll · → skip · ←→ jump
                 </p>
               </div>
@@ -80,7 +118,6 @@ export function ChapterNav() {
           )}
         </AnimatePresence>
       </motion.nav>
-
     </div>
   )
 }

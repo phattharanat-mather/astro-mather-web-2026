@@ -8,6 +8,8 @@ import {
 } from 'react'
 import { scenes } from '../../../data/storytelling/credential'
 
+export type StoryTheme = 'dark' | 'light'
+
 interface StoryEngineState {
   activeIndex: number
   direction: 1 | -1
@@ -17,6 +19,8 @@ interface StoryEngineState {
   jumpTo: (index: number) => void
   navCollapsed: boolean
   toggleNav: () => void
+  theme: StoryTheme
+  toggleTheme: () => void
 }
 
 const StoryEngineContext = createContext<StoryEngineState | null>(null)
@@ -32,6 +36,7 @@ interface Props {
 }
 
 const NAV_STORAGE_KEY = 'storytelling-nav-collapsed'
+const THEME_STORAGE_KEY = 'storytelling-theme'
 
 export function StoryEngineProvider({ children }: Props) {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -40,6 +45,10 @@ export function StoryEngineProvider({ children }: Props) {
     if (typeof window === 'undefined') return false
     return localStorage.getItem(NAV_STORAGE_KEY) === 'true'
   })
+  const [theme, setTheme] = useState<StoryTheme>(() => {
+    if (typeof window === 'undefined') return 'dark'
+    return (localStorage.getItem(THEME_STORAGE_KEY) as StoryTheme) ?? 'dark'
+  })
 
   const total = scenes.length
 
@@ -47,6 +56,14 @@ export function StoryEngineProvider({ children }: Props) {
     setNavCollapsed((v) => {
       const next = !v
       localStorage.setItem(NAV_STORAGE_KEY, String(next))
+      return next
+    })
+  }, [])
+
+  const toggleTheme = useCallback(() => {
+    setTheme((v) => {
+      const next: StoryTheme = v === 'dark' ? 'light' : 'dark'
+      localStorage.setItem(THEME_STORAGE_KEY, next)
       return next
     })
   }, [])
@@ -99,7 +116,7 @@ export function StoryEngineProvider({ children }: Props) {
   }, [])
 
   return (
-    <StoryEngineContext.Provider value={{ activeIndex, direction, total, nextScene, prevScene, jumpTo, navCollapsed, toggleNav }}>
+    <StoryEngineContext.Provider value={{ activeIndex, direction, total, nextScene, prevScene, jumpTo, navCollapsed, toggleNav, theme, toggleTheme }}>
       {children}
     </StoryEngineContext.Provider>
   )

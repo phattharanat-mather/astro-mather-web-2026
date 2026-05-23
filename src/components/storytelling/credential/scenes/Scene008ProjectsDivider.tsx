@@ -17,16 +17,18 @@ export default function Scene008ProjectsDivider({ isActive: _isActive }: ScenePr
   return (
     <div
       ref={containerRef}
-      className="w-full h-screen flex flex-col items-center justify-center relative bg-neutral-50 overflow-hidden"
+      className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      style={{ background: 'var(--story-invert-bg)' }}
     >
-      <StripedBackground lineColor="#000000" stripeSpacing={20} angle={-45} opacity={0.04} />
+      <StripedBackground lineColor="var(--story-line-hex)" stripeSpacing={20} angle={-45} opacity={0.05} />
 
       <div className="relative w-full max-w-[1200px] mx-auto px-8 flex flex-col items-center text-center">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-neutral-400 text-[11px] tracking-[0.3em] uppercase mb-6"
+          className="text-[11px] tracking-[0.3em] uppercase mb-6"
+          style={{ color: 'var(--story-invert-muted)' }}
         >
           Chapter 03
         </motion.p>
@@ -35,8 +37,8 @@ export default function Scene008ProjectsDivider({ isActive: _isActive }: ScenePr
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="text-neutral-900 leading-none"
-          style={{ fontSize: 'clamp(4rem, 12vw, 10rem)', fontFamily: 'var(--font-serif, Georgia, serif)' }}
+          className="leading-none"
+          style={{ fontSize: 'clamp(4rem, 12vw, 10rem)', color: 'var(--story-invert-fg)' }}
         >
           Projects
         </motion.h2>
@@ -45,7 +47,8 @@ export default function Scene008ProjectsDivider({ isActive: _isActive }: ScenePr
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.6 }}
-          className="text-neutral-400 mt-6 max-w-md text-[15px] leading-relaxed"
+          className="mt-6 max-w-md text-[15px] leading-relaxed"
+          style={{ color: 'var(--story-invert-muted)' }}
         >
           A selection of our work across web, mobile, AI, and data strategy.
         </motion.p>

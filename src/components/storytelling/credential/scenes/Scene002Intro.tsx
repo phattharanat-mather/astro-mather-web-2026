@@ -17,7 +17,6 @@ export default function Scene002Intro({ isActive: _isActive }: SceneProps) {
     else prevScene()
   })
 
-  // Letter transforms (6 letters, staggered 0→0.36)
   const l0Op = useTransform(progress, [0, 0.06], [0, 1]); const l0Y = useTransform(progress, [0, 0.08], [30, 0])
   const l1Op = useTransform(progress, [0.06, 0.12], [0, 1]); const l1Y = useTransform(progress, [0.06, 0.14], [30, 0])
   const l2Op = useTransform(progress, [0.12, 0.18], [0, 1]); const l2Y = useTransform(progress, [0.12, 0.20], [30, 0])
@@ -37,60 +36,62 @@ export default function Scene002Intro({ isActive: _isActive }: SceneProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-center bg-white overflow-hidden"
+      className="relative w-full h-screen flex items-center justify-center overflow-hidden"
+      style={{ background: 'var(--story-bg)' }}
     >
-      <GridBackground lineColor="#000000" cellSize={40} opacity={0.025} />
+      <GridBackground lineColor="var(--story-line-hex)" cellSize={40} opacity={0.03} />
       <div className="relative w-full max-w-[1200px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
 
         {/* Left — animated wordmark */}
         <div>
-          <p className="text-[11px] tracking-[0.25em] text-neutral-400 uppercase mb-8">
+          <p className="text-[11px] tracking-[0.25em] uppercase mb-8" style={{ color: 'var(--story-fg-muted)' }}>
             Introduction
           </p>
           <div className="flex gap-1 lg:gap-2 mb-6">
             {LETTERS.map((letter, i) => (
               <motion.span
                 key={letter}
-                style={{ opacity: letterTransforms[i].opacity, y: letterTransforms[i].y, fontSize: FONT_LARGE }}
-                className="text-neutral-900 font-bold leading-none"
+                style={{ opacity: letterTransforms[i].opacity, y: letterTransforms[i].y, fontSize: FONT_LARGE, color: 'var(--story-fg)', fontWeight: 700, lineHeight: 1 }}
               >
                 {letter}
               </motion.span>
             ))}
           </div>
-          <motion.p style={{ opacity: subtitleOpacity }} className="text-neutral-400 text-sm leading-relaxed max-w-sm">
+          <motion.p style={{ opacity: subtitleOpacity, color: 'var(--story-fg-muted)' }} className="text-sm leading-relaxed max-w-sm">
             Four principles. One methodology.
           </motion.p>
         </div>
 
         {/* Right — company intro */}
         <motion.div style={{ opacity: textOpacity, y: textY }}>
-          <p className="text-[11px] tracking-[0.25em] text-neutral-300 uppercase mb-6">
+          <p className="text-[11px] tracking-[0.25em] uppercase mb-6" style={{ color: 'var(--story-fg-muted)', opacity: 0.6 }}>
             Who we are
           </p>
           <h2
-            className="text-neutral-900 leading-tight mb-6"
-            style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.9rem)', fontFamily: 'var(--font-serif, Georgia, serif)' }}
+            className="leading-tight mb-6"
+            style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.9rem)', color: 'var(--story-fg)' }}
           >
             We're a data and technology company headquartered in Bangkok, Thailand.
           </h2>
-          <div className="space-y-4 text-neutral-500 leading-relaxed text-[15px]">
+          <div className="space-y-4 leading-relaxed text-[15px]" style={{ color: 'var(--story-fg-muted)' }}>
             <p>
               The Mather partners with businesses across Southeast Asia to turn raw data into
               confident decisions — through AI, analytics, and purpose-built digital products.
             </p>
             <p>
               Our name comes from the four cornerstones that guide every engagement:{' '}
-              <strong className="text-neutral-700">Methodology</strong>,{' '}
-              <strong className="text-neutral-700">Mathematics</strong>,{' '}
-              <strong className="text-neutral-700">Machine Learning</strong>, and{' '}
-              <strong className="text-neutral-700">Matching</strong> — the 4M framework.
+              <strong style={{ color: 'var(--story-fg)' }}>Methodology</strong>,{' '}
+              <strong style={{ color: 'var(--story-fg)' }}>Mathematics</strong>,{' '}
+              <strong style={{ color: 'var(--story-fg)' }}>Machine Learning</strong>, and{' '}
+              <strong style={{ color: 'var(--story-fg)' }}>Matching</strong> — the 4M framework.
             </p>
           </div>
-          <div className="mt-8 pt-6 border-t border-neutral-100">
-            <p className="text-[11px] tracking-[0.2em] text-neutral-300 uppercase mb-3">Founded by</p>
-            <p className="text-neutral-700 font-medium">Somprasonk Gabbualoy</p>
-            <p className="text-neutral-400 text-sm mt-1">
+          <div className="mt-8 pt-6" style={{ borderTop: '1px solid var(--story-line)' }}>
+            <p className="text-[11px] tracking-[0.2em] uppercase mb-3" style={{ color: 'var(--story-fg-muted)', opacity: 0.6 }}>
+              Founded by
+            </p>
+            <p className="font-medium" style={{ color: 'var(--story-fg)' }}>Somprasonk Gabbualoy</p>
+            <p className="text-sm mt-1" style={{ color: 'var(--story-fg-muted)' }}>
               "Quality work at a fair price — we handle the complexity so you don't have to."
             </p>
           </div>

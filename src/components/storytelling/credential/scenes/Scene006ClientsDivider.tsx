@@ -18,16 +18,17 @@ export default function Scene006ClientsDivider({ isActive: _isActive }: ScenePro
     <div
       ref={containerRef}
       className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)' }}
+      style={{ background: 'var(--story-invert-bg)' }}
     >
-      <GridBackground lineColor="#ffffff" cellSize={60} opacity={0.04} />
+      <GridBackground lineColor="var(--story-line-hex)" cellSize={60} opacity={0.05} />
 
       <div className="relative w-full max-w-[1200px] mx-auto px-8 flex flex-col items-center text-center">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-neutral-500 text-[11px] tracking-[0.3em] uppercase mb-6"
+          className="text-[11px] tracking-[0.3em] uppercase mb-6"
+          style={{ color: 'var(--story-invert-muted)' }}
         >
           Chapter 02
         </motion.p>
@@ -36,8 +37,8 @@ export default function Scene006ClientsDivider({ isActive: _isActive }: ScenePro
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="text-white leading-none"
-          style={{ fontSize: 'clamp(4rem, 12vw, 10rem)', fontFamily: 'var(--font-serif, Georgia, serif)' }}
+          className="leading-none"
+          style={{ fontSize: 'clamp(4rem, 12vw, 10rem)', color: 'var(--story-invert-fg)' }}
         >
           Clients
         </motion.h2>
@@ -46,7 +47,8 @@ export default function Scene006ClientsDivider({ isActive: _isActive }: ScenePro
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.6 }}
-          className="text-neutral-500 mt-6 max-w-md text-[15px] leading-relaxed"
+          className="mt-6 max-w-md text-[15px] leading-relaxed"
+          style={{ color: 'var(--story-invert-muted)' }}
         >
           Trusted by leading organisations across Thailand and Southeast Asia.
         </motion.p>

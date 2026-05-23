@@ -51,36 +51,48 @@ export default function Scene009WebApps({ isActive: _isActive }: SceneProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-center bg-white overflow-hidden"
+      className="relative w-full h-screen flex items-center justify-center overflow-hidden"
+      style={{ background: 'var(--story-bg)' }}
     >
-      <GridBackground lineColor="#000000" cellSize={40} opacity={0.025} />
+      <GridBackground lineColor="var(--story-line-hex)" cellSize={40} opacity={0.03} />
       <div className="relative w-full max-w-[1200px] mx-auto px-8">
 
         <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-8">
-          <p className="text-[11px] tracking-[0.25em] text-neutral-400 uppercase mb-2">Web Applications</p>
-          <h2
-            className="text-neutral-900"
-            style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontFamily: 'var(--font-serif, Georgia, serif)' }}
-          >
+          <p className="text-[11px] tracking-[0.25em] uppercase mb-2" style={{ color: 'var(--story-fg-muted)' }}>
+            Web Applications
+          </p>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--story-fg)' }}>
             Digital products that represent brands
           </h2>
-          <p className="text-neutral-400 mt-2 max-w-lg text-[15px]">
+          <p className="mt-2 max-w-lg text-[15px]" style={{ color: 'var(--story-fg-muted)' }}>
             {WEB_PROJECTS.length} projects — from fintech to luxury hospitality.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-100 border border-neutral-100 rounded-2xl overflow-hidden">
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 gap-px rounded-2xl overflow-hidden"
+          style={{ background: 'var(--story-line)', border: '1px solid var(--story-line)' }}
+        >
           {WEB_PROJECTS.map((project, i) => (
             <motion.div
               key={project.name}
-              style={{ opacity: ct[i].o, y: ct[i].y }}
-              className="bg-white p-5 hover:bg-neutral-50 transition-colors"
+              style={{ opacity: ct[i].o, y: ct[i].y, background: 'var(--story-bg)' }}
+              className="p-5 transition-colors"
+              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-surface)' }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-bg)' }}
             >
               <div className="flex items-start justify-between gap-4 mb-1.5">
-                <h3 className="text-neutral-900 font-semibold text-[15px]">{project.name}</h3>
-                <span className="shrink-0 text-[10px] tracking-wide bg-neutral-100 text-neutral-500 px-2 py-0.5 rounded-full">{project.category}</span>
+                <h3 className="font-semibold text-[15px]" style={{ color: 'var(--story-fg)' }}>{project.name}</h3>
+                <span
+                  className="shrink-0 text-[10px] tracking-wide px-2 py-0.5 rounded-full"
+                  style={{ background: 'var(--story-surface)', color: 'var(--story-fg-muted)' }}
+                >
+                  {project.category}
+                </span>
               </div>
-              <p className="text-neutral-400 text-[13px] leading-relaxed">{project.desc}</p>
+              <p className="text-[13px] leading-relaxed" style={{ color: 'var(--story-fg-muted)' }}>
+                {project.desc}
+              </p>
             </motion.div>
           ))}
         </div>

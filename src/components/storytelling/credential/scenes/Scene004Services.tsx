@@ -38,34 +38,54 @@ export default function Scene004Services({ isActive: _isActive }: SceneProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-center bg-white overflow-hidden"
+      className="relative w-full h-screen flex items-center justify-center overflow-hidden"
+      style={{ background: 'var(--story-bg)' }}
     >
-      <StripedBackground lineColor="#000000" stripeSpacing={24} angle={-45} opacity={0.025} />
+      <StripedBackground lineColor="var(--story-line-hex)" stripeSpacing={24} angle={-45} opacity={0.04} />
       <div className="relative w-full max-w-[1200px] mx-auto px-8">
 
         <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-8">
-          <p className="text-[11px] tracking-[0.25em] text-neutral-400 uppercase mb-2">What we do</p>
-          <h2
-            className="text-neutral-900"
-            style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontFamily: 'var(--font-serif, Georgia, serif)' }}
-          >
+          <p className="text-[11px] tracking-[0.25em] uppercase mb-2" style={{ color: 'var(--story-fg-muted)' }}>
+            What we do
+          </p>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: 'var(--story-fg)' }}>
             Six service domains
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-neutral-100 border border-neutral-100 rounded-2xl overflow-hidden">
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px rounded-2xl overflow-hidden"
+          style={{ background: 'var(--story-line)', border: '1px solid var(--story-line)' }}
+        >
           {SERVICES.map((service, i) => (
             <motion.div
               key={service.number}
-              style={{ opacity: ct[i].o, y: ct[i].y }}
-              className="bg-white p-6 hover:bg-neutral-50 transition-colors duration-200"
+              style={{ opacity: ct[i].o, y: ct[i].y, background: 'var(--story-bg)' }}
+              className="p-6 transition-colors duration-200"
+              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-surface)' }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-bg)' }}
             >
-              <span className="text-[11px] font-medium tracking-[0.2em] text-neutral-300 block mb-3">{service.number}</span>
-              <h3 className="text-neutral-900 font-semibold text-[15px] mb-2">{service.title}</h3>
-              <p className="text-neutral-500 text-[13px] leading-relaxed mb-3">{service.description}</p>
+              <span
+                className="text-[11px] font-medium tracking-[0.2em] block mb-3"
+                style={{ color: 'var(--story-fg-muted)', opacity: 0.5 }}
+              >
+                {service.number}
+              </span>
+              <h3 className="font-semibold text-[15px] mb-2" style={{ color: 'var(--story-fg)' }}>
+                {service.title}
+              </h3>
+              <p className="text-[13px] leading-relaxed mb-3" style={{ color: 'var(--story-fg-muted)' }}>
+                {service.description}
+              </p>
               <div className="flex flex-wrap gap-1.5">
                 {service.tags.map((tag) => (
-                  <span key={tag} className="text-[10px] tracking-wide bg-neutral-100 text-neutral-500 px-2 py-0.5 rounded-full">{tag}</span>
+                  <span
+                    key={tag}
+                    className="text-[10px] tracking-wide px-2 py-0.5 rounded-full"
+                    style={{ background: 'var(--story-surface)', color: 'var(--story-fg-muted)' }}
+                  >
+                    {tag}
+                  </span>
                 ))}
               </div>
             </motion.div>
