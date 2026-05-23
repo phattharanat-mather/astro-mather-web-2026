@@ -32,8 +32,17 @@ export function ChapterNav() {
             >
               {/* Brand */}
               <div className="px-5 mb-5 pb-4" style={{ borderBottom: '1px solid var(--story-line)' }}>
+                <a
+                  href="/"
+                  className="inline-flex items-center gap-1.5 mb-3 transition-opacity duration-150 hover:opacity-100"
+                  style={{ color: 'var(--story-fg-muted)', opacity: 0.6 }}
+                  title="Back to home"
+                >
+                  <span className="text-[11px]">←</span>
+                  <span className="text-[10px] font-medium tracking-wide">Back to home</span>
+                </a>
                 <span
-                  className="text-[10px] font-semibold tracking-[0.2em] uppercase"
+                  className="block text-[10px] font-semibold tracking-[0.2em] uppercase"
                   style={{ color: 'var(--story-fg-muted)' }}
                 >
                   The Mather

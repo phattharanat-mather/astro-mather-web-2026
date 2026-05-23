@@ -100,5 +100,11 @@ export const footer = {
         { label: "Tech Stack", href: "/careers/tech-stack" },
       ],
     },
+    {
+      heading: "Presentations",
+      links: [
+        { label: "Credential 2026", href: "/storytelling/credential" },
+      ],
+    },
   ],
 };
