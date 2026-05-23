@@ -112,6 +112,7 @@ Each scene occupies the **full viewport** (`100vw × 100vh`) — like a PowerPoi
 | Divider scene layout  | **Full-bleed title card**                                     | Large heading, background image/colour, full viewport. `ChapterNav` renders dividers as section headings.   |
 | Sub-scene layout      | **Two-column by default; bespoke if story demands it**        | Scene component decides its own layout internally; no wrapper imposed by `StoryEngine`                      |
 | Chapter nav           | **All scenes visible**                                        | Every scene (standard, divider, sub) appears in the ToC; dividers as section headings, sub-scenes as regular items |
+| Scene transition      | **Slide** (configurable)                                      | Next scene slides in from right; previous from left. `SceneTransition` accepts a `variant` prop (`"slide" \| "fade" \| "cut"`) so it can be changed per-topic or per-scene without touching engine logic |
 
 ---
 
@@ -280,6 +281,7 @@ export const scenes: SceneEntry[] = [
 | Project images            | `import.meta.glob` over `src/content/projects/`                       | ✅ images already present            |
 | Component hydration       | `client:only="react"` on `ScrollyTelling`                             | ✅                                   |
 | UI primitives             | shadcn `Badge` for project categories                                  | ✅                                   |
+| Scene transitions         | `SceneTransition.tsx` wraps `AnimatePresence`; accepts `variant: "slide" \| "fade" \| "cut"` | ✅ `motion` v12 |
 | On-screen arrows          | `SceneArrows.tsx` — `fixed` positioned, ghost buttons                 | ✅ no library needed                 |
 | Controls hint             | Inline hint in `ChapterNav.tsx`; first-visit overlay in `StoryEngine` | ✅ no library needed                 |
 | **New libraries**         | **None**                                                               | ✅                                   |
@@ -416,7 +418,7 @@ Two-layer approach so the hint informs without cluttering:
 - [x] ~~Scene component API~~ → `step: number` + `isActive: boolean` props; scene is a pure renderer
 - [x] ~~On-screen arrows~~ → `SceneArrows.tsx`; ghost buttons fixed mid-left/right; desktop only
 - [x] ~~Controls hint~~ → first-visit overlay (auto-dismiss) + persistent hint in ChapterNav footer
-- [ ] **Scene transition style** — how do scenes animate in/out? Fade, slide (push from right), or cut (scene handles own entrance)?
+- [x] ~~Scene transition style~~ → **slide** (next scene pushes in from right; prev pushes in from left). Transition variant is a configurable prop on `SceneTransition.tsx` so it can be changed per-topic or per-scene later without touching engine logic.
 - [ ] **Other dividers** — which other chapter groups (besides Projects) get a divider scene? What are they?
 - [ ] **End CTA** — is there a call-to-action at the very end of the story? (e.g. "Start a project with us" → `/contact`)
 - [ ] **Nav linking** — is `/storytelling/credential` linked from the main site Nav, or a standalone shareable URL only?
