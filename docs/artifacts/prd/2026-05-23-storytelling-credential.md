@@ -124,7 +124,7 @@ lenis.on('scroll', ({ progress, velocity }) => {
 | Scene content         | **Hardcoded inside each scene component**                      | Copy + layout + animation all owned by the scene file; no MDX or external data file for content             |
 | Scene loading         | **`React.lazy()` via scene registry**                         | Scene components are lazy-imported from `credential.ts`. Avoids large static import block; scales to many scenes |
 | Static assets         | **`src/assets/storytelling/credential/`**                     | Processed by Astro image pipeline; subdirs `clients/` and `tech/` for logo sets                             |
-| Scene types           | **`standard` \| `divider` \| `sub`**                          | `standard` = any scene layout (two-col default); `divider` = full-bleed chapter break; `sub` = sub-scene under a divider. All are full-viewport. |
+| Scene types           | **`standard` \| `divider` \| `sub` \| `cta`**                 | `standard` = any scene layout (two-col default); `divider` = full-bleed chapter break; `sub` = sub-scene under a divider; `cta` = closing full-bleed panel with action button. All are full-viewport. |
 | Divider scene layout  | **Full-bleed title card**                                     | Large heading, background image/colour, full viewport. `ChapterNav` renders dividers as section headings.   |
 | Sub-scene layout      | **Two-column by default; bespoke if story demands it**        | Scene component decides its own layout internally; no wrapper imposed by `StoryEngine`                      |
 | Chapter nav           | **All scenes visible**                                        | Every scene (standard, divider, sub) appears in the ToC; dividers as section headings, sub-scenes as regular items |
@@ -209,6 +209,18 @@ _(Topic: `credential`)_
 
 ---
 
+### Scene 999 — End CTA `[cta]`
+
+**Anchor:** `#scene-cta`
+**Scroll animation:** Entrance only — headline and button animate in on `progress 0→0.4`; no further scroll content (overscroll does nothing — story ends here)
+**Layout:** Full-bleed, centred — large closing headline + primary action button
+**Component:** `SceneCta.tsx`
+**CTA destination:** TBD (likely `/contact`)
+**CTA copy:** TBD (e.g. "Start a project with us")
+**ChapterNav:** Appears as the last item; visually distinct (e.g. accent colour or separator above)
+
+---
+
 ## 6. File Structure
 
 ```
@@ -237,7 +249,8 @@ src/
 │       │       ├── Scene004TechStack.tsx
 │       │       ├── Scene005Clients.tsx
 │       │       ├── Scene006ProjectsDivider.tsx
-│       │       └── Scene007+ProjectName.tsx
+│       │       ├── Scene007+ProjectName.tsx
+│       │       └── SceneCta.tsx           ← always last; type "cta"
 │       └── shared/                        ← Reusable across future topics
 │           ├── useSceneScroll.ts          ← creates scoped Lenis instance; returns MotionValue<number> 0→1
 │           └── SceneTransition.tsx        ← AnimatePresence wrapper; variant prop (slide|fade|cut)
@@ -250,7 +263,7 @@ src/
 **`credential.ts` shape:**
 
 ```ts
-export type SceneType = "standard" | "divider" | "sub"
+export type SceneType = "standard" | "divider" | "sub" | "cta"
 
 export interface SceneProps {
   isActive: boolean  // true when this scene is displayed; scene starts Lenis on mount
@@ -272,6 +285,7 @@ export const scenes: SceneEntry[] = [
   { id: "scene-006", label: "Projects",     type: "divider",  component: () => import('./scenes/Scene006ProjectsDivider') },
   { id: "scene-007", label: "Project A",    type: "sub",      component: () => import('./scenes/Scene007ProjectA') },
   // … add projects here
+  { id: "scene-cta", label: "Get in touch", type: "cta",      component: () => import('./scenes/SceneCta') },
 ]
 ```
 
@@ -447,6 +461,6 @@ Two-layer approach so the hint informs without cluttering:
 - [x] ~~Controls hint~~ → first-visit overlay (auto-dismiss) + persistent hint in ChapterNav footer
 - [x] ~~Scene transition style~~ → **slide** (next scene pushes in from right; prev pushes in from left). Transition variant is a configurable prop on `SceneTransition.tsx` so it can be changed per-topic or per-scene later without touching engine logic.
 - [ ] **Other dividers** — which other chapter groups (besides Projects) get a divider scene? What are they?
-- [ ] **End CTA** — is there a call-to-action at the very end of the story? (e.g. "Start a project with us" → `/contact`)
+- [x] ~~End CTA~~ → **yes** — a closing panel appears after the last scene. Added as `type: "cta"` in the registry. See §5 Scene 999.
 - [ ] **Nav linking** — is `/storytelling/credential` linked from the main site Nav, or a standalone shareable URL only?
 - [ ] **Chapter nav style** — numbered dots with tooltip labels on hover, or full text labels always visible on desktop?
