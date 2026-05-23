@@ -5,12 +5,12 @@ import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine
 import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
 import type { SceneProps } from '@/data/storytelling/credential'
 
-// Dark quads use invert tokens; light quads use surface tokens — works in both themes.
+// Alternating surface/bg creates a checkerboard — both tokens adapt to the active theme.
 const QUADRANTS = [
-  { letter: 'M', title: 'Methodology', description: 'Proven process design — every project starts with a structured framework tailored to your goals.', dark: true },
-  { letter: 'A', title: 'Mathematics', description: 'Statistical rigour — we let data speak through quantitative and qualitative analysis.', dark: false },
-  { letter: 'T', title: 'Machine Learning', description: 'AI that learns — models trained on your data, built to avoid unconscious human error.', dark: false },
-  { letter: 'H', title: 'Matching', description: 'Right-fit solutions — matching technology choices to business context, not trends.', dark: true },
+  { letter: 'M', title: 'Methodology', description: 'Proven process design — every project starts with a structured framework tailored to your goals.', alt: true },
+  { letter: 'A', title: 'Mathematics', description: 'Statistical rigour — we let data speak through quantitative and qualitative analysis.', alt: false },
+  { letter: 'T', title: 'Machine Learning', description: 'AI that learns — models trained on your data, built to avoid unconscious human error.', alt: false },
+  { letter: 'H', title: 'Matching', description: 'Right-fit solutions — matching technology choices to business context, not trends.', alt: true },
 ]
 
 export default function Scene003Methodology({ isActive: _isActive }: SceneProps) {
@@ -63,8 +63,8 @@ export default function Scene003Methodology({ isActive: _isActive }: SceneProps)
               style={{
                 scale: qt[i].s,
                 opacity: qt[i].o,
-                background: q.dark ? 'var(--story-invert-bg)' : 'var(--story-surface)',
-                color: q.dark ? 'var(--story-invert-fg)' : 'var(--story-fg)',
+                background: q.alt ? 'var(--story-surface)' : 'var(--story-bg)',
+                color: 'var(--story-fg)',
               }}
               className="p-8 lg:p-10"
             >
@@ -77,7 +77,7 @@ export default function Scene003Methodology({ isActive: _isActive }: SceneProps)
               <h3 className="font-semibold text-base mb-2">{q.title}</h3>
               <p
                 className="text-[13px] leading-relaxed"
-                style={{ color: q.dark ? 'var(--story-invert-muted)' : 'var(--story-fg-muted)' }}
+                style={{ color: 'var(--story-fg-muted)' }}
               >
                 {q.description}
               </p>

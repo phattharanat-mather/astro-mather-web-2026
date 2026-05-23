@@ -18,7 +18,7 @@ export default function Scene006ClientsDivider({ isActive: _isActive }: ScenePro
     <div
       ref={containerRef}
       className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden"
-      style={{ background: 'var(--story-invert-bg)' }}
+      style={{ background: 'var(--story-bg)' }}
     >
       <GridBackground lineColor="var(--story-line-hex)" cellSize={60} opacity={0.05} />
 
@@ -28,7 +28,7 @@ export default function Scene006ClientsDivider({ isActive: _isActive }: ScenePro
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           className="text-[11px] tracking-[0.3em] uppercase mb-6"
-          style={{ color: 'var(--story-invert-muted)' }}
+          style={{ color: 'var(--story-fg-muted)' }}
         >
           Chapter 02
         </motion.p>
@@ -38,7 +38,7 @@ export default function Scene006ClientsDivider({ isActive: _isActive }: ScenePro
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           className="leading-none"
-          style={{ fontSize: 'clamp(4rem, 12vw, 10rem)', color: 'var(--story-invert-fg)' }}
+          style={{ fontSize: 'clamp(4rem, 12vw, 10rem)', color: 'var(--story-fg)' }}
         >
           Clients
         </motion.h2>
@@ -48,7 +48,7 @@ export default function Scene006ClientsDivider({ isActive: _isActive }: ScenePro
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.6 }}
           className="mt-6 max-w-md text-[15px] leading-relaxed"
-          style={{ color: 'var(--story-invert-muted)' }}
+          style={{ color: 'var(--story-fg-muted)' }}
         >
           Trusted by leading organisations across Thailand and Southeast Asia.
         </motion.p>

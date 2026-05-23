@@ -23,7 +23,7 @@ export default function SceneCta({ isActive: _isActive }: SceneProps) {
     <div
       ref={containerRef}
       className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden"
-      style={{ background: 'var(--story-invert-bg)' }}
+      style={{ background: 'var(--story-bg)' }}
     >
       <GridBackground lineColor="var(--story-line-hex)" cellSize={40} opacity={0.05} />
 
@@ -33,7 +33,7 @@ export default function SceneCta({ isActive: _isActive }: SceneProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
           className="text-[11px] tracking-[0.3em] uppercase mb-8"
-          style={{ color: 'var(--story-invert-muted)' }}
+          style={{ color: 'var(--story-fg-muted)' }}
         >
           The Mather · Bangkok, Thailand
         </motion.p>
@@ -43,7 +43,7 @@ export default function SceneCta({ isActive: _isActive }: SceneProps) {
             opacity: headlineOpacity,
             y: headlineY,
             fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            color: 'var(--story-invert-fg)',
+            color: 'var(--story-fg)',
           }}
           className="leading-tight max-w-2xl"
         >
@@ -51,7 +51,7 @@ export default function SceneCta({ isActive: _isActive }: SceneProps) {
         </motion.h2>
 
         <motion.p
-          style={{ opacity: subOpacity, color: 'var(--story-invert-muted)' }}
+          style={{ opacity: subOpacity, color: 'var(--story-fg-muted)' }}
           className="mt-6 max-w-md text-[15px] leading-relaxed"
         >
           Let's talk about your data, your systems, and how we can help you move faster
@@ -64,9 +64,9 @@ export default function SceneCta({ isActive: _isActive }: SceneProps) {
         >
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-medium text-[14px] transition-colors"
-            style={{ background: 'var(--story-invert-fg)', color: 'var(--story-invert-bg)' }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.88' }}
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-medium text-[14px] transition-opacity"
+            style={{ background: 'var(--story-fg)', color: 'var(--story-bg)' }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.82' }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1' }}
           >
             Start a project
@@ -77,9 +77,9 @@ export default function SceneCta({ isActive: _isActive }: SceneProps) {
           <a
             href="mailto:info@themather.asia"
             className="text-[13px] transition-colors"
-            style={{ color: 'var(--story-invert-muted)' }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--story-invert-fg)' }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--story-invert-muted)' }}
+            style={{ color: 'var(--story-fg-muted)' }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--story-fg)' }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--story-fg-muted)' }}
           >
             info@themather.asia
           </a>
@@ -90,7 +90,7 @@ export default function SceneCta({ isActive: _isActive }: SceneProps) {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.8 }}
           className="mt-16 text-[11px] tracking-wide"
-          style={{ color: 'var(--story-invert-muted)', opacity: 0.6 }}
+          style={{ color: 'var(--story-fg-muted)', opacity: 0.6 }}
         >
           555 Rasa Tower, Phahonyothin Rd, Chatuchak, Bangkok 10900
           <span className="mx-3">·</span>+02 937 0555

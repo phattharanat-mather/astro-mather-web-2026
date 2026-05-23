@@ -51,7 +51,11 @@ function ProgressDots({ activeIndex, total }: { activeIndex: number; total: numb
           style={{
             width: i === activeDot ? '0.75rem' : '0.3125rem',
             height: '0.3125rem',
-            background: i <= activeDot ? 'var(--story-fg)' : 'var(--story-line)',
+            background: i === activeDot
+              ? 'var(--story-fg-muted)'
+              : i < activeDot
+                ? 'color-mix(in oklch, var(--story-fg-muted) 30%, transparent)'
+                : 'var(--story-line)',
           }}
         />
       ))}
@@ -80,11 +84,12 @@ function IconChevronRight() {
 function IconLaser({ active }: { active: boolean }) {
   return (
     <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden>
-      <circle cx="6.5" cy="6.5" r="2" stroke="currentColor" strokeWidth="1.3" fill={active ? 'currentColor' : 'none'} />
-      <path
-        d="M6.5 1v1.2M6.5 10.8V12M1 6.5h1.2M10.8 6.5H12M2.7 2.7l.85.85M9.45 9.45l.85.85M9.45 3.55l.85-.85M2.7 10.3l.85-.85"
-        stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"
-      />
+      {/* outer ring */}
+      <circle cx="6.5" cy="6.5" r="4" stroke="currentColor" strokeWidth="1.1" />
+      {/* inner dot — filled when active */}
+      <circle cx="6.5" cy="6.5" r="1.4" fill={active ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1" />
+      {/* crosshair ticks */}
+      <path d="M6.5 1v1.5M6.5 10.5V12M1 6.5h1.5M10.5 6.5H12" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   )
 }
@@ -147,8 +152,7 @@ export function StoryFooter() {
             onClick={toggleNav}
             aria-label={navCollapsed ? 'Show navigation' : 'Hide navigation'}
             aria-pressed={!navCollapsed}
-            title="Toggle chapter nav"
-            className="h-7 w-7 flex items-center justify-center rounded-md transition-all duration-150"
+            className="h-7 px-2.5 flex items-center gap-1.5 rounded-md transition-all duration-150"
             style={
               !navCollapsed
                 ? { border: '1px solid var(--story-fg)', background: 'var(--story-fg)', color: 'var(--story-bg)' }
@@ -156,6 +160,7 @@ export function StoryFooter() {
             }
           >
             <IconNav />
+            <span className="text-[11px] font-medium leading-none">Menu</span>
           </button>
 
           {/* Laser toggle */}
@@ -163,8 +168,7 @@ export function StoryFooter() {
             onClick={() => setLaser((v) => !v)}
             aria-label={laser ? 'Disable laser pointer' : 'Enable laser pointer'}
             aria-pressed={laser}
-            title="Laser pointer"
-            className="h-7 w-7 flex items-center justify-center rounded-md transition-all duration-150"
+            className="h-7 px-2.5 flex items-center gap-1.5 rounded-md transition-all duration-150"
             style={
               laser
                 ? { border: '1px solid var(--story-rose)', background: 'var(--story-rose-muted)', color: 'var(--story-rose)' }
@@ -172,17 +176,18 @@ export function StoryFooter() {
             }
           >
             <IconLaser active={laser} />
+            <span className="text-[11px] font-medium leading-none">Laser</span>
           </button>
 
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
             aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-            title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
-            className="h-7 w-7 flex items-center justify-center rounded-md transition-all duration-150"
+            className="h-7 px-2.5 flex items-center gap-1.5 rounded-md transition-all duration-150"
             style={{ border: '1px solid var(--story-line)', background: 'transparent', color: 'var(--story-fg-muted)' }}
           >
             {theme === 'dark' ? <IconSun /> : <IconMoon />}
+            <span className="text-[11px] font-medium leading-none">{theme === 'dark' ? 'Light' : 'Dark'}</span>
           </button>
 
           {/* Vertical separator */}
@@ -205,12 +210,12 @@ export function StoryFooter() {
             </button>
 
             {/* Chapter name */}
-            <span className="text-[11px] font-medium tracking-wide whitespace-nowrap" style={{ color: 'var(--story-fg)' }}>
+            <span className="text-[11px] font-medium tracking-wide whitespace-nowrap" style={{ color: 'var(--story-fg-muted)' }}>
               {scene?.label ?? '—'}
             </span>
 
             {/* xx/xx */}
-            <span className="text-[10px] tabular-nums whitespace-nowrap" style={{ color: 'var(--story-fg-muted)' }}>
+            <span className="text-[10px] tabular-nums whitespace-nowrap opacity-40" style={{ color: 'var(--story-fg-muted)' }}>
               {String(activeIndex + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
             </span>
 
