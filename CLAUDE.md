@@ -80,3 +80,29 @@ Whenever you edit or create files in `src/content-definition/` or `src/data/`, u
 | `src/data/site.ts` or `src/data/home.ts` | `docs/how-to-config-site.md` |
 
 Keep the docs accurate — if a field is added, removed, or renamed in the source, the doc must reflect that before the task is considered done.
+
+## LLM-generated artifacts
+
+Artifacts produced during AI-assisted sessions (PRDs, plans, research notes, design decisions, conversation summaries) are stored under:
+
+```
+docs/artifacts/<type>/yyyy-mm-dd-<topic>.md
+```
+
+**Type subdirectories:**
+
+| Type | Contents |
+| --- | --- |
+| `prd` | Product requirement documents and feature specs |
+| `plan` | Implementation plans and architectural decisions |
+| `research` | Research notes, reference analysis, technology comparisons |
+| `design` | Design decisions, UX notes, visual direction |
+
+**Example:**
+
+```
+docs/artifacts/prd/2026-05-23-storytelling-credential.md
+docs/artifacts/plan/2026-05-23-scrollytelling-architecture.md
+```
+
+When producing an artifact during a session, save it to the appropriate subdirectory. Do not place artifacts directly in `docs/` root.
