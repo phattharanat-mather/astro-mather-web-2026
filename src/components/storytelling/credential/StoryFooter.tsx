@@ -22,7 +22,7 @@ function LaserPointer({ color, size, tail }: { color: string; size: LaserSize; t
   const [tailDots, setTailDots] = useState<{ x: number; y: number }[]>([])
   const bufRef = useRef<{ x: number; y: number }[]>([])
 
-  const dotPx = size === 'lg' ? 24 : 16
+  const dotPx = size === 'lg' ? 16 : 12
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
