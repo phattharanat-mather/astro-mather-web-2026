@@ -47,47 +47,63 @@ The page system is **multi-topic**: each topic lives at `/storytelling/<topic>`.
 
 ---
 
-## 3. Interaction Model — Slide Deck with Internal Animation
+## 3. Interaction Model — Slide Deck with Lenis Internal Scroll
 
-Each scene occupies the **full viewport** (`100vw × 100vh`) — like a PowerPoint slide that has its own interactive story and animation sequence inside.
+Each scene occupies the **full viewport** (`100vw × 100vh`). Navigation between scenes is a discrete slide transition. Navigation within a scene is smooth scroll driven by **Lenis**, which normalises wheel/touch input and exposes a `progress` value (0→1) that drives animations.
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│                   SCENE (full viewport)              │
-│                                                      │
-│   Each scene owns its own layout, copy, and          │
-│   animation steps. The engine just says "you're      │
-│   active" and passes the current step index.         │
-│                                                      │
-│                    step: 0 → 1 → 2 → … → N          │
-│                                                      │
-└──────────────────────────────────────────────────────┘
+← → / scene overflow
+        │
+        ▼
+┌─────────────────────────────────────┐
+│  motion/react AnimatePresence       │  ← scene slides in/out (configurable variant)
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │  Active Scene (full viewport) │  │
+│  │                               │  │
+│  │  Lenis (scoped to scene)      │  │  ← smooth wheel/touch → progress 0→1
+│  │       ↓ progress              │  │
+│  │  useTransform(progress, …)    │  │  ← motion/react maps progress → values
+│  │  opacity / y / scale / …      │  │
+│  └───────────────────────────────┘  │
+└─────────────────────────────────────┘
 ```
 
 **Two control axes:**
 
 | Axis | Input | Action |
 |---|---|---|
-| **Flow** | `↓` / scroll down / swipe up | Next animation step within scene → when fully progressed, advance to next scene |
-| **Flow** | `↑` / scroll up / swipe down | Previous animation step → when at step 0, go to previous scene |
-| **Jump** | `→` / on-screen right arrow | Skip to next scene (ignores remaining animation steps) |
-| **Jump** | `←` / on-screen left arrow | Jump to previous scene start (resets to step 0) |
-| **Jump** | ChapterNav click | Jump directly to any scene (resets to step 0) |
+| **Flow** | `↓` / scroll / swipe up | Lenis scrolls within scene → at `progress === 1` + continued scroll → next scene |
+| **Flow** | `↑` / scroll back / swipe down | Lenis scrolls back within scene → at `progress === 0` + continued scroll → prev scene |
+| **Jump** | `→` / on-screen right arrow | Skip to next scene instantly (bypasses Lenis; resets progress to 0) |
+| **Jump** | `←` / on-screen left arrow | Jump to previous scene (bypasses Lenis; resets progress to 0) |
+| **Jump** | ChapterNav click | Jump to any scene (bypasses Lenis; resets progress to 0) |
 
-**Flow behaviour (↓):**
-- `step < maxSteps` → `step++` (next animation state within scene)
-- `step === maxSteps` → `sceneIndex++` (advance to next scene, reset step to 0)
+**Within-scene animation (Lenis + motion/react):**
+- Each active scene has a scoped Lenis instance on its scroll container
+- `lenis.on('scroll', ({ progress }) => motionProgress.set(progress))`
+- Scene uses `useSceneScroll()` hook → returns a `MotionValue<number>` (0→1)
+- `useTransform(progress, [0, 0.25, 0.5, …], […])` maps progress to any animated property
+- Lenis is initialised on scene mount, destroyed on unmount
+
+**Scene advance on overscroll:**
+```ts
+lenis.on('scroll', ({ progress, velocity }) => {
+  motionProgress.set(progress)
+  if (progress >= 1 && velocity > 0) StoryEngine.nextScene()
+  if (progress <= 0 && velocity < 0) StoryEngine.prevScene()
+})
+```
 
 **State managed by `StoryEngine`:**
 - `activeScene: number` — which scene is displayed
-- `activeStep: number` — current animation step within that scene
-- Scene receives `step` as a controlled prop; scene renders based on it
-- `StoryEngine` owns all keyboard and wheel event listeners
+- `nextScene()` / `prevScene()` / `jumpTo(index)` — mutate `activeScene`
+- No `activeStep` — within-scene progress is owned by Lenis inside each scene
 
 **Scene transition:**
-- `AnimatePresence` wraps the active scene
-- Transition style: **TBD** (see §13 open questions)
+- `motion/react` `AnimatePresence` in `SceneTransition.tsx`
+- Default variant: **slide** (next from right, prev from left)
+- `variant` prop is configurable per-topic or per-scene
 
 ---
 
@@ -96,8 +112,8 @@ Each scene occupies the **full viewport** (`100vw × 100vh`) — like a PowerPoi
 | Decision              | Choice                                                         | Rationale                                                                                                   |
 | --------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | Scene model           | **Full-viewport slide deck**                                   | Each scene = 100vw × 100vh; discrete units with internal animation, not a continuous scroll page            |
-| Navigation — between scenes | **↓ (flow) auto-advances when done; → (jump) skips**   | Two axes: flow (↓↑) progresses naturally; jump (←→) lets user skip. See §3.                                |
-| Navigation — within scene | **`step` prop controlled by `StoryEngine`**              | Scene receives `step: number`; engine owns all keyboard/wheel events; scene is a pure renderer               |
+| Navigation — between scenes | **↓ flow (Lenis overscroll) + → jump**                 | Lenis detects overscroll at progress 0/1 and signals StoryEngine. ←→ jump bypasses Lenis entirely. See §3. |
+| Navigation — within scene | **Lenis scoped to scene + motion/react `useTransform`**  | Lenis normalises wheel/touch → `progress` MotionValue → scene maps to animated values. StoryEngine has no step state. |
 | Color theme           | **Full-bleed light / editorial**                               | White background, newspaper feel — deliberately distinct from the dark main site to signal a different mode |
 | Navigation            | **Standalone — no site Nav**                                   | Immersive experience; subtle back-arrow only                                                                |
 | Typography feel       | Editorial — generous line-height, serif accent for pull quotes | Matches the "story" framing                                                                                 |
@@ -127,34 +143,34 @@ _(Topic: `credential`)_
 ### Scene 001 — Introduction `[standard]`
 
 **Anchor:** `#scene-001`
-**Steps:** TBD (wordmark letters animate in + IsoWireframe build-up)
+**Scroll animation:** `progress 0→0.5` wordmark 4M letters animate in; `0.5→1` IsoWireframe builds up
 **Content:** Brand introduction, The Mather name origin, company founding context — hardcoded in `Scene001Intro.tsx`
-**Asset:** Animated `IsoWireframe` component (already built) + The Mather wordmark with 4M letters animating in
+**Asset:** Animated `IsoWireframe` component (already built) + The Mather wordmark
 
 ---
 
 ### Scene 002 — Methodology `[standard]`
 
 **Anchor:** `#scene-002`
-**Steps:** 4 (one per M — Methodology, Mathematics, Machine Learning, Matching)
+**Scroll animation:** `progress 0→1` divided into 4 equal bands — one quadrant (M) reveals per band
 **Content:** Explanation of the 4M framework — hardcoded in `Scene002Methodology.tsx`
-**Asset:** 4-quadrant diagram; each M label and quadrant animates in on each step
+**Asset:** 4-quadrant diagram built up as user scrolls
 
 ---
 
 ### Scene 003 — Services `[standard]`
 
 **Anchor:** `#scene-003`
-**Steps:** 6 (one per service area) or 1 (all cards tile in together)
+**Scroll animation:** 6 service cards stagger in across `progress 0→0.8`
 **Content:** What The Mather builds — 6 service areas — hardcoded in `Scene003Services.tsx`
-**Asset:** 6 service cards tile in with staggered Motion animation
+**Asset:** Service cards tile in with staggered animation
 
 ---
 
 ### Scene 004 — Tech Stack `[standard]`
 
 **Anchor:** `#scene-004`
-**Steps:** 1–N (logos appear in sequence or in groups)
+**Scroll animation:** Tech logos appear in groups across `progress 0→1`
 **Content:** "Powered by modern tools" — hardcoded in `Scene004TechStack.tsx`
 **Asset:** Tech logo grid (React, Next.js, Flutter, Firebase, Prisma, Vercel, shadcn, etc.)
 **Asset source:** `src/assets/storytelling/credential/tech/`
@@ -164,7 +180,7 @@ _(Topic: `credential`)_
 ### Scene 005 — Clients `[standard]`
 
 **Anchor:** `#scene-005`
-**Steps:** 1 (all logos fade in as a grid) or N (logos appear in rows)
+**Scroll animation:** Client logos fade in row by row across `progress 0→0.8`
 **Content:** "Trusted by leading organisations across Thailand and Southeast Asia" — hardcoded in `Scene005Clients.tsx`
 **Asset:** Client logo mosaic (PTT, Chevron, Suzuki, Haier, LINE BK, Sansiri, 15+ logos)
 **Asset source:** `src/assets/storytelling/credential/clients/`
@@ -174,7 +190,7 @@ _(Topic: `credential`)_
 ### Scene 006 — Projects _(chapter divider)_ `[divider]`
 
 **Anchor:** `#scene-006`
-**Steps:** 1 (static title card; no internal animation)
+**Scroll animation:** Minimal — entrance only; Lenis scroll container is short (single overscroll advances to Scene 007)
 **Layout:** Full-bleed title card — large "Projects" heading, background image/colour, full viewport
 **Component:** `Scene006ProjectsDivider.tsx`
 
@@ -183,7 +199,7 @@ _(Topic: `credential`)_
 ### Scene 007+ — Individual Projects `[sub]`
 
 **Anchors:** `#scene-007`, `#scene-008`, …
-**Steps:** Defined per scene component
+**Scroll animation:** Defined per scene component using `useSceneScroll()` progress
 **Layout:** Two-column by default. Scene component may override to a bespoke layout if the project story demands it.
 **Components:** `Scene007ProjectName.tsx`, `Scene008ProjectName.tsx`, …
 **Content:** Project narrative — hardcoded in each component
@@ -223,12 +239,12 @@ src/
 │       │       ├── Scene006ProjectsDivider.tsx
 │       │       └── Scene007+ProjectName.tsx
 │       └── shared/                        ← Reusable across future topics
-│           ├── useSceneNav.ts             ← keydown + wheel hook; returns { goNext, goPrev, jumpTo }
-│           └── SceneTransition.tsx        ← AnimatePresence wrapper for scene entrance/exit
+│           ├── useSceneScroll.ts          ← creates scoped Lenis instance; returns MotionValue<number> 0→1
+│           └── SceneTransition.tsx        ← AnimatePresence wrapper; variant prop (slide|fade|cut)
 │
 └── data/
     └── storytelling/
-        └── credential.ts                  ← Scene registry: id, label, type, steps, lazy import
+        └── credential.ts                  ← Scene registry: id, label, type, lazy import
 ```
 
 **`credential.ts` shape:**
@@ -237,54 +253,64 @@ src/
 export type SceneType = "standard" | "divider" | "sub"
 
 export interface SceneProps {
-  step: number       // current animation step (0-indexed), controlled by StoryEngine
-  isActive: boolean  // true when this scene is the displayed scene
+  isActive: boolean  // true when this scene is displayed; scene starts Lenis on mount
 }
 
 export interface SceneEntry {
   id: string         // e.g. "scene-001" — used as anchor id
   label: string      // shown in ChapterNav
   type: SceneType
-  steps: number      // total animation steps (1 = no internal animation, just entrance)
   component: () => Promise<{ default: React.ComponentType<SceneProps> }>
 }
 
 export const scenes: SceneEntry[] = [
-  { id: "scene-001", label: "Introduction", type: "standard", steps: 4, component: () => import('./scenes/Scene001Intro') },
-  { id: "scene-002", label: "Methodology",  type: "standard", steps: 4, component: () => import('./scenes/Scene002Methodology') },
-  { id: "scene-003", label: "Services",     type: "standard", steps: 1, component: () => import('./scenes/Scene003Services') },
-  { id: "scene-004", label: "Tech Stack",   type: "standard", steps: 1, component: () => import('./scenes/Scene004TechStack') },
-  { id: "scene-005", label: "Clients",      type: "standard", steps: 1, component: () => import('./scenes/Scene005Clients') },
-  { id: "scene-006", label: "Projects",     type: "divider",  steps: 1, component: () => import('./scenes/Scene006ProjectsDivider') },
-  { id: "scene-007", label: "Project A",    type: "sub",      steps: 3, component: () => import('./scenes/Scene007ProjectA') },
+  { id: "scene-001", label: "Introduction", type: "standard", component: () => import('./scenes/Scene001Intro') },
+  { id: "scene-002", label: "Methodology",  type: "standard", component: () => import('./scenes/Scene002Methodology') },
+  { id: "scene-003", label: "Services",     type: "standard", component: () => import('./scenes/Scene003Services') },
+  { id: "scene-004", label: "Tech Stack",   type: "standard", component: () => import('./scenes/Scene004TechStack') },
+  { id: "scene-005", label: "Clients",      type: "standard", component: () => import('./scenes/Scene005Clients') },
+  { id: "scene-006", label: "Projects",     type: "divider",  component: () => import('./scenes/Scene006ProjectsDivider') },
+  { id: "scene-007", label: "Project A",    type: "sub",      component: () => import('./scenes/Scene007ProjectA') },
   // … add projects here
 ]
 ```
 
+**`useSceneScroll` hook (shared):**
+```ts
+// Returns a MotionValue<number> from 0 to 1 driven by Lenis
+// Calls onComplete(direction) when progress hits 0 or 1 boundary
+export function useSceneScroll(
+  containerRef: RefObject<HTMLDivElement>,
+  onComplete: (direction: 'forward' | 'backward') => void
+): MotionValue<number>
+```
+
 **`StoryEngine` logic:**
-- `↓` / wheel down: `step < scene.steps - 1` → `step++`; else → `sceneIndex++`, `step = 0`
-- `↑` / wheel up: `step > 0` → `step--`; else → `sceneIndex--`, `step = 0`
-- `→`: `sceneIndex++`, `step = 0`
-- `←`: `sceneIndex--`, `step = 0`
-- ChapterNav click: `sceneIndex = target`, `step = 0`
+- `→` key: `sceneIndex++`
+- `←` key: `sceneIndex--`
+- ChapterNav click: `sceneIndex = target`
+- Lenis overscroll forward (from active scene): `sceneIndex++`
+- Lenis overscroll backward (from active scene): `sceneIndex--`
+- No `activeStep` state — within-scene progress lives entirely in Lenis + MotionValue
 
 ---
 
 ## 7. Technology Choices
 
-| Concern                   | Solution                                                               | Already in stack?                    |
-| ------------------------- | ---------------------------------------------------------------------- | ------------------------------------ |
-| Scene navigation (between)| `keydown` + `wheel` events in `useSceneNav` hook                      | ✅ no library; native browser APIs   |
-| Scene navigation (within) | `step` state in `StoryEngine`; passed as prop to active scene          | ✅ React `useState`                  |
-| Scene transitions         | `motion/react` `AnimatePresence` in `SceneTransition.tsx`             | ✅ `motion` v12 installed            |
-| Scene lazy loading        | `React.lazy()` resolved from scene registry in `credential.ts`        | ✅ React built-in                    |
-| Project images            | `import.meta.glob` over `src/content/projects/`                       | ✅ images already present            |
-| Component hydration       | `client:only="react"` on `ScrollyTelling`                             | ✅                                   |
-| UI primitives             | shadcn `Badge` for project categories                                  | ✅                                   |
-| Scene transitions         | `SceneTransition.tsx` wraps `AnimatePresence`; accepts `variant: "slide" \| "fade" \| "cut"` | ✅ `motion` v12 |
-| On-screen arrows          | `SceneArrows.tsx` — `fixed` positioned, ghost buttons                 | ✅ no library needed                 |
-| Controls hint             | Inline hint in `ChapterNav.tsx`; first-visit overlay in `StoryEngine` | ✅ no library needed                 |
-| **New libraries**         | **None**                                                               | ✅                                   |
+| Concern                        | Solution                                                                        | Already in stack?              |
+| ------------------------------ | ------------------------------------------------------------------------------- | ------------------------------ |
+| Between-scene navigation       | `keydown` listener in `StoryEngine`; `←→` mutate `activeScene`                 | ✅ native browser API          |
+| Between-scene transition       | `motion/react` `AnimatePresence` + slide variants in `SceneTransition.tsx`      | ✅ `motion` v12 installed      |
+| Within-scene smooth scroll     | `lenis` scoped to active scene container via `useSceneScroll` hook              | ⬆️ **new dep** — `lenis` (MIT) |
+| Within-scene animation values  | `motion/react` `useMotionValue` + `useTransform` driven by Lenis `progress`     | ✅ `motion` v12 installed      |
+| Scene overscroll → scene advance | Lenis `scroll` event; `progress >= 1 && velocity > 0` → `StoryEngine.nextScene()` | ✅ via `lenis` + `useSceneScroll` |
+| Scene lazy loading             | `React.lazy()` resolved from scene registry in `credential.ts`                  | ✅ React built-in              |
+| Project images                 | `import.meta.glob` over `src/content/projects/`                                 | ✅ images already present      |
+| Component hydration            | `client:only="react"` on `ScrollyTelling`                                       | ✅                             |
+| UI primitives                  | shadcn `Badge` for project categories                                           | ✅                             |
+| On-screen arrows               | `SceneArrows.tsx` — `fixed` positioned, ghost buttons                           | ✅ no extra library            |
+| Controls hint                  | First-visit overlay in `StoryEngine` + persistent footer in `ChapterNav`        | ✅ no extra library            |
+| **New libraries**              | **`lenis` only** (MIT, ~2kb)                                                    | ⬆️ one new dep                 |
 
 ---
 
@@ -343,7 +369,7 @@ The `editorial` color preset uses `--color-background: #fff`, `--color-foregroun
 **Behaviour:**
 - Renders a vertical list of all scenes
 - Dividers styled as section headings; sub-scenes as regular items beneath
-- Clicking any item calls `jumpTo(sceneIndex)` — sets `sceneIndex` and resets `step` to 0
+- Clicking any item calls `jumpTo(sceneIndex)` — sets `activeScene`; Lenis resets to `progress = 0` on mount
 - Positioned `fixed left-6 top-1/2 -translate-y-1/2` on desktop
 - Collapsed to a bottom pill / progress bar on mobile
 
@@ -414,8 +440,9 @@ Two-layer approach so the hint informs without cluttering:
 - [x] ~~Scene type model~~ → `standard | divider | sub`; dividers are full-bleed title cards
 - [x] ~~Sub-scene layout~~ → two-column default; component may override for special stories
 - [x] ~~Chapter nav visibility~~ → all scenes shown; dividers as section headings, sub-scenes as regular items
-- [x] ~~Interaction model~~ → slide deck; ↓↑ flow, ←→ jump; `StoryEngine` owns state + keyboard/wheel
-- [x] ~~Scene component API~~ → `step: number` + `isActive: boolean` props; scene is a pure renderer
+- [x] ~~Interaction model~~ → slide deck; Lenis flow (↓↑ overscroll → scene advance), ←→ jump; `StoryEngine` owns `activeScene`
+- [x] ~~Scene component API~~ → `isActive: boolean` only; scene calls `useSceneScroll()` internally for its own `progress` MotionValue; no `step` prop
+- [x] ~~Animation stack~~ → **hybrid**: `lenis` (within-scene smooth scroll + overscroll detection) + `motion/react` (scene transitions + `useTransform` for animated values). One new dep: `lenis` MIT.
 - [x] ~~On-screen arrows~~ → `SceneArrows.tsx`; ghost buttons fixed mid-left/right; desktop only
 - [x] ~~Controls hint~~ → first-visit overlay (auto-dismiss) + persistent hint in ChapterNav footer
 - [x] ~~Scene transition style~~ → **slide** (next scene pushes in from right; prev pushes in from left). Transition variant is a configurable prop on `SceneTransition.tsx` so it can be changed per-topic or per-scene later without touching engine logic.
