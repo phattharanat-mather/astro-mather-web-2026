@@ -78,8 +78,8 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
   </head>
 
   <body>
-    <SplashModal />
     <div style={siteConfig.greyscaleFilter.enable ? `filter: grayscale(${siteConfig.greyscaleFilter.value})` : undefined}>
+      <SplashModal />
       <slot />
     </div>
 
