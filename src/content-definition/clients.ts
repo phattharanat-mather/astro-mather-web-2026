@@ -7,5 +7,6 @@ export const clients = defineCollection({
     name: z.string().optional(),
     year: z.number().optional(),
     logo: image().optional(),
+    logoDark: image().optional(),
   }),
 });

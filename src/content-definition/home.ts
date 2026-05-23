@@ -74,6 +74,7 @@ export interface ClientItem {
   name?: string;
   year?: number;
   logo?: ImageMetadata;
+  logoDark?: ImageMetadata;
 }
 
 export interface ClientsData {
