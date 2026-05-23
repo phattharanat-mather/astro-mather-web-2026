@@ -8,17 +8,21 @@ import SplashModal from '../components/splash/SplashModal.astro';
 interface Props {
   title?: string;
   description?: string;
+  noNav?: boolean;
+  colorPreset?: 'void' | 'editorial' | 'cosmos' | 'blackhole' | 'pulsar' | 'nebula';
 }
 
 const {
   title = siteConfig.name,
   description = siteConfig.description,
+  noNav = false,
+  colorPreset,
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
 ---
 
-<html lang="en" data-color-preset="void">
+<html lang="en" data-color-preset={colorPreset ?? "void"}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
