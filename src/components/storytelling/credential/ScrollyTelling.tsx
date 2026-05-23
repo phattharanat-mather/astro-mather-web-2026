@@ -2,9 +2,9 @@ import { Suspense } from 'react'
 import { StoryEngineProvider, useStoryEngine } from './StoryEngine'
 import { SceneTransition } from '../shared/SceneTransition'
 import { ChapterNav } from './ChapterNav'
-import { SceneArrows } from './SceneArrows'
+import { StoryFooter } from './StoryFooter'
 import { ControlsHint } from './ControlsHint'
-import { scenes } from '../../../data/storytelling/credential'
+import { scenes } from '@/data/storytelling/credential'
 
 function SceneRenderer() {
   const { activeIndex, direction } = useStoryEngine()
@@ -15,7 +15,8 @@ function SceneRenderer() {
   const SceneComponent = entry.component
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-white">
+    // pb-11 reserves the 44px footer height so scene content isn't clipped
+    <div className="relative w-full h-screen pb-11 overflow-hidden bg-white">
       <SceneTransition sceneKey={activeIndex} direction={direction} variant="slide">
         <Suspense
           fallback={
@@ -41,7 +42,7 @@ export default function ScrollyTelling() {
 
       {/* UI chrome */}
       <ChapterNav />
-      <SceneArrows />
+      <StoryFooter />
       <ControlsHint />
     </StoryEngineProvider>
   )

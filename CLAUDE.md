@@ -29,6 +29,24 @@ bunx shadcn@latest add <component>
 
 Components land in `src/components/ui/`. Import them in `.astro` files using the `client:load` (or `client:visible`) directive since they are React components.
 
+## Import alias
+
+Always use the `@/` alias instead of relative paths when importing files or components.
+The alias maps to `src/` and is configured in both `tsconfig.json` and `astro.config.mjs`.
+
+```ts
+// ✅ correct
+import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
+import { cn } from '@/lib/utils'
+import type { SceneProps } from '@/data/storytelling/credential'
+
+// ❌ avoid
+import { GridBackground } from '../../../components/storytelling/backgrounds/GridBackground'
+import { cn } from '../../../lib/utils'
+```
+
+This applies to `.astro`, `.tsx`, `.ts` — all source files.
+
 ## Architecture
 
 - `src/pages/` — file-based routing; each `.astro` file is a route

@@ -1,23 +1,9 @@
-import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { scenes } from '../../../data/storytelling/credential'
 import { useStoryEngine } from './StoryEngine'
 
-const STORAGE_KEY = 'storytelling-nav-collapsed'
-
 export function ChapterNav() {
-  const { activeIndex, jumpTo } = useStoryEngine()
-
-  // Always expanded by default — user can collapse manually
-  const [collapsed, setCollapsed] = useState(() => {
-    if (typeof window === 'undefined') return false
-    const saved = localStorage.getItem(STORAGE_KEY)
-    return saved === 'true' // only collapse if user explicitly collapsed before
-  })
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, String(collapsed))
-  }, [collapsed])
+  const { activeIndex, jumpTo, navCollapsed: collapsed, toggleNav } = useStoryEngine()
 
   type NavItem = { index: number; scene: (typeof scenes)[0] }
   const items: NavItem[] = scenes.map((scene, index) => ({ index, scene }))
@@ -97,7 +83,7 @@ export function ChapterNav() {
 
       {/* Toggle button */}
       <button
-        onClick={() => setCollapsed((v) => !v)}
+        onClick={toggleNav}
         className="pointer-events-auto self-center -ml-px w-5 h-12 bg-white border border-neutral-100 rounded-r-md flex items-center justify-center text-neutral-400 hover:text-neutral-700 hover:bg-neutral-50 transition-colors shadow-sm"
         aria-label={collapsed ? 'Expand navigation' : 'Collapse navigation'}
       >

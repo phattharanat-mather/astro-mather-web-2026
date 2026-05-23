@@ -15,6 +15,8 @@ interface StoryEngineState {
   nextScene: () => void
   prevScene: () => void
   jumpTo: (index: number) => void
+  navCollapsed: boolean
+  toggleNav: () => void
 }
 
 const StoryEngineContext = createContext<StoryEngineState | null>(null)
@@ -29,11 +31,25 @@ interface Props {
   children: ReactNode
 }
 
+const NAV_STORAGE_KEY = 'storytelling-nav-collapsed'
+
 export function StoryEngineProvider({ children }: Props) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [direction, setDirection] = useState<1 | -1>(1)
+  const [navCollapsed, setNavCollapsed] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return localStorage.getItem(NAV_STORAGE_KEY) === 'true'
+  })
 
   const total = scenes.length
+
+  const toggleNav = useCallback(() => {
+    setNavCollapsed((v) => {
+      const next = !v
+      localStorage.setItem(NAV_STORAGE_KEY, String(next))
+      return next
+    })
+  }, [])
 
   const nextScene = useCallback(() => {
     setDirection(1)
@@ -83,7 +99,7 @@ export function StoryEngineProvider({ children }: Props) {
   }, [])
 
   return (
-    <StoryEngineContext.Provider value={{ activeIndex, direction, total, nextScene, prevScene, jumpTo }}>
+    <StoryEngineContext.Provider value={{ activeIndex, direction, total, nextScene, prevScene, jumpTo, navCollapsed, toggleNav }}>
       {children}
     </StoryEngineContext.Provider>
   )
