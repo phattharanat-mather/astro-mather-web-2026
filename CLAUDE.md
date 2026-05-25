@@ -29,6 +29,24 @@ bunx shadcn@latest add <component>
 
 Components land in `src/components/ui/`. Import them in `.astro` files using the `client:load` (or `client:visible`) directive since they are React components.
 
+## Import alias
+
+Always use the `@/` alias instead of relative paths when importing files or components.
+The alias maps to `src/` and is configured in both `tsconfig.json` and `astro.config.mjs`.
+
+```ts
+// ✅ correct
+import { GridBackground } from "@/components/storytelling/backgrounds/GridBackground";
+import { cn } from "@/lib/utils";
+import type { SceneProps } from "@/data/storytelling/credential";
+
+// ❌ avoid
+import { GridBackground } from "../../../components/storytelling/backgrounds/GridBackground";
+import { cn } from "../../../lib/utils";
+```
+
+This applies to `.astro`, `.tsx`, `.ts` — all source files.
+
 ## Architecture
 
 - `src/pages/` — file-based routing; each `.astro` file is a route
@@ -59,10 +77,15 @@ Each Astro content collection is defined in its own file under `src/content-defi
 
 ```
 src/content-definition/
-  site.ts            # site-wide JSON config
-  services.ts        # service entries
+  announcements.ts   # announcement entries
   blogs.ts           # blog posts (MDX)
-  founder-quotes.ts  # founder quote MDX entries
+  clients.ts         # client logo / name entries
+  home.ts            # TypeScript shape interfaces for home-page data (no Zod schema)
+  open-positions.ts  # job listing entries
+  projects.ts        # portfolio project entries
+  services.ts        # service entries
+  testimonials.ts    # testimonial entries
+  value-props.ts     # value proposition card entries
 ```
 
 - Each file exports a named `defineCollection(...)` constant matching the collection key.
@@ -72,11 +95,48 @@ src/content-definition/
 
 ## Documentation maintenance
 
-Whenever you edit or create files in `src/content-definition/` or `src/data/`, update the corresponding documentation to reflect the changes:
+Whenever you edit or create files in `src/content-definition/` or `src/data/`, the codebase has changed — you must keep the skill docs in sync before the task is considered done:
 
-| Source changed | Doc to update |
-| --- | --- |
-| `src/content-definition/<entity>.ts` | `docs/how-to-add-content/<entity>.md` (create if missing) |
-| `src/data/site.ts` or `src/data/home.ts` | `docs/how-to-config-site.md` |
+1. **Update the corresponding reference doc** in `project-skills/manage-content/references/` — each reference is a content authoring guide for one collection or config file. Add new fields, remove deleted ones, and update example snippets to match the current schema.
 
-Keep the docs accurate — if a field is added, removed, or renamed in the source, the doc must reflect that before the task is considered done.
+2. **Update `project-skills/manage-content/SKILL.md`** — if a new collection was added or removed, update the routing table so the skill points agents to the right reference doc.
+
+Both steps are required. A future agent using the skill must get an accurate picture of how to add or edit content.
+
+## Project skills
+
+`project-skills/` is a living, in-repo skill folder. Skills here are the authoritative version for this project and are updated alongside the codebase.
+
+To install or re-install the latest skill versions into Claude Code:
+
+```bash
+bunx skills@1.5.0 add ./project-skills -a 'universal' -a 'claude-code' -y -p
+```
+
+Run this command after pulling changes that touched `project-skills/` so your local Claude Code agent uses the latest skill definitions.
+
+## LLM-generated artifacts
+
+Artifacts produced during AI-assisted sessions (PRDs, plans, research notes, design decisions, conversation summaries) are stored under:
+
+```
+docs/artifacts/<type>/yyyy-mm-dd-<topic>.md
+```
+
+**Type subdirectories:**
+
+| Type       | Contents                                                   |
+| ---------- | ---------------------------------------------------------- |
+| `prd`      | Product requirement documents and feature specs            |
+| `plan`     | Implementation plans and architectural decisions           |
+| `research` | Research notes, reference analysis, technology comparisons |
+| `design`   | Design decisions, UX notes, visual direction               |
+
+**Example:**
+
+```
+docs/artifacts/prd/2026-05-23-storytelling-credential.md
+docs/artifacts/plan/2026-05-23-scrollytelling-architecture.md
+```
+
+When producing an artifact during a session, save it to the appropriate subdirectory. Do not place artifacts directly in `docs/` root.

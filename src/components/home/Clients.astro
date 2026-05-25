@@ -42,8 +42,16 @@ const r2 = [...row2, ...row2, ...row2, ...row2];
                                 src={c.logo!}
                                 alt={c.name ?? ""}
                                 height={32}
-                                class="logo-img"
+                                class={`logo-img${c.logoDark ? ' logo-light' : ''}`}
                             />
+                            {c.logoDark && (
+                                <Image
+                                    src={c.logoDark}
+                                    alt={c.name ?? ""}
+                                    height={32}
+                                    class="logo-img logo-dark"
+                                />
+                            )}
                         </div>
                         <span class="client-name">{c.name}</span>
                     </div>
@@ -61,8 +69,16 @@ const r2 = [...row2, ...row2, ...row2, ...row2];
                                 src={c.logo!}
                                 alt={c.name ?? ""}
                                 height={32}
-                                class="logo-img"
+                                class={`logo-img${c.logoDark ? ' logo-light' : ''}`}
                             />
+                            {c.logoDark && (
+                                <Image
+                                    src={c.logoDark}
+                                    alt={c.name ?? ""}
+                                    height={32}
+                                    class="logo-img logo-dark"
+                                />
+                            )}
                         </div>
                         <span class="client-name">{c.name}</span>
                     </div>
@@ -163,11 +179,22 @@ const r2 = [...row2, ...row2, ...row2, ...row2];
         filter: grayscale(0) opacity(1);
     }
 
+
     .client-name {
         font-family: var(--font-mono);
         font-size: 9px;
         letter-spacing: 0.06em;
         text-transform: uppercase;
         color: var(--muted-foreground);
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: center;
     }
+
+    /* Dark-mode logo swap via html.dark class (set synchronously from localStorage) */
+    .logo-dark { display: none; }
+    :global(html.dark) .logo-light { display: none; }
+    :global(html.dark) .logo-dark  { display: block; }
 </style>

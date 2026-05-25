@@ -2,8 +2,20 @@
 
 ## How to add content
 
-| Guide | Content type |
-|---|---|
-| [how-to-add-content/blogs.md](./how-to-add-content/blogs.md) | Blog posts (`src/content/blogs/`) |
-| [how-to-add-content/founder-quotes.md](./how-to-add-content/founder-quotes.md) | Founder quotes (`src/content/founder-quotes/`) |
-| [how-to-add-content/services.md](./how-to-add-content/services.md) | Services (`src/content/services/`) |
+Content reference guides have moved to the **manage-content** agent skill:
+
+```
+project-skills/manage-content/references/
+  announcements.md
+  blogs.md
+  clients.md
+  credential-pages.md
+  how-to-config-site.md
+  how-to-use-image-with-astro-mdx.md
+  projects.md
+  services.md
+  testimonials.md
+  value-props.md
+```
+
+See `project-skills/manage-content/SKILL.md` for when and how these docs are maintained.

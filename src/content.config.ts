@@ -6,6 +6,5 @@ import { openPositions } from './content-definition/open-positions';
 import { projects } from './content-definition/projects';
 import { valueProps } from './content-definition/value-props';
 import { clients } from './content-definition/clients';
-import { credentialPages } from './content-definition/credential-pages';
 
-export const collections = { services, blogs, testimonials, announcements, openPositions, projects, valueProps, clients, credentialPages };
+export const collections = { services, blogs, testimonials, announcements, openPositions, projects, valueProps, clients };
