@@ -9,6 +9,8 @@ const entry = entries
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))[0];
 
 if (!entry) return;
+// Don't re-trigger the modal when already on the announcement's full page
+if (Astro.url.pathname.startsWith('/announcements/')) return;
 
 const { Content } = await render(entry);
 const storageKey = `splash-hidden-${entry.id}`;
@@ -33,6 +35,10 @@ if (entry.data.variant) {
 
 const ariaLabelledBy = hasText && layout !== 'image-only' ? 'splash-title' : undefined;
 const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announcement');
+
+const fullPageHref = entry.data.fullPage
+  ? `/announcements/${entry.id.replace(/\/index$/, '')}`
+  : null;
 ---
 
 {entry.data.card3d && img ? (
@@ -45,13 +51,14 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
     storageKey={storageKey}
     sizeClass={sizeClass}
     variant={layout}
+    fullPageHref={fullPageHref ?? undefined}
   >
     <Content />
   </SplashModal3DCard>
 ) : (
 <div
   id="splash-modal-backdrop"
-  class="fixed inset-0 z-[9999] flex items-center justify-center bg-[oklch(0.07_0.022_264/80%)] backdrop-blur-sm p-4"
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-[oklch(0.07_0.022_264/80%)] backdrop-blur-sm p-3 sm:p-8"
 >
   <div
     id="splash-modal"
@@ -60,41 +67,40 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
     aria-labelledby={ariaLabelledBy}
     aria-label={ariaModalLabel}
     tabindex="-1"
-    class={`relative w-full ${sizeClass} rounded overflow-hidden border border-white/[8%] bg-[oklch(0.10_0.030_264)] outline-none`}
+    class={`relative w-full h-full sm:h-auto ${sizeClass} rounded overflow-hidden border border-white/[8%] bg-[oklch(0.10_0.030_264)] outline-none`}
   >
+
+    {/* ── Close button — 44px touch target, dark backing for contrast over any image ── */}
+    <button
+      id="splash-close"
+      aria-label="Close"
+      class="absolute top-2 right-2 z-10 w-11 h-11 flex items-center justify-center rounded bg-[oklch(0.07_0.022_264/70%)] text-[oklch(0.93_0.025_272)] transition-colors duration-200 hover:bg-[oklch(0.58_0.26_272/85%)]"
+    >
+      <X size={16} />
+    </button>
 
     {/* ── Image only ── */}
     {layout === 'image-only' && img && (
-      <>
-        <img
-          src={img.src}
-          alt=""
-          width={img.width}
-          height={img.height}
-          class="w-full h-auto block"
-        />
-        <div class="flex justify-end gap-3 px-6 py-4">
-          <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
-            Not today
-          </button>
-          <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
-            <X size={14} />
-          </button>
-        </div>
-      </>
+      <img
+        src={img.src}
+        alt=""
+        width={img.width}
+        height={img.height}
+        class="w-full h-auto block"
+      />
     )}
 
     {/* ── Image top / content bottom ── */}
     {layout === 'image-top' && img && (
-      <>
+      <div class="flex flex-col h-full sm:h-auto">
         <img
           src={img.src}
           alt=""
           width={img.width}
           height={img.height}
-          class="w-full h-auto block"
+          class="w-full shrink-0 object-cover max-h-[40vh] sm:max-h-none sm:h-auto"
         />
-        <div class="p-8">
+        <div class="p-5 sm:p-8 flex-1 overflow-y-auto">
           {entry.data.title && (
             <h2 id="splash-title" class="mb-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)]">
               {entry.data.title}
@@ -103,29 +109,26 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
           <div class="prose prose-invert prose-sm max-w-none text-white/70">
             <Content />
           </div>
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
-              Not today
-            </button>
-            <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
-              <X size={14} />
-            </button>
-          </div>
+          {fullPageHref && (
+            <a href={fullPageHref} class="inline-flex items-center gap-1.5 mt-5 text-sm font-medium text-[oklch(0.82_0.14_200)] hover:text-[oklch(0.93_0.025_272)] transition-colors duration-150">
+              View full page <span aria-hidden="true">→</span>
+            </a>
+          )}
         </div>
-      </>
+      </div>
     )}
 
     {/* ── Image left / content right ── */}
     {(layout === 'image-left' || layout === 'image-right') && img && (
-      <div class={`flex flex-row${layout === 'image-right' ? '-reverse' : ''}`}>
+      <div class={`flex flex-col h-full${layout === 'image-right' ? ' sm:flex-row-reverse sm:h-auto' : ' sm:flex-row sm:h-auto'}`}>
         <img
           src={img.src}
           alt=""
           width={img.width}
           height={img.height}
-          class="w-2/5 shrink-0 object-cover self-stretch"
+          class="w-full shrink-0 object-cover max-h-[45%] sm:max-h-none sm:w-2/5 sm:self-stretch"
         />
-        <div class="flex flex-col p-8">
+        <div class="flex flex-col p-5 sm:p-8 flex-1 overflow-y-auto">
           {entry.data.title && (
             <h2 id="splash-title" class="mb-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)]">
               {entry.data.title}
@@ -134,21 +137,18 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
           <div class="prose prose-invert prose-sm max-w-none text-white/70 grow">
             <Content />
           </div>
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
-              Not today
-            </button>
-            <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
-              <X size={14} />
-            </button>
-          </div>
+          {fullPageHref && (
+            <a href={fullPageHref} class="inline-flex items-center gap-1.5 mt-5 text-sm font-medium text-[oklch(0.82_0.14_200)] hover:text-[oklch(0.93_0.025_272)] transition-colors duration-150">
+              View full page <span aria-hidden="true">→</span>
+            </a>
+          )}
         </div>
       </div>
     )}
 
     {/* ── Text only ── */}
     {layout === 'text-only' && (
-      <div class="p-8">
+      <div class="p-5 sm:p-8 overflow-y-auto max-h-full">
         {entry.data.title && (
           <h2 id="splash-title" class="mb-4 text-xl font-semibold tracking-tight text-[oklch(0.93_0.025_272)]">
             {entry.data.title}
@@ -157,14 +157,11 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
         <div class="prose prose-invert prose-sm max-w-none text-white/70">
           <Content />
         </div>
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-          <button id="splash-hide-today" class="rounded border border-white/[8%] px-5 py-2 text-sm text-[oklch(0.55_0.055_258)] transition hover:bg-white/5">
-            Not today
-          </button>
-          <button id="splash-close" aria-label="Close" class="rounded p-2 text-[oklch(0.93_0.025_272)] transition hover:bg-white/5">
-            <X size={14} />
-          </button>
-        </div>
+        {fullPageHref && (
+          <a href={fullPageHref} class="inline-flex items-center gap-1.5 mt-5 text-sm font-medium text-[oklch(0.82_0.14_200)] hover:text-[oklch(0.93_0.025_272)] transition-colors duration-150">
+            View full page <span aria-hidden="true">→</span>
+          </a>
+        )}
       </div>
     )}
 
@@ -189,31 +186,12 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
       }
 
       var prevFocus = document.activeElement;
-
       var closeBtn = document.getElementById('splash-close');
-      var hideTodayBtn = document.getElementById('splash-hide-today');
 
-      // Focus the container so screen readers announce the dialog
-      // without triggering a visible highlight on any button
       modal.focus();
 
-      // Focus trap: cycle Tab between the two buttons
-      modal.addEventListener('keydown', function (e) {
-        if (e.key !== 'Tab') return;
-        if (e.shiftKey) {
-          if (document.activeElement === hideTodayBtn) {
-            closeBtn.focus();
-            e.preventDefault();
-          }
-        } else {
-          if (document.activeElement === closeBtn) {
-            hideTodayBtn.focus();
-            e.preventDefault();
-          }
-        }
-      });
-
       function close() {
+        localStorage.setItem(storageKey, String(Date.now() + 86400000));
         backdrop.remove();
         if (prevFocus && prevFocus.focus) prevFocus.focus();
       }
@@ -223,13 +201,6 @@ const ariaModalLabel = ariaLabelledBy ? undefined : (entry.data.title || 'Announ
       });
 
       closeBtn.addEventListener('click', close);
-
-      hideTodayBtn.addEventListener('click', function () {
-        var midnight = new Date();
-        midnight.setHours(23, 59, 59, 999);
-        localStorage.setItem(storageKey, midnight.getTime().toString());
-        close();
-      });
 
       backdrop.addEventListener('click', function (e) {
         if (e.target === backdrop) close();

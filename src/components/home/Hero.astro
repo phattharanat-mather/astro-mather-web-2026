@@ -1,7 +1,8 @@
 ---
+// Switch variants by changing this single import.
+// Available variants: hero-variants/HeroVariant1.astro | hero-variants/HeroVariant2.astro
+import Hero from '@/components/home/hero-variants/HeroVariant1.astro';
 import type { HeroData } from '@/content-definition/home';
-import { MethodologyMorph } from '@/components/home/MethodologyMorph';
-import { Boxes } from '@/components/ui/background-boxes';
 
 interface Props {
   data: HeroData;
@@ -10,99 +11,4 @@ interface Props {
 const { data } = Astro.props;
 ---
 
-<section
-  id="welcome"
-  class="
-    relative min-h-svh flex flex-col justify-center
-    pt-14 pb-24 px-6
-    border-b border-[var(--line)]
-    overflow-hidden
-  "
->
-  <!-- Isometric boxes background -->
-  <div
-    aria-hidden="true"
-    class="absolute inset-0 overflow-hidden"
-    style="opacity: 0.45; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);"
-  >
-    <Boxes client:load />
-  </div>
-
-  <div class="relative z-10 max-w-7xl mx-auto w-full lg:px-8">
-
-    <!-- Methodology tag cycling with morphing text -->
-    <div class="hero-item" style="--delay: 100ms">
-      <MethodologyMorph tags={data.methodologyTags} client:load />
-    </div>
-
-    <!-- Company name -->
-    <h1
-      class="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-[var(--foreground)] mb-2 hero-item"
-      style="--delay: 250ms"
-    >
-      {data.headline}
-    </h1>
-
-    <!-- Gradient accent line — scans in from left -->
-    <div
-      aria-hidden="true"
-      class="mt-2 mb-8 h-px w-24 hero-line"
-      style="--delay: 440ms; background: var(--grad);"
-    ></div>
-
-    <!-- Subheadline -->
-    <p
-      class="
-        text-lg sm:text-xl max-w-xl leading-relaxed
-        text-[var(--muted-foreground)]
-        hero-item
-      "
-      style="--delay: 560ms"
-    >
-      {data.subheadline}
-    </p>
-
-    <!-- CTA -->
-    <div class="mt-10 hero-item" style="--delay: 700ms">
-      <a
-        href={data.cta.href}
-        class="
-          inline-flex items-center gap-2
-          px-5 py-2.5 rounded-sm
-          text-sm font-mono tracking-widest uppercase
-          bg-[var(--primary)] text-[var(--primary-foreground)]
-          btn-glow
-          focus-visible:outline-2 focus-visible:outline-offset-2
-        "
-      >
-        {data.cta.label}
-        <span aria-hidden="true">→</span>
-      </a>
-    </div>
-
-    <!-- Stats strip -->
-    <div
-      class="
-        mt-20 pt-8
-        border-t border-[var(--line)]
-        grid grid-cols-2 sm:grid-cols-3 gap-8
-        max-w-lg
-        hero-item
-      "
-      style="--delay: 860ms"
-    >
-      <div>
-        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-1">Services</p>
-        <p class="text-2xl font-bold" style="color: var(--headline1);">06</p>
-      </div>
-      <div>
-        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-1">Methodology</p>
-        <p class="text-2xl font-bold" style="color: var(--headline2);">4M</p>
-      </div>
-      <div>
-        <p class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] mb-1">Domains</p>
-        <p class="text-2xl font-bold text-[var(--accent)]">AI · Data · Web</p>
-      </div>
-    </div>
-  </div>
-</section>
+<Hero data={data} />

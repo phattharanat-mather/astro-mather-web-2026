@@ -25,28 +25,29 @@ function formatDate(iso: string) {
 <a
   href={`/careers/${slug}`}
   class="
-    group flex flex-col sm:flex-row sm:items-center justify-between
-    gap-4 p-8
+    group flex flex-col gap-6 p-7
+    border border-[var(--line)]
+    bg-[var(--background)]
     hover:bg-[var(--surface)]
-    transition-colors duration-150
+    transition-colors duration-200
   "
   data-reveal
   style={`transition-delay: ${index * 60}ms`}
 >
-  <div class="flex flex-col gap-2">
-    <div class="flex flex-wrap items-center gap-2.5">
-      <span class="font-mono text-xs tracking-widest uppercase text-[var(--primary)]">
-        {department}
-      </span>
+  <!-- Top: department + meta -->
+  <div class="flex flex-col gap-1.5">
+    <span class="font-mono text-xs tracking-widest uppercase text-[var(--primary)]">
+      {department}
+    </span>
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="text-xs text-[var(--muted-foreground)]">{type}</span>
       <span class="text-xs text-[var(--muted-foreground)] select-none">·</span>
-      <span class="text-xs text-[var(--muted-foreground)]">
-        {type}
-      </span>
-      <span class="text-xs text-[var(--muted-foreground)] select-none">·</span>
-      <span class="text-xs text-[var(--muted-foreground)]">
-        {location}
-      </span>
+      <span class="text-xs text-[var(--muted-foreground)]">{location}</span>
     </div>
+  </div>
+
+  <!-- Title + summary -->
+  <div class="flex flex-col gap-2 flex-1">
     <h2
       class="
         text-lg font-semibold leading-snug
@@ -57,20 +58,21 @@ function formatDate(iso: string) {
     >
       {title}
     </h2>
-    <p class="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-prose line-clamp-2">
+    <p class="text-sm text-[var(--muted-foreground)] leading-relaxed line-clamp-3">
       {summary}
     </p>
   </div>
 
-  <div class="flex flex-col items-start sm:items-end gap-2 shrink-0">
-    {salary && (
-      <span class="text-xs text-[var(--foreground)]">
-        {salary}
+  <!-- Bottom: salary + date + CTA -->
+  <div class="flex items-end justify-between pt-2 border-t border-[var(--line)]">
+    <div class="flex flex-col gap-1">
+      {salary && (
+        <span class="text-xs text-[var(--foreground)]">{salary}</span>
+      )}
+      <span class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">
+        {formatDate(postedDate)}
       </span>
-    )}
-    <span class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">
-      {formatDate(postedDate)}
-    </span>
+    </div>
     <span
       class="
         text-sm font-medium
@@ -83,11 +85,7 @@ function formatDate(iso: string) {
       View role
       <span
         aria-hidden="true"
-        class="
-          inline-block translate-x-0
-          group-hover:translate-x-1
-          transition-transform duration-150
-        "
+        class="inline-block translate-x-0 group-hover:translate-x-1 transition-transform duration-150"
       >→</span>
     </span>
   </div>

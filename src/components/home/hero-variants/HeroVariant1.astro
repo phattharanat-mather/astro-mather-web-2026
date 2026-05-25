@@ -1,0 +1,89 @@
+---
+import type { HeroData } from '@/content-definition/home';
+import { HeroSignal } from '@/components/home/ui/HeroSignal';
+import { Boxes } from '@/components/ui/background-boxes';
+
+interface Props {
+  data: HeroData;
+}
+
+const { data } = Astro.props;
+---
+
+<section
+  id="welcome"
+  class="
+    relative min-h-svh flex flex-col justify-center
+    pt-14 pb-16 px-6
+    border-b border-[var(--line)]
+    overflow-hidden
+  "
+>
+  <!-- Isometric boxes background — visible full height, fades at bottom edge -->
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 overflow-hidden"
+    style="opacity: 0.4; mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);"
+  >
+    <Boxes client:load />
+  </div>
+
+  <!-- Bottom fade scrim — blends boxes into the section border -->
+  <div
+    aria-hidden="true"
+    class="absolute bottom-0 left-0 right-0 h-40 z-10 pointer-events-none"
+    style="background: linear-gradient(to bottom, transparent 0%, var(--background) 100%);"
+  ></div>
+
+  <div class="relative z-20 max-w-7xl mx-auto w-full lg:px-8">
+
+    <!-- Company name -->
+    <h1
+      class="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-[var(--foreground)] mb-2 hero-item"
+      style="--delay: 100ms"
+    >
+      {data.headline}
+    </h1>
+
+    <!-- Gradient accent line — scans in from left -->
+    <div
+      aria-hidden="true"
+      class="mt-2 mb-8 h-px w-24 hero-line"
+      style="--delay: 290ms; background: var(--grad);"
+    ></div>
+
+    <!-- Subheadline -->
+    <p
+      class="
+        text-lg sm:text-xl max-w-xl leading-relaxed
+        text-[var(--muted-foreground)]
+        hero-item
+      "
+      style="--delay: 410ms"
+    >
+      {data.subheadline}
+    </p>
+
+    <!-- 4M + methodology morph — grouped signal below the tagline -->
+    <HeroSignal tags={data.methodologyTags} delay="580ms" client:load />
+
+  </div>
+
+  <!-- Bottom readout strip — instrument panel metadata -->
+  <div
+    class="absolute bottom-0 left-0 right-0 z-20 border-t border-[var(--line)] px-6 lg:px-14 hero-item"
+    style="--delay: 900ms"
+  >
+    <div class="max-w-7xl mx-auto py-3 flex items-center justify-between">
+      <span class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)]">
+        Bangkok · Thailand
+      </span>
+      <span class="font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] flex items-center gap-2">
+        Scroll
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="none" aria-hidden="true" class="animate-bounce opacity-60">
+          <path d="M5 1v12M1 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </div>
+  </div>
+</section>

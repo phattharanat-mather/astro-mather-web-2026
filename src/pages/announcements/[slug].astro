@@ -1,0 +1,69 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '@/layouts/Layout.astro';
+import Nav from '@/components/Nav.astro';
+import ContactFooter from '@/components/home/ContactFooter.astro';
+import { siteConfig, nav, footer } from '@/data/site';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('announcements');
+  return entries
+    .filter((e) => e.data.active)
+    .map((e) => ({
+      params: { slug: e.id.replace(/\/index$/, '') },
+      props: { entry: e },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const img = entry.data.image;
+---
+
+<Layout
+  title={entry.data.title ? `${entry.data.title} — ${siteConfig.name}` : siteConfig.name}
+>
+  <Nav data={nav} />
+
+  <main class="pt-14">
+    <div class="border-b border-[var(--line)] bg-[var(--surface)] py-20">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8" data-reveal>
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 mb-10 font-mono text-xs tracking-widest uppercase text-[var(--muted-foreground)] hover:text-[var(--primary)] transition-colors duration-150"
+        >
+          <span aria-hidden="true">←</span>
+          Back to home
+        </a>
+
+        {entry.data.title && (
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight leading-tight" style="color: var(--ink);">
+            {entry.data.title}
+          </h1>
+        )}
+      </div>
+    </div>
+
+    {img && (
+      <div class="bg-[var(--background)]" data-reveal>
+        <div class="max-w-3xl mx-auto px-6 lg:px-8 pt-12">
+          <Image
+            src={img}
+            alt={entry.data.title ?? ''}
+            class="w-full rounded-sm object-cover max-h-[520px]"
+          />
+        </div>
+      </div>
+    )}
+
+    <article class="py-16 bg-[var(--background)]">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8 prose-content" data-reveal>
+        <Content />
+      </div>
+    </article>
+  </main>
+
+  <ContactFooter data={footer} />
+</Layout>

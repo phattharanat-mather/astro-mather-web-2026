@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { siteConfig } from '@/data/site';
 import type { ColorPreset } from '@/data/site';
@@ -137,15 +137,14 @@ function PresetOption({
 }
 
 export function ThemeSwitcher() {
-  const [preset, setPreset] = useState<Preset>('void');
-  const [open, setOpen]     = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [preset, setPreset] = useState<Preset>(
+    () => (localStorage.getItem('color-preset') as Preset) || 'void'
+  );
+  const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setMounted(true);
-    const saved = (localStorage.getItem('color-preset') as Preset) || 'void';
-    setPreset(saved);
+  useLayoutEffect(() => {
+    document.getElementById('tsw-static')?.remove();
   }, []);
 
   useEffect(() => {
@@ -178,16 +177,6 @@ export function ThemeSwitcher() {
     transition: 'border-color 150ms, color 150ms',
     whiteSpace: 'nowrap',
   };
-
-  if (!mounted) {
-    return (
-      <span style={{ ...triggerStyle, cursor: 'default' }}>
-        <SwatchDots colors={SWATCHES.void} />
-        <span>Void</span>
-        <ChevronDown size={11} />
-      </span>
-    );
-  }
 
   const currentLabel = PRESETS.find((p) => p.name === preset)!.label;
 

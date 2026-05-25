@@ -4,7 +4,6 @@
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
 
 /* Color presets — values override shadcn defaults via [data-color-preset] selectors */
 @import "./presets/cosmos.css";
@@ -15,6 +14,7 @@
 @import "./presets/blackhole.css";
 @import "./presets/pulsar.css";
 @import "./presets/nebula.css";
+@import "./presets/presentation.css";
 
 /* Dark variant: .dark class OR dark presets (so Tailwind dark: utilities work) */
 @custom-variant dark (
@@ -27,7 +27,7 @@
 );
 
 @theme inline {
-  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono:
     ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
   --font-heading: var(--font-sans);
@@ -78,6 +78,25 @@
   --dur-fast: 150ms;
   --dur-base: 250ms;
   --dur-slow: 400ms;
+
+  /* Storytelling font scale — mirrors --story-fs-* CSS vars in ScrollyTelling.tsx.
+     Registers Tailwind utilities: text-story-xs, text-story-label, text-story-sm,
+     text-story-base, text-story-title (the clamp h2 variants only work via CSS vars
+     since Tailwind 4 @theme does not support clamp() in font-size values). */
+  --font-size-story-xs:    0.75rem;
+  --font-size-story-label: 0.8125rem;
+  --font-size-story-sm:    0.9375rem;
+  --font-size-story-base:  1.0625rem;
+  --font-size-story-title: 1.25rem;
+  --animate-ripple: ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite;
+  @keyframes ripple {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    }
+  50% {
+    transform: translate(-50%, -50%) scale(0.9);
+    }
+  }
 }
 
 @layer base {
@@ -103,6 +122,16 @@
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
+
+  /* ── Themed scrollbar ───────────────────────────────────────────────────── */
+  /* Chromium */
+  ::-webkit-scrollbar              { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track        { background: var(--background); }
+  ::-webkit-scrollbar-thumb        { background: var(--line); border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover  { background: var(--primary); }
+
+  /* Firefox */
+  * { scrollbar-width: thin; scrollbar-color: var(--line) var(--background); }
 }
 
 /* Scroll reveal — applied by IntersectionObserver in Layout */
@@ -242,6 +271,13 @@
 #contact-form textarea:focus {
   box-shadow: 0 0 0 3px color-mix(in oklch, var(--primary) 22%, transparent);
 }
+
+/* ─── Hero background opacity per preset ──────────────────────────────────── */
+/* Dark presets: slightly stronger effect; light presets: softer */
+:root                              { --hero-bg-opacity: 0.38; }
+[data-color-preset="dawn"],
+[data-color-preset="sun"],
+[data-color-preset="moon"]         { --hero-bg-opacity: 0.18; }
 
 /* ─── Reduced motion overrides ────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

@@ -1,5 +1,6 @@
 ---
 import '../styles/globals.css';
+import FontLoader from './FontLoader.astro';
 import { SEO } from 'astro-seo';
 import { siteConfig } from '../data/site';
 import SplashModal from '../components/splash/SplashModal.astro';
@@ -7,22 +8,27 @@ import SplashModal from '../components/splash/SplashModal.astro';
 interface Props {
   title?: string;
   description?: string;
+  noNav?: boolean;
+  colorPreset?: 'void' | 'editorial' | 'cosmos' | 'blackhole' | 'pulsar' | 'nebula';
 }
 
 const {
   title = siteConfig.name,
   description = siteConfig.description,
+  noNav = false,
+  colorPreset,
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
 ---
 
-<html lang="en" data-color-preset="void">
+<html lang="en" data-color-preset={colorPreset ?? "void"}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <FontLoader />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#05070f" />
     <SEO
@@ -71,9 +77,11 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
     </script>
   </head>
 
-  <body style={siteConfig.greyscaleFilter.enable ? `filter: grayscale(${siteConfig.greyscaleFilter.value})` : undefined}>
-    <SplashModal />
-    <slot />
+  <body>
+    <div style={siteConfig.greyscaleFilter.enable ? `filter: grayscale(${siteConfig.greyscaleFilter.value})` : undefined}>
+      <SplashModal />
+      <slot />
+    </div>
 
     <!-- Scroll reveal observer -->
     <script is:inline>

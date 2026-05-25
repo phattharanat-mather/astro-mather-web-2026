@@ -43,7 +43,7 @@ export interface Project {
   id: string;
   title: string;
   categories: string[];
-  image?: ImageMetadata | string;
+  image?: ImageMetadata;
   featured?: boolean;
 }
 
@@ -71,8 +71,10 @@ export interface ValuePropsData {
 }
 
 export interface ClientItem {
-  name: string;
-  logo?: { light: string; dark: string };
+  name?: string;
+  year?: number;
+  logo?: ImageMetadata;
+  logoDark?: ImageMetadata;
 }
 
 export interface ClientsData {
@@ -81,18 +83,16 @@ export interface ClientsData {
   items: ClientItem[];
 }
 
-export interface TeamMember {
+export interface TeamDiscipline {
+  index: string;
   name: string;
-  role: string;
-  department: string;
-  image?: string;
+  description: string;
 }
 
 export interface TeamData {
   heading: string;
   intro: string;
-  departments: string[];
-  members: TeamMember[];
+  disciplines: TeamDiscipline[];
 }
 
 export interface TestimonialsData {
@@ -106,7 +106,7 @@ export interface Article {
   title: string;
   date: string;
   href: string;
-  image?: string;
+  image?: ImageMetadata;
   excerpt?: string;
 }
 

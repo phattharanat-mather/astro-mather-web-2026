@@ -16,7 +16,7 @@ import ContactFooter from '@/components/home/ContactFooter.astro';
 import { siteConfig, nav, footer } from '@/data/site';
 import {
   hero, ourServices as ourServicesMeta,
-  platform, valueProps, clients, team,
+  platform, valueProps as valuePropsMeta, clients as clientsMeta, team,
   testimonials, blog as blogMeta,
 } from '@/data/home';
 import { projectCategories } from '@/data/project-categories';
@@ -49,6 +49,24 @@ const platformData = {
     })),
 };
 
+/* ── Clients collection ─────────────────────────────── */
+const clientsCollection = await getCollection('clients');
+const clients = {
+  ...clientsMeta,
+  items: clientsCollection
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .map((e) => ({ name: e.data.name, logo: e.data.logo, logoDark: e.data.logoDark, year: e.data.year })),
+};
+
+/* ── Value props collection ─────────────────────────── */
+const valuePropsCollection = await getCollection('valueProps');
+const valueProps = {
+  ...valuePropsMeta,
+  items: valuePropsCollection
+    .sort((a, b) => a.data.index.localeCompare(b.data.index))
+    .map((e) => ({ title: e.data.title, description: e.data.description })),
+};
+
 /* ── Blog collection ────────────────────────────────── */
 const blogCollection = await getCollection('blogs');
 const blog = {
@@ -61,6 +79,7 @@ const blog = {
       date: e.data.date.toISOString().split('T')[0],
       href: `/blogs/${e.id}`,
       excerpt: e.data.excerpt,
+      image: e.data.image,
     })),
 };
 ---

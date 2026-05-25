@@ -1,0 +1,86 @@
+---
+title: "How We Manage Our Website Content with Claude Code"
+date: 2026-05-25
+excerpt: "A behind-the-scenes look at the custom Claude Code skill we built to keep The Mather website up to date — without a CMS."
+author: "The Mather Team"
+---
+
+We run our website on [Astro](https://astro.build/) — a fast, file-based static site generator. There's no CMS, no admin panel, no drag-and-drop editor. Content lives as Markdown and MDX files checked into the same Git repository as the code.
+
+That's a great setup for developers. For everyone else, it raises an obvious question: *how do you actually update the site?*
+
+The answer is a custom Claude Code skill called **manage-content**.
+
+---
+
+## What is a Claude Code skill?
+
+Claude Code is Anthropic's AI-powered CLI for software engineering. Beyond its built-in capabilities, it supports **project skills** — scoped instruction sets that tell the AI exactly how to handle a particular task in a specific codebase.
+
+A skill is just a Markdown file that lives in the repository. When a team member types `/manage-content` in their Claude Code session, the skill loads automatically and guides the AI through the correct steps for that project — file locations, naming conventions, schema rules, and all.
+
+No tribal knowledge required.
+
+---
+
+## What manage-content covers
+
+The skill acts as a routing table. Each content type on the site has its own reference document:
+
+| Content type | What it controls |
+| --- | --- |
+| Blog posts | Articles like this one |
+| Projects | Portfolio and case study entries |
+| Services | What we offer |
+| Testimonials | Client quotes |
+| Clients | Logo wall |
+| Announcements | Time-sensitive notices |
+| Value propositions | Homepage benefit cards |
+| Credential pages | Presentation slide decks |
+| Site config | Name, nav, social links, contact info |
+
+When a team member wants to add a new blog post, they open Claude Code, type `/manage-content add a blog post about X`, and the AI reads the `blogs.md` reference, creates the right folder structure, writes valid frontmatter, and stages the files — all without the human needing to remember a single schema field.
+
+---
+
+## Why file-based content + AI works well
+
+Traditional CMS platforms solve the "non-developer update" problem with a GUI. That works, but it adds infrastructure to maintain, a separate auth system to manage, and an API to keep in sync with the codebase.
+
+File-based content keeps everything in one place: the repository. It versions with Git, reviews with pull requests, and deploys with the same pipeline as the rest of the site.
+
+The missing piece has always been *discoverability* — knowing which file to create, what fields are required, where images go. A trained AI assistant fills that gap without adding any new moving parts.
+
+---
+
+## Keeping the skill accurate
+
+The skill is only useful if it's accurate. So the project's `CLAUDE.md` enforces a rule: whenever a schema file changes under `src/content-definition/`, the developer must also update the corresponding reference doc in the skill's `references/` folder.
+
+This keeps the skill in sync with the actual codebase. A future agent reading the skill will get an accurate picture — not a stale description of how things used to work.
+
+---
+
+## What this looks like in practice
+
+A typical content update session:
+
+1. Team member opens Claude Code in the project directory
+2. Types `/manage-content publish our new case study on [client]`
+3. Claude reads the `projects.md` reference, asks any clarifying questions, then creates the file with correct frontmatter
+4. Team member reviews the diff, makes edits if needed, commits and pushes
+5. The site deploys automatically via CI/CD
+
+The whole flow takes minutes and produces a clean, reviewable Git commit — no CMS exports, no copy-paste errors, no forgotten required fields.
+
+---
+
+## Open questions and next steps
+
+We're still iterating on this approach. A few things we're exploring:
+
+- **Image handling** — automating the right-sizing and placement of cover images alongside MDX files
+- **Skill evals** — running automated tests against the skill to catch regressions when schemas change
+- **Multi-agent drafting** — using one agent to draft content and a second to review it for tone and accuracy before committing
+
+If you're curious about the technical setup or thinking about a similar approach for your own project, [reach out](/contact) — we'd be happy to share what we've learned.

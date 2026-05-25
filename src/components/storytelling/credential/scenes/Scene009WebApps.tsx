@@ -1,0 +1,115 @@
+import { useRef } from 'react'
+import { motion, useTransform } from 'motion/react'
+import { useSceneScroll } from '@/components/storytelling/shared/useSceneScroll'
+import { useStoryEngine } from '@/components/storytelling/credential/StoryEngine'
+import { StorytellingLayout } from '@/components/storytelling/credential/StorytellingLayout'
+import type { SceneProps } from '@/data/storytelling/credential'
+
+const WEB_PROJECTS = [
+  { name: 'Hachiban', category: 'Restaurant Chain', desc: "Digital platform for Japan's leading ramen chain in Thailand" },
+  { name: 'Manoottangwai', category: 'E-Commerce', desc: 'Online retail experience with data-driven product discovery' },
+  { name: 'Eartone', category: 'Audio Brand', desc: 'Brand identity and web presence for an audio technology brand' },
+  { name: 'CIMB Thai Auto', category: 'Financial Services', desc: 'Auto loan application platform for CIMB Thai Bank' },
+  { name: 'Cultural Fund', category: 'Government', desc: 'Ministry of Culture grant management system' },
+  { name: 'DII', category: 'Industrial', desc: 'Data-driven industrial intelligence platform' },
+  { name: 'Blue Alain Ducasse', category: 'Luxury F&B', desc: 'Digital presence for the Alain Ducasse restaurant group in Thailand' },
+  { name: 'Ainu', category: 'Lifestyle', desc: 'Brand and digital experience for a Thai lifestyle brand' },
+  { name: 'Singha Corporation', category: 'Conglomerate', desc: "Web strategy and development for Thailand's Singha group" },
+  { name: 'PAC Architect', category: 'Architecture', desc: 'Portfolio and client-facing web platform for PAC Architect' },
+]
+
+export default function Scene009WebApps({ isActive: _isActive, direction }: SceneProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { nextScene, prevScene } = useStoryEngine()
+
+  const progress = useSceneScroll(containerRef, (dir) => {
+    if (dir === 'forward') nextScene()
+    else prevScene()
+  }, 1200, direction === -1 ? 1 : 0)
+
+  const headerOpacity = useTransform(progress, [0, 0.1], [0, 1])
+  const headerY = useTransform(progress, [0, 0.1], [16, 0])
+
+  const c0Op = useTransform(progress, [0.05, 0.12], [0, 1]); const c0Y = useTransform(progress, [0.05, 0.12], [20, 0])
+  const c1Op = useTransform(progress, [0.12, 0.19], [0, 1]); const c1Y = useTransform(progress, [0.12, 0.19], [20, 0])
+  const c2Op = useTransform(progress, [0.19, 0.26], [0, 1]); const c2Y = useTransform(progress, [0.19, 0.26], [20, 0])
+  const c3Op = useTransform(progress, [0.26, 0.33], [0, 1]); const c3Y = useTransform(progress, [0.26, 0.33], [20, 0])
+  const c4Op = useTransform(progress, [0.33, 0.40], [0, 1]); const c4Y = useTransform(progress, [0.33, 0.40], [20, 0])
+  const c5Op = useTransform(progress, [0.40, 0.47], [0, 1]); const c5Y = useTransform(progress, [0.40, 0.47], [20, 0])
+  const c6Op = useTransform(progress, [0.47, 0.54], [0, 1]); const c6Y = useTransform(progress, [0.47, 0.54], [20, 0])
+  const c7Op = useTransform(progress, [0.54, 0.61], [0, 1]); const c7Y = useTransform(progress, [0.54, 0.61], [20, 0])
+  const c8Op = useTransform(progress, [0.61, 0.68], [0, 1]); const c8Y = useTransform(progress, [0.61, 0.68], [20, 0])
+  const c9Op = useTransform(progress, [0.68, 0.75], [0, 1]); const c9Y = useTransform(progress, [0.68, 0.75], [20, 0])
+
+  const ct = [
+    { o: c0Op, y: c0Y }, { o: c1Op, y: c1Y }, { o: c2Op, y: c2Y },
+    { o: c3Op, y: c3Y }, { o: c4Op, y: c4Y }, { o: c5Op, y: c5Y },
+    { o: c6Op, y: c6Y }, { o: c7Op, y: c7Y }, { o: c8Op, y: c8Y },
+    { o: c9Op, y: c9Y },
+  ]
+
+  return (
+    <StorytellingLayout
+      containerRef={containerRef}
+      backgroundOpacity={0.03}
+    >
+      <motion.div style={{ opacity: headerOpacity, y: headerY }} className="mb-8">
+        <p
+          className="tracking-[0.25em] uppercase mb-2"
+          style={{ fontSize: 'var(--story-fs-label)', color: 'var(--story-fg-muted)' }}
+        >
+          Web Applications
+        </p>
+        <h2 style={{ fontSize: 'var(--story-fs-h2)', color: 'var(--story-fg)' }}>
+          Digital products that represent brands
+        </h2>
+        <p
+          className="mt-2 max-w-lg"
+          style={{ fontSize: 'var(--story-fs-base)', color: 'var(--story-fg-muted)' }}
+        >
+          {WEB_PROJECTS.length} projects — from fintech to luxury hospitality.
+        </p>
+      </motion.div>
+
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 gap-px rounded-2xl overflow-hidden"
+        style={{ background: 'var(--story-line)', border: '1px solid var(--story-line)' }}
+      >
+        {WEB_PROJECTS.map((project, i) => (
+          <motion.div
+            key={project.name}
+            style={{ opacity: ct[i].o, y: ct[i].y, background: 'var(--story-bg)' }}
+            className="p-5 transition-colors"
+            onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-surface)' }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'var(--story-bg)' }}
+          >
+            <div className="flex items-start justify-between gap-4 mb-1.5">
+              <h3
+                className="font-semibold"
+                style={{ fontSize: 'var(--story-fs-title)', color: 'var(--story-fg)' }}
+              >
+                {project.name}
+              </h3>
+              <span
+                className="shrink-0 tracking-wide px-2 py-0.5 rounded-full"
+                style={{
+                  fontSize: 'var(--story-fs-xs)',
+                  background: 'var(--story-surface)',
+                  color: 'var(--story-fg-muted)',
+                }}
+              >
+                {project.category}
+              </span>
+            </div>
+            <p
+              className="leading-relaxed"
+              style={{ fontSize: 'var(--story-fs-sm)', color: 'var(--story-fg-muted)' }}
+            >
+              {project.desc}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+    </StorytellingLayout>
+  )
+}
