@@ -33,14 +33,14 @@ A tech company landing page built with Astro 6, Tailwind CSS, shadcn/ui, and Typ
 
 All commands are run from the project root. Use `bun` (preferred) or `npm`.
 
-| Command              | Action                                  |
-| :------------------- | :-------------------------------------- |
-| `bun install`        | Install dependencies                    |
-| `bun run dev`        | Start dev server at `localhost:4321`    |
-| `bun run build`      | Build for production to `./dist/`       |
-| `bun run preview`    | Preview the production build locally    |
-| `bunx astro check`   | Run TypeScript diagnostics              |
-| `bunx astro add ...` | Add Astro integrations                  |
+| Command              | Action                               |
+| :------------------- | :----------------------------------- |
+| `bun install`        | Install dependencies                 |
+| `bun run dev`        | Start dev server at `localhost:4321` |
+| `bun run build`      | Build for production to `./dist/`    |
+| `bun run preview`    | Preview the production build locally |
+| `bunx astro check`   | Run TypeScript diagnostics           |
+| `bunx astro add ...` | Add Astro integrations               |
 
 > npm equivalents: replace `bun` with `npm` and `bunx` with `npx`.
 
@@ -65,16 +65,16 @@ This project ships Claude Code skills in `project-skills/`. Skills are in-repo i
 
 ### Available skills
 
-| Skill | What it does |
-| :---- | :----------- |
-| `manage-content` | Add or update any site content — blog posts, projects, services, testimonials, clients, announcements, value props, credential pages, or site config. Just ask Claude: *"add a blog post about X"* or *"update the services list"*. |
+| Skill            | What it does                                                                                                                                                                                                                        |
+| :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `manage-content` | Add or update any site content — blog posts, projects, services, testimonials, clients, announcements, value props, credential pages, or site config. Just ask Claude: _"add a blog post about X"_ or _"update the services list"_. |
 
 ### Installing / updating skills
 
 After pulling changes that touch `project-skills/`, re-install to pick up the latest versions:
 
 ```bash
-bunx skills@1.5.0 add ./project-skills -a claude-code -y -p
+bunx skills@1.5.0 add ./project-skills -a 'universal' -a 'claude-code' -y -p
 ```
 
 ### Updating a skill

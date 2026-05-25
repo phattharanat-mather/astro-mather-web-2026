@@ -110,7 +110,7 @@ Both steps are required. A future agent using the skill must get an accurate pic
 To install or re-install the latest skill versions into Claude Code:
 
 ```bash
-bunx skills@1.5.0 add ./project-skills -a claude-code -y -p
+bunx skills@1.5.0 add ./project-skills -a 'universal' -a 'claude-code' -y -p
 ```
 
 Run this command after pulling changes that touched `project-skills/` so your local Claude Code agent uses the latest skill definitions.
