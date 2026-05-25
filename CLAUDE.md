@@ -36,13 +36,13 @@ The alias maps to `src/` and is configured in both `tsconfig.json` and `astro.co
 
 ```ts
 // ✅ correct
-import { GridBackground } from '@/components/storytelling/backgrounds/GridBackground'
-import { cn } from '@/lib/utils'
-import type { SceneProps } from '@/data/storytelling/credential'
+import { GridBackground } from "@/components/storytelling/backgrounds/GridBackground";
+import { cn } from "@/lib/utils";
+import type { SceneProps } from "@/data/storytelling/credential";
 
 // ❌ avoid
-import { GridBackground } from '../../../components/storytelling/backgrounds/GridBackground'
-import { cn } from '../../../lib/utils'
+import { GridBackground } from "../../../components/storytelling/backgrounds/GridBackground";
+import { cn } from "../../../lib/utils";
 ```
 
 This applies to `.astro`, `.tsx`, `.ts` — all source files.
@@ -95,13 +95,13 @@ src/content-definition/
 
 ## Documentation maintenance
 
-Whenever you edit or create files in `src/content-definition/` or `src/data/`, the codebase has changed — you must keep the skill in sync before the task is considered done:
+Whenever you edit or create files in `src/content-definition/` or `src/data/`, the codebase has changed — you must keep the skill docs in sync before the task is considered done:
 
-1. **Update `project-skills/manage-content/SKILL.md`** — the skill is the source of truth for how an agent manages content in this project. If a collection is added, removed, or its schema changes, the trigger table and reference overview in SKILL.md must reflect it.
+1. **Update the corresponding reference doc** in `project-skills/manage-content/references/` — each reference is a content authoring guide for one collection or config file. Add new fields, remove deleted ones, and update example snippets to match the current schema.
 
-2. **Update the corresponding reference doc** in `project-skills/manage-content/references/` — each reference covers one collection or config file. See SKILL.md for the mapping.
+2. **Update `project-skills/manage-content/SKILL.md`** — if a new collection was added or removed, update the routing table so the skill points agents to the right reference doc.
 
-Both steps are required. A future agent reading SKILL.md must get an accurate picture of the current project structure.
+Both steps are required. A future agent using the skill must get an accurate picture of how to add or edit content.
 
 ## Project skills
 
@@ -110,7 +110,7 @@ Both steps are required. A future agent reading SKILL.md must get an accurate pi
 To install or re-install the latest skill versions into Claude Code:
 
 ```bash
-bunx skills@1.5.0 add ./project-skills -a 'universal claude-code' -y -p
+bunx skills@1.5.0 add ./project-skills -a claude-code -y -p
 ```
 
 Run this command after pulling changes that touched `project-skills/` so your local Claude Code agent uses the latest skill definitions.
@@ -125,12 +125,12 @@ docs/artifacts/<type>/yyyy-mm-dd-<topic>.md
 
 **Type subdirectories:**
 
-| Type | Contents |
-| --- | --- |
-| `prd` | Product requirement documents and feature specs |
-| `plan` | Implementation plans and architectural decisions |
+| Type       | Contents                                                   |
+| ---------- | ---------------------------------------------------------- |
+| `prd`      | Product requirement documents and feature specs            |
+| `plan`     | Implementation plans and architectural decisions           |
 | `research` | Research notes, reference analysis, technology comparisons |
-| `design` | Design decisions, UX notes, visual direction |
+| `design`   | Design decisions, UX notes, visual direction               |
 
 **Example:**
 
