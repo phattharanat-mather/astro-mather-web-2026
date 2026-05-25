@@ -90,14 +90,11 @@ src/content-definition/
 
 ## Documentation maintenance
 
-Whenever you edit or create files in `src/content-definition/` or `src/data/`, update the corresponding documentation to reflect the changes:
+Whenever you edit or create files in `src/content-definition/` or `src/data/`, run the **manage-content** skill to keep the reference docs in sync.
 
-| Source changed | Doc to update |
-| --- | --- |
-| `src/content-definition/<entity>.ts` | `docs/how-to-add-content/<entity>.md` (create if missing) |
-| `src/data/site.ts` or `src/data/home.ts` | `docs/how-to-config-site.md` |
+Reference docs live in `project-skills/manage-content/references/`. The skill (`project-skills/manage-content/SKILL.md`) describes exactly which reference file maps to which source file and what to update.
 
-Keep the docs accurate — if a field is added, removed, or renamed in the source, the doc must reflect that before the task is considered done.
+Keep the docs accurate — if a field is added, removed, or renamed in the source, the reference doc must reflect that before the task is considered done.
 
 ## LLM-generated artifacts
 

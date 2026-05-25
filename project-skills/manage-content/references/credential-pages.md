@@ -49,7 +49,7 @@ import { Image } from 'astro:assets';
 <Image src={cover} alt="Our work overview" />
 ```
 
-See `docs/how-to-add-content/how-to-use-image-with-astro-mdx.md` for more detail.
+See `project-skills/manage-content/references/how-to-use-image-with-astro-mdx.md` for more detail.
 
 ## Hiding a page
 

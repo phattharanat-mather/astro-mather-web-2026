@@ -127,7 +127,7 @@ export const ourServices = {
 };
 ```
 
-Service cards themselves are managed in `src/content/services/` — see `docs/how-to-add-content/services.md`.
+Service cards themselves are managed in `src/content/services/` — see `project-skills/manage-content/references/services.md`.
 
 ---
 
@@ -240,4 +240,4 @@ export const blog = {
 };
 ```
 
-Blog posts themselves are managed in `src/content/blogs/` — see `docs/how-to-add-content/blogs.md`.
+Blog posts themselves are managed in `src/content/blogs/` — see `project-skills/manage-content/references/blogs.md`.
