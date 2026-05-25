@@ -5,9 +5,12 @@ import tailwindcss from "@tailwindcss/vite";
 
 import mdx from "@astrojs/mdx";
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [react(), mdx()],
+
   fonts: [
     {
       provider: fontProviders.google(),
@@ -31,6 +34,7 @@ export default defineConfig({
       styles: ["normal"],
     },
   ],
+
   vite: {
     plugins: [tailwindcss()],
     resolve: {
@@ -39,4 +43,6 @@ export default defineConfig({
       },
     },
   },
+
+  adapter: cloudflare(),
 });
