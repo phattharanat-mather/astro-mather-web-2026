@@ -77,10 +77,15 @@ Each Astro content collection is defined in its own file under `src/content-defi
 
 ```
 src/content-definition/
-  site.ts            # site-wide JSON config
-  services.ts        # service entries
+  announcements.ts   # announcement entries
   blogs.ts           # blog posts (MDX)
-  founder-quotes.ts  # founder quote MDX entries
+  clients.ts         # client logo / name entries
+  home.ts            # TypeScript shape interfaces for home-page data (no Zod schema)
+  open-positions.ts  # job listing entries
+  projects.ts        # portfolio project entries
+  services.ts        # service entries
+  testimonials.ts    # testimonial entries
+  value-props.ts     # value proposition card entries
 ```
 
 - Each file exports a named `defineCollection(...)` constant matching the collection key.
@@ -90,11 +95,25 @@ src/content-definition/
 
 ## Documentation maintenance
 
-Whenever you edit or create files in `src/content-definition/` or `src/data/`, run the **manage-content** skill to keep the reference docs in sync.
+Whenever you edit or create files in `src/content-definition/` or `src/data/`, the codebase has changed — you must keep the skill in sync before the task is considered done:
 
-Reference docs live in `project-skills/manage-content/references/`. The skill (`project-skills/manage-content/SKILL.md`) describes exactly which reference file maps to which source file and what to update.
+1. **Update `project-skills/manage-content/SKILL.md`** — the skill is the source of truth for how an agent manages content in this project. If a collection is added, removed, or its schema changes, the trigger table and reference overview in SKILL.md must reflect it.
 
-Keep the docs accurate — if a field is added, removed, or renamed in the source, the reference doc must reflect that before the task is considered done.
+2. **Update the corresponding reference doc** in `project-skills/manage-content/references/` — each reference covers one collection or config file. See SKILL.md for the mapping.
+
+Both steps are required. A future agent reading SKILL.md must get an accurate picture of the current project structure.
+
+## Project skills
+
+`project-skills/` is a living, in-repo skill folder. Skills here are the authoritative version for this project and are updated alongside the codebase.
+
+To install or re-install the latest skill versions into Claude Code:
+
+```bash
+bunx skills@1.5.0 add ./project-skills -a 'universal claude-code' -y -p
+```
+
+Run this command after pulling changes that touched `project-skills/` so your local Claude Code agent uses the latest skill definitions.
 
 ## LLM-generated artifacts
 
