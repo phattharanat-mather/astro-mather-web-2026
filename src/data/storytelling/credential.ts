@@ -81,6 +81,12 @@ export const scenes: SceneEntry[] = [
     component: lazy(() => import('../../components/storytelling/credential/scenes/Scene010MobileStrategy')),
   },
   {
+    id: 'scene-011',
+    label: 'The Mather Web',
+    type: 'sub',
+    component: lazy(() => import('../../components/storytelling/credential/scenes/Scene011TheMatherWeb')),
+  },
+  {
     id: 'scene-cta',
     label: 'Get in touch',
     type: 'cta',
